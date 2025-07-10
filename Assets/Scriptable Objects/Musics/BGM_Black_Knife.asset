@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86f869190547275409aca01a6881bd7a, type: 3}
+  m_Name: BGM_Black_Knife
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: 0e19fc1fdffdc2d4d8a8e7cb97ca8cb6, type: 3}
+  startLoop: 0
+  endLoop: -1
+  attenuation: 0
