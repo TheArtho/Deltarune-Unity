@@ -1,12 +1,14 @@
 using Client.Combat.UI;
 using Core.Combat.Events;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class BattleSprite : MonoBehaviour
 {
     public int playerId;
     private Animator _animator;
-    [SerializeField] private SpriteRenderer _spriteRenderer;
+    [FormerlySerializedAs("_spriteRenderer")] [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Transform damageTextAnchor;
     private bool defending;
 
     private void Awake()
@@ -22,6 +24,7 @@ public class BattleSprite : MonoBehaviour
     public void OnPlayerChooseAction(ChooseActionEvent evt)
     {
         if (playerId != evt.Player) return;
+        defending = false;
         
         switch (evt.ActionType)
         {
@@ -37,6 +40,7 @@ public class BattleSprite : MonoBehaviour
             case ActionType.Defend:
                 Debug.Log("test2");
                 Play("Defend");
+                defending = true;
                 break;
         }
     }
@@ -44,6 +48,14 @@ public class BattleSprite : MonoBehaviour
     public void OnPlayerCancelAction(CancelActionEvent evt)
     {
         if (playerId == evt.Player)
+        {
+            Play("Idle");
+        }
+    }
+
+    public void OnBulletHellStart()
+    {
+        if (!defending)
         {
             Play("Idle");
         }

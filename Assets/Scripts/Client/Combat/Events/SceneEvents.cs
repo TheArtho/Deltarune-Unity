@@ -5,9 +5,14 @@ namespace Client.Combat.Events
     
     }
 
-    public class PlayAnim : IBattleSceneEvents
+    public class BattleSequenceEnded : IBattleSceneEvents
     {
-        public string animation;
+        public int Player;
+    }
+
+    public class BulletHellReadyEvent : IBattleSceneEvents
+    {
+        public int Player;
     }
 
     public class BulletHellEndedEvent : IBattleSceneEvents

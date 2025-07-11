@@ -222,6 +222,13 @@ namespace Client.Combat.UI
                         Player = fightDatas[index].Player,
                         Accuracy = value
                     });
+                    
+                    Debug.Log("index is " + index);
+
+                    if (index < fightBars.Count - 1)
+                    {
+                        fightBars[index + 1].CanPress();
+                    }
                 };
                 
                 onPressList.Add(onPress);
@@ -231,7 +238,7 @@ namespace Client.Combat.UI
 
                 fightBars[i].OnPress += onPress;
                 
-                fightBars[i].StartQte(0);
+                fightBars[i].StartQte(index * 300, index == 0);
             }
             
             yield return new WaitUntil(() => fightBars.All(x => x.done));

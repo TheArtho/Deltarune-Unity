@@ -25,8 +25,8 @@ namespace Client.Combat.UI
         [SerializeField] private float minDistance = 5f;   // "Perfect zone" distance
         [SerializeField] private float maxDistance = 200f; // Distance to clamp to damageMin
 
-        private PlayerInputAction _playerInputAction;
-        public bool canPress;
+        private PlayerInputAction playerInputAction;
+        private bool canPress;
         public bool done;
 
         [SerializeField] private float speed = 1;
@@ -35,9 +35,9 @@ namespace Client.Combat.UI
 
         private void Awake()
         {
-            _playerInputAction = new PlayerInputAction();
+            playerInputAction = new PlayerInputAction();
 
-            _playerInputAction.Battle.Select.performed += context =>
+            playerInputAction.Battle.Select.performed += context =>
             {
                 if (!canPress) return;
                 Press();
@@ -46,12 +46,23 @@ namespace Client.Combat.UI
 
         public void EnableInput()
         {
-            _playerInputAction.Enable();
+            playerInputAction.Enable();
         }
         
         public void DisableInput()
         {
-            _playerInputAction.Disable();
+            playerInputAction.Disable();
+        }
+
+        public void CanPress()
+        {
+            StartCoroutine(CanPressIE());
+        }
+
+        private IEnumerator CanPressIE()
+        {
+            yield return null;
+            canPress = true;
         }
 
         public void StartQte(int delay, bool canPress = true)

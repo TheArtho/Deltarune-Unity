@@ -104,7 +104,7 @@ TextureImporter:
         y: 3037
         width: 50
         height: 47
-      alignment: 7
+      alignment: 9
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -382,6 +382,138 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: ralsei_fight_0
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 2779
+        width: 77
+        height: 48
+      alignment: 9
+      pivot: {x: 0.37662336, y: 0.020833334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 62dedffb162fd9043aa56e851a2525f4
+      internalID: -1588312511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ralsei_fight_1
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 2779
+        width: 77
+        height: 48
+      alignment: 9
+      pivot: {x: 0.37662336, y: 0.020833334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 620b9845e64f377418d3a1ee8e1af593
+      internalID: -66822299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ralsei_fight_2
+      rect:
+        serializedVersion: 2
+        x: 169
+        y: 2779
+        width: 77
+        height: 48
+      alignment: 9
+      pivot: {x: 0.37662336, y: 0.020833334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a7909d7f9971214397e036694699615
+      internalID: -1219382380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ralsei_fight_3
+      rect:
+        serializedVersion: 2
+        x: 251
+        y: 2779
+        width: 77
+        height: 48
+      alignment: 9
+      pivot: {x: 0.37662336, y: 0.020833334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3db39654c98f8f4fbfafe08984fc856
+      internalID: 1567334471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ralsei_fight_4
+      rect:
+        serializedVersion: 2
+        x: 333
+        y: 2779
+        width: 77
+        height: 48
+      alignment: 9
+      pivot: {x: 0.37662336, y: 0.020833334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab43417f35856da4b947eed80b5b2836
+      internalID: -818889586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ralsei_fight_5
+      rect:
+        serializedVersion: 2
+        x: 415
+        y: 2779
+        width: 77
+        height: 48
+      alignment: 9
+      pivot: {x: 0.37662336, y: 0.020833334}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23614918b97e09d4da440a62572ea5fe
+      internalID: -307766203
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -409,6 +541,12 @@ TextureImporter:
       ralsei_defend_5: -503757532
       ralsei_defend_6: -1573600423
       ralsei_defend_7: 243865846
+      ralsei_fight_0: -1588312511
+      ralsei_fight_1: -66822299
+      ralsei_fight_2: -1219382380
+      ralsei_fight_3: 1567334471
+      ralsei_fight_4: -818889586
+      ralsei_fight_5: -307766203
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

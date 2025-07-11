@@ -580,6 +580,160 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: kris_fight_0
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 4185
+        width: 63
+        height: 50
+      alignment: 9
+      pivot: {x: 0.2857143, y: 0.14}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 11d2671873153f54f9c5d6652c1154c2
+      internalID: -183975013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_fight_1
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 4185
+        width: 63
+        height: 50
+      alignment: 9
+      pivot: {x: 0.2857143, y: 0.14}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e6784b9b81b7fe249bcd0d3d61f121b5
+      internalID: 1273560277
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_fight_2
+      rect:
+        serializedVersion: 2
+        x: 211
+        y: 4185
+        width: 63
+        height: 50
+      alignment: 9
+      pivot: {x: 0.2857143, y: 0.14}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa1c69860b5813f419c4132430308253
+      internalID: -446922131
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_fight_3
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 4185
+        width: 63
+        height: 50
+      alignment: 9
+      pivot: {x: 0.2857143, y: 0.14}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26abd63ad941e464e83e9e4b4663a9c0
+      internalID: 601696085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_fight_4
+      rect:
+        serializedVersion: 2
+        x: 347
+        y: 4185
+        width: 63
+        height: 50
+      alignment: 9
+      pivot: {x: 0.2857143, y: 0.14}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2fadc871dcea518449c158e47966bf61
+      internalID: 631519124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_fight_5
+      rect:
+        serializedVersion: 2
+        x: 415
+        y: 4185
+        width: 63
+        height: 50
+      alignment: 9
+      pivot: {x: 0.2857143, y: 0.14}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ad9999ff7f818149972e705825241ad
+      internalID: -522024554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_fight_6
+      rect:
+        serializedVersion: 2
+        x: 483
+        y: 4185
+        width: 63
+        height: 50
+      alignment: 9
+      pivot: {x: 0.2857143, y: 0.14}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f5d4e787c6b80b4d99f77b07678c323
+      internalID: 1851100433
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -607,6 +761,13 @@ TextureImporter:
       kris_defend_4: 2019579513
       kris_defend_5: 1978731234
       kris_downed: 1800646639
+      kris_fight_0: -183975013
+      kris_fight_1: 1273560277
+      kris_fight_2: -446922131
+      kris_fight_3: 601696085
+      kris_fight_4: 631519124
+      kris_fight_5: -522024554
+      kris_fight_6: 1851100433
       kris_hurt: -303194002
       kris_item_0: -631413471
       kris_prepare_act_0: 1556598444

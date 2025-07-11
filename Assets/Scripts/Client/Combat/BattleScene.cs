@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Client.Combat.Events;
 using Core.Combat.Events;
@@ -23,6 +25,11 @@ namespace Client.Combat
 
         public DialogBox dialogBox;
 
+        private Queue<IEnumerator> sequence;
+        private bool sequencePaused;
+
+        private bool readyForBulletHell;
+
         private void Awake()
         {
             if (Instance)
@@ -33,6 +40,46 @@ namespace Client.Combat
             {
                 Instance = this;
             }
+        }
+
+        private void Start()
+        {
+            // StartCoroutine(SequenceLoop());
+        }
+
+        /*
+        private IEnumerator SequenceLoop()
+        {
+            while (true)
+            {
+                if (!sequencePaused && sequence.Count > 0)
+                {
+                    yield return StartCoroutine(sequence.Dequeue());
+                }
+                else
+                {
+                    yield return null;
+                }
+            }
+        }
+        */
+
+        public void PlayBattleSequence(PlayBattleSequenceEvent evt)
+        {
+            // Emit to the battle system the end of the battle sequence
+            // TODO Change this hard coded part
+            EmitEvent(new BattleSequenceEnded()
+            {
+                Player = 0
+            });
+            EmitEvent(new BattleSequenceEnded()
+            {
+                Player = 1
+            });
+            EmitEvent(new BattleSequenceEnded()
+            {
+                Player = 2
+            });
         }
 
         public void ResetAnimations()
@@ -50,7 +97,6 @@ namespace Client.Combat
 
         public void OnPlayerChooseAction(ChooseActionEvent evt)
         {
-            Debug.Log("test");
             playerBattleSprites[evt.Player].OnPlayerChooseAction(evt);
         }
         
@@ -61,9 +107,41 @@ namespace Client.Combat
 
         public void StartBulletHell()
         {
+            foreach (var p in playerBattleSprites)
+            {
+                p.OnBulletHellStart();
+            }
             dialogBox.Clear();
             bulletHell.gameObject.SetActive(true);
             bulletHell.StartPhase();
+        }
+
+        public IEnumerator PlayerAttack(int playerId, int targetId)
+        {
+            yield return StartCoroutine(PlayerAttackAnimation(playerId));
+            yield return StartCoroutine(EnemyHurtAnimation(targetId));
+        }
+        
+        public IEnumerator PlayerMiss(int playerId, int targetId)
+        {
+            yield return StartCoroutine(PlayerAttackAnimation(playerId));
+        }
+
+        private IEnumerator PlayerAttackAnimation(int playerId)
+        {
+            playerBattleSprites[playerId].Play("Fight");
+            // Play Attack SFX
+            SfxHandler.Play("cut");
+            yield return new WaitForSeconds(0.8f);
+        }
+
+        private IEnumerator EnemyHurtAnimation(int targetId)
+        {
+            enemyBattleSprites[targetId].Play("Hurt");
+            // Play Damaged SFX
+            SfxHandler.Play("damage_enemy");
+            // Show damage indicator
+            yield return new WaitForSeconds(0.8f);
         }
         
         #region Scene Events

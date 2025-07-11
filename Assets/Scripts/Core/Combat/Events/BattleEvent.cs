@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine.InputSystem.Utilities;
 
 namespace Core.Combat.Events
@@ -80,9 +81,9 @@ namespace Core.Combat.Events
         public int Target;
     }
 
-    public class BattleSequenceEvent : IBattleEvent
+    public class PlayBattleSequenceEvent : IBattleEvent
     {
-        
+        public List<IBattleSequence> battleSequence;
     }
     
     public class BulletHellStartEvent : IBattleEvent {}

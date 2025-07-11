@@ -14,11 +14,13 @@ public partial class Battle
     {
         Initialized,
         AwaitingForPlayerInput,
+        ProcessingTurn,
+        AwaitingForActionSequence,
         ExecutingPlayerAction,
         AwaitingForPlayerFightQte,
-        ProcessingTurn,
         AwaitingForPlayerActQte,
-        BulletHell,
+        AwaitingForPlayersBulletPhaseReady,
+        BulletPhase,
         EndOfTurn,
         Won,
         Lost
@@ -38,7 +40,11 @@ public partial class Battle
     private BattleState state;
     private PlayerCommandEvent[] playerCommandBuffer;
     private AnsFightQuickTimeEvent[] fightCommandBuffer;
+    private bool[] battleSequenceReadyBuffer;
+    private bool[] bulletHellReadyBuffer;
     private bool[] bulletHellEndedBuffer;
+    
+    private List<IBattleSequence> battleSequence = new List<IBattleSequence>();
     
     private EventBus bulletHellEvents = new EventBus();
     private EventBus battleEvents = new EventBus();
@@ -60,6 +66,8 @@ public partial class Battle
     {
         playerCommandBuffer = new PlayerCommandEvent[players.Length];
         fightCommandBuffer = new AnsFightQuickTimeEvent[players.Length];
+        battleSequenceReadyBuffer = new bool[players.Length];
+        bulletHellReadyBuffer = new bool[players.Length];
         bulletHellEndedBuffer = new bool[players.Length];
     }
 
@@ -121,6 +129,8 @@ public partial class Battle
 
     public void ReceivePlayerCommand(int playerId, PlayerCommandEvent command)
     {
+        if (state != BattleState.AwaitingForPlayerInput) return;
+        
         // Check validity of the player command
         if (playerId < 0 || playerId > playerCommandBuffer.Length)
         {
@@ -137,7 +147,7 @@ public partial class Battle
         {
             state = BattleState.ExecutingPlayerAction;
             Debug.Log($"[Battle] All command received. Executing actions...");
-            ProcessFightQte();
+            ProcessTurn();
         }
     }
 
@@ -175,12 +185,46 @@ public partial class Battle
         }
         else // If no one is fighting continue the turn
         {
-            ProcessTurn();
+            WaitForBulletPhaseReady();
+        }
+    }
+    
+    private void ProcessTurn()
+    {
+        state = BattleState.ProcessingTurn;
+        Debug.Log($"[Battle] Processing turn...");
+
+        CalculateBattleSequence();
+        
+        WaitForBattleSequence();
+        
+        EmitEvent(new PlayBattleSequenceEvent()
+        {
+            battleSequence = this.battleSequence
+        });
+    }
+
+    private void WaitForBattleSequence()
+    {
+        state = BattleState.AwaitingForActionSequence;
+    }
+
+    public void ReceiveBattleSequenceEnded(int player)
+    {
+        if (state != BattleState.AwaitingForActionSequence) return;
+        
+        battleSequenceReadyBuffer[player] = true;
+
+        if (battleSequenceReadyBuffer.All(x => x))
+        {
+            ProcessFightQte();
         }
     }
     
     public void ReceiveFightQte(AnsFightQuickTimeEvent evt)
     {
+        if (state != BattleState.AwaitingForPlayerFightQte) return;
+        
         int damage = -1;
         int target = 0;
         int playerId = evt.Player;
@@ -238,42 +282,26 @@ public partial class Battle
         // Process the turn if it is the case
         if (isFightBufferFull)
         {
-            ProcessTurn();
+            WaitForBulletPhaseReady();
         }
     }
 
-    private void ProcessTurn()
+    private void WaitForBulletPhaseReady()
     {
-        state = BattleState.ProcessingTurn;
-        Debug.Log($"[Battle] Processing turn...");
+        state = BattleState.AwaitingForPlayersBulletPhaseReady;
+    }
+
+    public void ReceiveBulletPhaseReady(int playerId)
+    {
+        if (state != BattleState.AwaitingForPlayersBulletPhaseReady) return;
         
-        for (var i = 0; i < playerCommandBuffer.Length; i++)
+        bulletHellReadyBuffer[playerId] = true;
+        
+        if (bulletHellReadyBuffer.All(x => x))
         {
-            int target = 0;
-            int damage = -1;
-            int damagePercentage = 0;
-            players[i].defending = false;
-            
-            switch (playerCommandBuffer[i].ActionType)
-            {
-                // Act/Magic
-                case ActionType.ActMagic:
-                    break;
-                // Use Item
-                case ActionType.Item:
-                    target = playerCommandBuffer[i].TargetId;
-                    break;
-                // Spare
-                case ActionType.Spare:
-                    break;
-                // Defend
-                case ActionType.Defend:
-                    players[i].defending = true;
-                    break;
-            }
+            // Wait for all players to be ready for bullet phase
+            StartBulletPhase();
         }
-        
-        StartBulletPhase();
     }
 
     private void StartBulletPhase()
@@ -285,6 +313,8 @@ public partial class Battle
 
     public void ReceiveBulletPhaseEnded(int playerId)
     {
+        if (state != BattleState.BulletPhase) return;
+        
         bulletHellEndedBuffer[playerId] = true;
 
         if (bulletHellEndedBuffer.All(x => x))
@@ -295,6 +325,7 @@ public partial class Battle
 
     private void EndBulletPhase()
     {
+        state = BattleState.EndOfTurn;
         Debug.Log($"[Battle] Bullet Phase Ended.");
         // Destroy bullet hell area
         EndTurn();

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Core.Combat;
 using Core.Combat.Events;
 using UnityEngine;
 
@@ -71,6 +73,7 @@ public partial class Battle
                 });
         }
         
+        // TODO Changed hard coded part to dynamic inventory and dialog line
         return new GlobalStateEvent
         {
             Ennemies = enemieStates.ToArray(),
@@ -78,7 +81,7 @@ public partial class Battle
             {
                 "Darkburger", "Light Candy", "Java Cookie"
             },
-            Text = "It's the roaring knight!!!"
+            Text = "It's the freaking Roaring\nKnight!!!"
         };
     }
 
@@ -99,5 +102,40 @@ public partial class Battle
         }
 
         return damage;
+    }
+
+    private List<IBattleSequence> CalculateBattleSequence()
+    {
+        battleSequence.Clear();
+        
+        for (var i = 0; i < playerCommandBuffer.Length; i++)
+        {
+            int target = 0;
+            int damage = -1;
+            int damagePercentage = 0;
+            players[i].defending = false;
+            
+            switch (playerCommandBuffer[i].ActionType)
+            {
+                // Act/Magic
+                case ActionType.ActMagic:
+                    break;
+                // Use Item
+                case ActionType.Item:
+                    target = playerCommandBuffer[i].TargetId;
+                    break;
+                // Spare
+                case ActionType.Spare:
+                    break;
+                // Defend
+                case ActionType.Defend:
+                    players[i].defending = true;
+                    break;
+            }
+        }
+        
+        // Sort by priority order
+
+        return battleSequence;
     }
 }

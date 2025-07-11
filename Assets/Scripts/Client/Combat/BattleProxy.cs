@@ -8,13 +8,13 @@ namespace Client.Combat
 {
     public class BattleProxy : MonoBehaviour
     {
-        [SerializeField] private BattleScene @scene;
+        [SerializeField] private BattleScene scene;
         [SerializeField] private BattleInterface @interface;
         
         /// <summary>
         /// Battle only exists for the hosting client / server
         /// </summary>
-        private Battle @battle;
+        private Battle battle;
 
         private void Start()
         {
@@ -42,21 +42,27 @@ namespace Client.Combat
         /// <param name="battleInstance"></param>
         public void Init(Battle battleInstance)
         {
-            @battle = battleInstance;
+            battle = battleInstance;
             
-            // Battle ===> Proxy
-            @battle.SubscribeEvent<GlobalStateEvent>(OnGlobalState);
-            @battle.SubscribeEvent<PlayerStateEvent>(OnPlayerState);
-            @battle.SubscribeEvent<StartTurnEvent>(OnStartTurn);
-            @battle.SubscribeEvent<CancelActionEvent>(OnCancelAction);
-            @battle.SubscribeEvent<ChooseActionEvent>(OnChooseAction);
-            @battle.SubscribeEvent<ReqFightQuickTimeDataEvent>(OnFightQuickTimeData);
-            @battle.SubscribeEvent<FightQteStartEvent>(OnStartQuickTimeEvent);
-            @battle.SubscribeEvent<BulletHellStartEvent>(OnBulletHellStart);
+            // Battle Server ===> Proxy
+            battle.SubscribeEvent<GlobalStateEvent>(OnGlobalState);
+            battle.SubscribeEvent<PlayerStateEvent>(OnPlayerState);
+            battle.SubscribeEvent<StartTurnEvent>(OnStartTurn);
+            battle.SubscribeEvent<CancelActionEvent>(OnCancelAction);
+            battle.SubscribeEvent<ChooseActionEvent>(OnChooseAction);
+            battle.SubscribeEvent<PlayBattleSequenceEvent>(OnPlayBattleSequence);
+            battle.SubscribeEvent<ReqFightQuickTimeDataEvent>(OnFightQuickTimeData);
+            battle.SubscribeEvent<FightQteStartEvent>(OnStartQuickTimeEvent);
+            battle.SubscribeEvent<BulletHellStartEvent>(OnBulletHellStart);
+            battle.SubscribeEvent<PlayerAttackEvent>(OnPlayerAttack);
+            battle.SubscribeEvent<PlayerMissedEvent>(OnPlayerMissed);
 
-            if (@scene)
+            if (scene)
             {
-                @scene.SubscribeEvent<BulletHellEndedEvent>(OnBulletHellEnded);
+                // Scene ===> Proxy
+                scene.SubscribeEvent<BattleSequenceEnded>(OnBattleSequenceEnded);
+                scene.SubscribeEvent<BulletHellEndedEvent>(OnBulletHellEnded);
+                scene.SubscribeEvent<BulletHellReadyEvent>(OnBulletHellReady);
             }
 
             if (@interface)
@@ -76,32 +82,40 @@ namespace Client.Combat
         /// <param name="battleInstance"></param>
         public void Stop()
         {
-            if (@battle != null)
+            if (battle != null)
             {
-                @battle.UnsubscribeEvent<GlobalStateEvent>(OnGlobalState);
-                @battle.UnsubscribeEvent<PlayerStateEvent>(OnPlayerState);
-                @battle.UnsubscribeEvent<StartTurnEvent>(OnStartTurn);
-                @battle.UnsubscribeEvent<CancelActionEvent>(OnCancelAction);
-                @battle.UnsubscribeEvent<ChooseActionEvent>(OnChooseAction);
-                @battle.UnsubscribeEvent<ReqFightQuickTimeDataEvent>(OnFightQuickTimeData);
-                @battle.UnsubscribeEvent<FightQteStartEvent>(OnStartQuickTimeEvent);
-                @battle.UnsubscribeEvent<BulletHellStartEvent>(OnBulletHellStart);
+                // Battle Server ===> Proxy
+                battle.UnsubscribeEvent<GlobalStateEvent>(OnGlobalState);
+                battle.UnsubscribeEvent<PlayerStateEvent>(OnPlayerState);
+                battle.UnsubscribeEvent<StartTurnEvent>(OnStartTurn);
+                battle.UnsubscribeEvent<CancelActionEvent>(OnCancelAction);
+                battle.UnsubscribeEvent<ChooseActionEvent>(OnChooseAction);
+                battle.UnsubscribeEvent<PlayBattleSequenceEvent>(OnPlayBattleSequence);
+                battle.UnsubscribeEvent<ReqFightQuickTimeDataEvent>(OnFightQuickTimeData);
+                battle.UnsubscribeEvent<FightQteStartEvent>(OnStartQuickTimeEvent);
+                battle.UnsubscribeEvent<BulletHellStartEvent>(OnBulletHellStart);
+                battle.UnsubscribeEvent<PlayerAttackEvent>(OnPlayerAttack);
+                battle.UnsubscribeEvent<PlayerMissedEvent>(OnPlayerMissed);
+            }
+            
+            if (scene)
+            {
+                // Scene ===> Proxy
+                scene.UnsubscribeEvent<BattleSequenceEnded>(OnBattleSequenceEnded);
+                scene.UnsubscribeEvent<BulletHellEndedEvent>(OnBulletHellEnded);
+                scene.UnsubscribeEvent<BulletHellReadyEvent>(OnBulletHellReady);
             }
 
             if (@interface)
             {
+                // Scene ===> Proxy
                 @interface.UnsubscribeEvent<PlayerCommandEvent>(OnReceivePlayerAction);
                 @interface.UnsubscribeEvent<PlayerCancelCommandEvent>(OnCancelPlayerAction);
                 @interface.UnsubscribeEvent<AnsFightQuickTimeEvent>(OnReceiveFightQuickTime);
             }
-            
-            if (@scene)
-            {
-                
-            }
         }
 
-        #region Battle ===> Proxy
+        #region Battle Server ===> Proxy
 
         // Battle Events
 
@@ -122,19 +136,25 @@ namespace Client.Combat
         private void OnStartTurn(StartTurnEvent evt)
         {
             @interface.StartTurn();
-            @scene.ResetAnimations();
+            scene.ResetAnimations();
         }
         
         private void OnChooseAction(ChooseActionEvent evt)
         {
             // Update interface actions
-            @scene.OnPlayerChooseAction(evt);
+            scene.OnPlayerChooseAction(evt);
         }
         
         private void OnCancelAction(CancelActionEvent evt)
         {
             // Cancel interface action
-            @scene.OnPlayerCancelAction(evt);
+            scene.OnPlayerCancelAction(evt);
+        }
+        
+        private void OnPlayBattleSequence(PlayBattleSequenceEvent evt)
+        {
+            // Update interface actions
+            scene.PlayBattleSequence(evt);
         }
 
         private void OnFightQuickTimeData(ReqFightQuickTimeDataEvent evt)
@@ -149,9 +169,19 @@ namespace Client.Combat
             @interface.StartFightQte();
         }
 
+        private void OnPlayerAttack(PlayerAttackEvent evt)
+        {
+            scene.StartCoroutine(scene.PlayerAttack(evt.Player, evt.Target));
+        }
+        
+        private void OnPlayerMissed(PlayerMissedEvent evt)
+        {
+            scene.StartCoroutine(scene.PlayerMiss(evt.Player, evt.Target));
+        }
+
         private void OnBulletHellStart(BulletHellStartEvent evt)
         {
-            @scene.StartBulletHell();
+            scene.StartBulletHell();
         }
 
         #endregion
@@ -160,27 +190,37 @@ namespace Client.Combat
 
         private void OnReceivePlayerAction(PlayerCommandEvent evt)
         {
-            @battle.ReceivePlayerCommand(evt.Player, evt);
+            battle.ReceivePlayerCommand(evt.Player, evt);
         }
         
         private void OnCancelPlayerAction(PlayerCancelCommandEvent evt)
         {
-            @battle.CancelPlayerCommand(evt.Player);
+            battle.CancelPlayerCommand(evt.Player);
         }
         
         private void OnReceiveFightQuickTime(AnsFightQuickTimeEvent evt)
         {
             // Emit qte result to battle
-            @battle.ReceiveFightQte(evt);
+            battle.ReceiveFightQte(evt);
         }
         
         #endregion
         
         #region Scene ===> Proxy
         
+        private void OnBattleSequenceEnded(BattleSequenceEnded evt)
+        {
+            battle.ReceiveBattleSequenceEnded(evt.Player);
+        }
+        
+        private void OnBulletHellReady(BulletHellReadyEvent evt)
+        {
+            battle.ReceiveBulletPhaseReady(evt.Player);
+        }
+        
         private void OnBulletHellEnded(BulletHellEndedEvent evt)
         {
-            @battle.ReceiveBulletPhaseEnded(evt.Player);
+            battle.ReceiveBulletPhaseEnded(evt.Player);
         }
         
         #endregion
