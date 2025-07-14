@@ -53,6 +53,7 @@ namespace Client.Combat
             battle.SubscribeEvent<PlayBattleSequenceEvent>(OnPlayBattleSequence);
             battle.SubscribeEvent<ReqFightQuickTimeDataEvent>(OnFightQuickTimeData);
             battle.SubscribeEvent<FightQteStartEvent>(OnStartQuickTimeEvent);
+            battle.SubscribeEvent<BulletHellWaitReady>(OnBulletHellWaitReady);
             battle.SubscribeEvent<BulletHellStartEvent>(OnBulletHellStart);
             battle.SubscribeEvent<PlayerAttackEvent>(OnPlayerAttack);
             battle.SubscribeEvent<PlayerMissedEvent>(OnPlayerMissed);
@@ -93,6 +94,7 @@ namespace Client.Combat
                 battle.UnsubscribeEvent<PlayBattleSequenceEvent>(OnPlayBattleSequence);
                 battle.UnsubscribeEvent<ReqFightQuickTimeDataEvent>(OnFightQuickTimeData);
                 battle.UnsubscribeEvent<FightQteStartEvent>(OnStartQuickTimeEvent);
+                battle.UnsubscribeEvent<BulletHellWaitReady>(OnBulletHellWaitReady);
                 battle.UnsubscribeEvent<BulletHellStartEvent>(OnBulletHellStart);
                 battle.UnsubscribeEvent<PlayerAttackEvent>(OnPlayerAttack);
                 battle.UnsubscribeEvent<PlayerMissedEvent>(OnPlayerMissed);
@@ -177,6 +179,11 @@ namespace Client.Combat
         private void OnPlayerMissed(PlayerMissedEvent evt)
         {
             scene.StartCoroutine(scene.PlayerMiss(evt.Player, evt.Target));
+        }
+
+        private void OnBulletHellWaitReady(BulletHellWaitReady evt)
+        {
+            scene.PrepareBulletPhase(evt);
         }
 
         private void OnBulletHellStart(BulletHellStartEvent evt)

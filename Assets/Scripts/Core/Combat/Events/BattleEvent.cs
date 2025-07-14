@@ -85,6 +85,11 @@ namespace Core.Combat.Events
     {
         public List<IBattleSequence> battleSequence;
     }
+
+    public class BulletHellWaitReady : IBattleEvent
+    {
+        public string prefab;
+    }
     
     public class BulletHellStartEvent : IBattleEvent {}
 }

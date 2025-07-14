@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Client.Combat;
 using Client.Combat.Events;
 using Core.Combat;
 using Core.Combat.Events;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public partial class Battle
@@ -288,12 +286,14 @@ public partial class Battle
 
     private void WaitForBulletPhaseReady()
     {
+        Debug.Log("Waiting for clients to be ready for bullet phase.");
         state = BattleState.AwaitingForPlayersBulletPhaseReady;
+        EmitEvent(new BulletHellWaitReady());
     }
 
     public void ReceiveBulletPhaseReady(int playerId)
     {
-        if (state != BattleState.AwaitingForPlayersBulletPhaseReady) return;
+        // if (state != BattleState.AwaitingForPlayersBulletPhaseReady) return;
         
         bulletHellReadyBuffer[playerId] = true;
         
@@ -307,6 +307,7 @@ public partial class Battle
     private void StartBulletPhase()
     {
         Debug.Log($"[Battle] Bullet Phase Started.");
+        state = BattleState.BulletPhase;
         // Start Event
         EmitEvent(new BulletHellStartEvent());
     }

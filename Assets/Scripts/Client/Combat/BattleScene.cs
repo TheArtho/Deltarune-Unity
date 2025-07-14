@@ -105,6 +105,30 @@ namespace Client.Combat
             playerBattleSprites[evt.Player].OnPlayerCancelAction(evt);
         }
 
+        public void PrepareBulletPhase(BulletHellWaitReady evt)
+        {
+            Debug.Log("PrepareBulletPhase");
+            // Prepare the bullet hell prefab
+            StartCoroutine(PrepareBulletHellIE());
+        }
+
+        IEnumerator PrepareBulletHellIE()
+        {
+            yield return new WaitForSeconds(0.5f);
+            EmitEvent(new BulletHellReadyEvent()
+            {
+                Player = 0
+            });
+            EmitEvent(new BulletHellReadyEvent()
+            {
+                Player = 1
+            });
+            EmitEvent(new BulletHellReadyEvent()
+            {
+                Player = 2
+            });
+        }
+
         public void StartBulletHell()
         {
             foreach (var p in playerBattleSprites)
