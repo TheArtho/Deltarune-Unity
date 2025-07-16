@@ -1,22 +1,33 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Client.Combat;
 using Client.Combat.Events;
 using UnityEngine;
 using UnityEngine.Playables;
 
-[RequireComponent(typeof(PlayableDirector))]
 public class BulletHellScene : MonoBehaviour
 {
     [SerializeField] SoulController soulController;
     [SerializeField] SpriteRenderer battleArea;
     [SerializeField] Animator battleAreaAnimator;
     [SerializeField] private float margin = 0.1f; // delta/marge
-    private PlayableDirector _director;
+    private List<PlayableDirector> _directors = new List<PlayableDirector>();
 
-    private void Awake()
+    public void AddDirector(PlayableDirector director)
     {
-        _director = GetComponent<PlayableDirector>();
+        _directors.Add(director);
+        director.transform.parent = transform;
+    }
+
+    public void ClearDirectors()
+    {
+        foreach (var d in _directors)
+        {
+            Destroy(d.gameObject);
+        }
+
+        _directors.Clear();
     }
 
     public void StartPhase()
@@ -76,8 +87,14 @@ public class BulletHellScene : MonoBehaviour
 
     private IEnumerator PlayTimeline()
     {
-        _director.Play();
-        yield return new WaitForSeconds((float) _director.duration + 0.2f);
+        double maxDuration = 0;
+        if (_directors.Count >= 0) yield break;
+        foreach (var d in _directors)
+        {
+            d.Play();
+            maxDuration = Math.Max(maxDuration, d.duration);
+        }
+        yield return new WaitForSeconds((float) maxDuration + 0.2f);
     }
 
     private void Update()

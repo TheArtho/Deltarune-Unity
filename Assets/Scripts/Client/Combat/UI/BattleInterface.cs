@@ -39,6 +39,12 @@ namespace Client.Combat.UI
             }
         }
 
+        public void Initialize()
+        {
+            // TODO complete the Initialize method
+            // Spawns dialog boxes for players and enemies
+        }
+
         public void UpdateGlobalState(GlobalStateEvent evt)
         {
             GlobalStateEvent = evt;

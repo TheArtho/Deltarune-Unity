@@ -288,7 +288,14 @@ public partial class Battle
     {
         Debug.Log("Waiting for clients to be ready for bullet phase.");
         state = BattleState.AwaitingForPlayersBulletPhaseReady;
-        EmitEvent(new BulletHellWaitReady());
+        // Send a battle sequence before the bullet hell phase
+        // TODO change hard coded values
+        EmitEvent(new BulletHellWaitReady()
+        {
+            battleMode = "base",
+            attacks = new string[] {"Test Attack"},
+            battleSequence = new List<IBattleSequence>()
+        });
     }
 
     public void ReceiveBulletPhaseReady(int playerId)
