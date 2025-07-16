@@ -18,12 +18,18 @@ namespace Client.Combat.UI
         [SerializeField] private GameObject fightInterface;
         [SerializeField] private List<FightBar> fightBars;
         [SerializeField] private DialogBox dialogBox;
+        [SerializeField] private List<DialogBox> playerDialogBoxes;
+        [SerializeField] private List<DialogBox> enemyDialogBoxes;
         
         private EventBus events = new EventBus();
 
         public GlobalStateEvent GlobalStateEvent;
         public PlayerStateEvent[] PlayerStateEvents;
         public ReqFightQuickTimeDataEvent[] FightQteDataEvents;
+
+        public DialogBox DialogBox => dialogBox;
+        public List<DialogBox> PlayerDialogBoxes => playerDialogBoxes;
+        public List<DialogBox> EnemyDialogBoxes => enemyDialogBoxes;
 
         private void Awake()
         {
@@ -42,7 +48,7 @@ namespace Client.Combat.UI
         public void Initialize()
         {
             // TODO complete the Initialize method
-            // Spawns dialog boxes for players and enemies
+            // Spawns custom dialog boxes for players and enemies if needed
         }
 
         public void UpdateGlobalState(GlobalStateEvent evt)
@@ -202,6 +208,7 @@ namespace Client.Combat.UI
         {
             List<Action<int>> onPressList = new List<Action<int>>();
             
+            dialogBox.Clear();
             fightInterface.SetActive(true);
 
             List<FightBar> fightBars = new List<FightBar>();

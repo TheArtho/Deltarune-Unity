@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Client.Combat.Events;
+using Client.Combat.UI;
+using Core.Combat;
 using Core.Combat.Events;
 using UnityEngine;
 
@@ -29,6 +31,8 @@ namespace Client.Combat
         private bool sequencePaused;
 
         private bool readyForBulletHell;
+
+        private bool attackAnimation;
 
         private void Awake()
         {
@@ -66,21 +70,93 @@ namespace Client.Combat
 
         public void PlayBattleSequence(PlayBattleSequenceEvent evt)
         {
-            // Emit to the battle system the end of the battle sequence
-            // TODO Change this hard coded part
-            EmitEvent(new BattleSequenceEnded()
+            BattleInterface.Instance.DialogBox.Clear();
+            StartCoroutine(PlaySequenceIE(evt.battleSequence, () =>
             {
-                Player = 0
-            });
-            EmitEvent(new BattleSequenceEnded()
-            {
-                Player = 1
-            });
-            EmitEvent(new BattleSequenceEnded()
-            {
-                Player = 2
-            });
+                // Emit to the battle system the end of the battle sequence
+                // TODO Change this hard coded part
+                EmitEvent(new BattleSequenceEnded()
+                {
+                    Player = 0
+                });
+                EmitEvent(new BattleSequenceEnded()
+                {
+                    Player = 1
+                });
+                EmitEvent(new BattleSequenceEnded()
+                {
+                    Player = 2
+                });
+            }));
         }
+
+        public IEnumerator PlaySequenceIE(List<BattleSequence> sequence, Action callback)
+        {
+            foreach (var s in sequence)
+            {
+                switch (s)
+                {
+                    case DialogSequence dialog:
+                        if (dialog.RunInParallel)
+                        {
+                            StartCoroutine(PlayDialogSequence(dialog));
+                        }
+                        else
+                        {
+                            yield return StartCoroutine(PlayDialogSequence(dialog));
+                        }
+                        
+                        break;
+
+                    case TargetSequence target:
+                        if (target.RunInParallel)
+                        {
+                            StartCoroutine(PlayTargetSequence(target));
+                        }
+                        else
+                        {
+                            yield return StartCoroutine(PlayTargetSequence(target));
+                        }
+                        break;
+
+                    case { } battle:
+                        if (battle.RunInParallel)
+                        {
+                            StartCoroutine(PlayBattleSequence(battle));
+                        }
+                        else
+                        {
+                            yield return StartCoroutine(PlayBattleSequence(battle));
+                        }
+                        break;
+
+                    default:
+                        Debug.LogWarning($"Unknown sequence type: {s.GetType().Name}");
+                        break;
+                }
+            }
+
+            callback?.Invoke();
+        }
+
+        private IEnumerator PlayDialogSequence(DialogSequence dialog)
+        {
+            Debug.Log("Show dialog here...");
+            yield return new WaitForSeconds(1f);
+        }
+
+        private IEnumerator PlayTargetSequence(TargetSequence target)
+        {
+            Debug.Log("Show target animation...");
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        private IEnumerator PlayBattleSequence(BattleSequence battle)
+        {
+            Debug.Log("Execute battle logic...");
+            yield return new WaitForSeconds(0.8f);
+        }
+
 
         public void ResetAnimations()
         {
@@ -109,11 +185,22 @@ namespace Client.Combat
         {
             Debug.Log("PrepareBulletPhase");
             // Prepare the bullet hell prefab
-            StartCoroutine(PrepareBulletHellIE());
+            StartCoroutine(PreBulletSequence(evt.targets, evt.battleSequence));
         }
 
-        IEnumerator PrepareBulletHellIE()
+        IEnumerator PreBulletSequence(List<int> targets, List<BattleSequence> sequence)
         {
+            // Wait for animation routine to end
+            yield return new WaitUntil(() => !attackAnimation);
+            // TODO set targets
+            // TODO replace hard coded dialog code by a battle sequence
+            DialogBox dialog = BattleInterface.Instance.EnemyDialogBoxes[0];
+            dialog.gameObject.SetActive(true);
+            dialog.Clear();
+            yield return StartCoroutine(dialog.DrawText("This is a test dialog.", "text", 0.05f));
+            yield return new WaitForSeconds(1f);
+            dialog.gameObject.SetActive(false);
+            
             yield return new WaitForSeconds(0.5f);
             EmitEvent(new BulletHellReadyEvent()
             {
@@ -140,15 +227,22 @@ namespace Client.Combat
             bulletHell.StartPhase();
         }
 
-        public IEnumerator PlayerAttack(int playerId, int targetId)
+        public IEnumerator PlayerAttack(int playerId, int targetId, int damage)
         {
+            attackAnimation = true;
             yield return StartCoroutine(PlayerAttackAnimation(playerId));
+            // TODO Show damage
             yield return StartCoroutine(EnemyHurtAnimation(targetId));
+            attackAnimation = false;
         }
         
         public IEnumerator PlayerMiss(int playerId, int targetId)
         {
+            attackAnimation = true;
             yield return StartCoroutine(PlayerAttackAnimation(playerId));
+            // TODO Show miss
+            yield return new WaitForSeconds(1f);
+            attackAnimation = false;
         }
 
         private IEnumerator PlayerAttackAnimation(int playerId)
@@ -165,7 +259,7 @@ namespace Client.Combat
             // Play Damaged SFX
             SfxHandler.Play("damage_enemy");
             // Show damage indicator
-            yield return new WaitForSeconds(0.8f);
+            yield return new WaitForSeconds(1f);
         }
         
         #region Scene Events

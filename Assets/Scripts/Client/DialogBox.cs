@@ -12,7 +12,7 @@ public class DialogBox : MonoBehaviour
     private bool _waitInput;
     private bool _skip;
     private string _currentText;
-    private bool _next; 
+    private bool _next;
     
     private void Awake()
     {
@@ -67,7 +67,7 @@ public class DialogBox : MonoBehaviour
             
             textObject.text += c;
             SfxHandler.Play(_soundId);
-            yield return new WaitForSeconds(timePerChar <= 0 ? 0.1f : timePerChar);
+            yield return new WaitForSeconds(timePerChar <= 0 ? 0.02f : timePerChar);
         }
 
         if (_waitInput)
@@ -76,7 +76,7 @@ public class DialogBox : MonoBehaviour
         }
     }
 
-    public IEnumerator DrawText(string text, float timePerChar = 0.1f)
+    public IEnumerator DrawText(string text, float timePerChar = 0.02f)
     {
         return DrawText(text, _soundId, timePerChar);
     }

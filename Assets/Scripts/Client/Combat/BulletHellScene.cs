@@ -12,7 +12,7 @@ public class BulletHellScene : MonoBehaviour
     [SerializeField] SpriteRenderer battleArea;
     [SerializeField] Animator battleAreaAnimator;
     [SerializeField] private float margin = 0.1f; // delta/marge
-    private List<PlayableDirector> _directors = new List<PlayableDirector>();
+    [SerializeField] private List<PlayableDirector> _directors;
 
     public void AddDirector(PlayableDirector director)
     {
@@ -88,7 +88,7 @@ public class BulletHellScene : MonoBehaviour
     private IEnumerator PlayTimeline()
     {
         double maxDuration = 0;
-        if (_directors.Count >= 0) yield break;
+        if (_directors.Count == 0) yield break;
         foreach (var d in _directors)
         {
             d.Play();

@@ -83,12 +83,13 @@ namespace Core.Combat.Events
 
     public class PlayBattleSequenceEvent : IBattleEvent
     {
-        public List<IBattleSequence> battleSequence;
+        public List<BattleSequence> battleSequence;
     }
 
     public class BulletHellWaitReady : IBattleEvent
     {
-        public List<IBattleSequence> battleSequence;
+        public List<int> targets;
+        public List<BattleSequence> battleSequence;
         public string battleMode;
         public string[] attacks;
     }

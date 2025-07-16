@@ -104,7 +104,7 @@ public partial class Battle
         return damage;
     }
 
-    private List<IBattleSequence> CalculateBattleSequence()
+    private List<BattleSequence> CalculateBattleSequence()
     {
         battleSequence.Clear();
         

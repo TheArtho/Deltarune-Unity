@@ -173,7 +173,7 @@ namespace Client.Combat
 
         private void OnPlayerAttack(PlayerAttackEvent evt)
         {
-            scene.StartCoroutine(scene.PlayerAttack(evt.Player, evt.Target));
+            scene.StartCoroutine(scene.PlayerAttack(evt.Player, evt.Target, evt.Damage));
         }
         
         private void OnPlayerMissed(PlayerMissedEvent evt)

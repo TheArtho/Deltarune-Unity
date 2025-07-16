@@ -16,6 +16,7 @@ public partial class Battle
         AwaitingForActionSequence,
         ExecutingPlayerAction,
         AwaitingForPlayerFightQte,
+        AwaitingForPlayerFightQteEnd,
         AwaitingForPlayerActQte,
         AwaitingForPlayersBulletPhaseReady,
         BulletPhase,
@@ -42,7 +43,7 @@ public partial class Battle
     private bool[] bulletHellReadyBuffer;
     private bool[] bulletHellEndedBuffer;
     
-    private List<IBattleSequence> battleSequence = new List<IBattleSequence>();
+    private List<BattleSequence> battleSequence = new List<BattleSequence>();
     
     private EventBus bulletHellEvents = new EventBus();
     private EventBus battleEvents = new EventBus();
@@ -283,7 +284,6 @@ public partial class Battle
             WaitForBulletPhaseReady();
         }
     }
-
     private void WaitForBulletPhaseReady()
     {
         Debug.Log("Waiting for clients to be ready for bullet phase.");
@@ -294,7 +294,7 @@ public partial class Battle
         {
             battleMode = "base",
             attacks = new string[] {"Test Attack"},
-            battleSequence = new List<IBattleSequence>()
+            battleSequence = new List<BattleSequence>()
         });
     }
 

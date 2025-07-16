@@ -11,12 +11,12 @@ namespace Core.Combat
         public bool RunInParallel;
     }
 
-    public class DialogSequence : IBattleSequence
+    public class DialogSequence : BattleSequence
     {
     
     }
 
-    public class TargetSequence : IBattleSequence
+    public class TargetSequence : BattleSequence
     {
     
     }
