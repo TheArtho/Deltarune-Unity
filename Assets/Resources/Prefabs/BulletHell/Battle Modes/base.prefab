@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6880934150112308291}
-  - component: {fileID: 841188074513246795}
   - component: {fileID: 7101158447917119386}
   m_Layer: 0
   m_Name: base
@@ -36,27 +35,6 @@ Transform:
   - {fileID: 7468129688517028870}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!320 &841188074513246795
-PlayableDirector:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4122421254188426944}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: ca15e6ece0e255f4daf9383afd80546e, type: 2}
-  m_InitialState: 0
-  m_WrapMode: 2
-  m_DirectorUpdateMode: 1
-  m_InitialTime: 0
-  m_SceneBindings:
-  - key: {fileID: 6803114616745109336, guid: ca15e6ece0e255f4daf9383afd80546e, type: 2}
-    value: {fileID: 0}
-  - key: {fileID: -6750735412903877019, guid: ca15e6ece0e255f4daf9383afd80546e, type: 2}
-    value: {fileID: 0}
-  m_ExposedReferences:
-    m_References: []
 --- !u!114 &7101158447917119386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,6 +51,7 @@ MonoBehaviour:
   battleArea: {fileID: 1205159122927212036}
   battleAreaAnimator: {fileID: 96942737957002034}
   margin: 0.03
+  _directors: []
 --- !u!1 &7520364017206204296
 GameObject:
   m_ObjectHideFlags: 0

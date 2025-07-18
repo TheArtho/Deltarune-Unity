@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class SoulController : MonoBehaviour
 {
     public float speed = 1;
@@ -13,9 +14,12 @@ public class SoulController : MonoBehaviour
     private PlayerInputAction _inputAction;
 
     private Vector2 _move;
+    
+    private Rigidbody2D _rigidbody;
 
     private void Awake()
     {
+        _rigidbody = GetComponent<Rigidbody2D>();
         _inputAction = new PlayerInputAction();
 
         _inputAction.Battle.Move.performed += ctx =>
@@ -35,12 +39,6 @@ public class SoulController : MonoBehaviour
         _inputAction.Battle.Move.canceled += ctx =>
         {
             _move = Vector2.zero;
-        };
-        
-        _inputAction.Battle.Cancel.performed += ctx =>
-        {
-            Graze();
-            SfxHandler.Play("graze");
         };
     }
     
@@ -68,15 +66,16 @@ public class SoulController : MonoBehaviour
             return new Vector2(1, -1).normalized; // ↘
     }
 
-    public void Update()
+    public void FixedUpdate()
     {
-        Vector2 nextPosition = (Vector2) soulSprite.transform.position + _move* (speed * Time.deltaTime);
-        soulSprite.transform.position = nextPosition;
+        Vector2 nextPosition = (Vector2) soulSprite.transform.position + _move * (speed * Time.fixedDeltaTime);
+        _rigidbody.position = nextPosition;
     }
 
-    private void Graze()
+    public void Graze()
     {
         particle.Emit(1);
+        SfxHandler.Play("graze");
     }
 
     public void EnableInput()

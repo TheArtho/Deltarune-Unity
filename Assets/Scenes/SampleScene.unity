@@ -11285,9 +11285,9 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.03794038
+    x: 0
     y: 0
-    width: 0.923216
+    width: 1
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
@@ -27985,7 +27985,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 54179219586927027, guid: 0b070ba83ba30b94598eaaf5100d4c03, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 56.39829
+      value: 60.582523
       objectReference: {fileID: 0}
     - target: {fileID: 54179219586927027, guid: 0b070ba83ba30b94598eaaf5100d4c03, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -28888,7 +28888,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 54179219586927027, guid: 0b070ba83ba30b94598eaaf5100d4c03, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 46.998573
+      value: 50.485435
       objectReference: {fileID: 0}
     - target: {fileID: 54179219586927027, guid: 0b070ba83ba30b94598eaaf5100d4c03, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -60164,17 +60164,33 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 273931751408927421, guid: fc9ecf996397b4eb3bb249628bc4454f, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 3679991322072088382, guid: fc9ecf996397b4eb3bb249628bc4454f, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7006059387707840974, guid: fc9ecf996397b4eb3bb249628bc4454f, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7233345077135294764, guid: fc9ecf996397b4eb3bb249628bc4454f, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 7771258747781102150, guid: fc9ecf996397b4eb3bb249628bc4454f, type: 3}
       propertyPath: battleArea
       value: 
       objectReference: {fileID: 3230542907598710375}
     - target: {fileID: 8197507718229399314, guid: fc9ecf996397b4eb3bb249628bc4454f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8197507718229399314, guid: fc9ecf996397b4eb3bb249628bc4454f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.59
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8197507718229399314, guid: fc9ecf996397b4eb3bb249628bc4454f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -60655,7 +60671,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 54179219586927027, guid: 0b070ba83ba30b94598eaaf5100d4c03, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 38.53883
+      value: 41.165047
       objectReference: {fileID: 0}
     - target: {fileID: 54179219586927027, guid: 0b070ba83ba30b94598eaaf5100d4c03, type: 3}
       propertyPath: m_AnchoredPosition.x
