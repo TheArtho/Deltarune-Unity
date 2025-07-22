@@ -734,6 +734,248 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: kris_act_0
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 4057
+        width: 63
+        height: 44
+      alignment: 9
+      pivot: {x: 0.2857143, y: 0.022727273}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69f857181811e064e9f4f0a6c3c3b66a
+      internalID: 495017877
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_act_1
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 4057
+        width: 63
+        height: 44
+      alignment: 9
+      pivot: {x: 0.2857143, y: 0.022727273}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a6770f15e06a764ba3f734fadb08c85
+      internalID: -1803630398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_act_2
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 4057
+        width: 63
+        height: 44
+      alignment: 9
+      pivot: {x: 0.2857143, y: 0.022727273}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f72a3379acfd2ad4bb5c0ad759b8fd34
+      internalID: -1772874797
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_act_3
+      rect:
+        serializedVersion: 2
+        x: 211
+        y: 4057
+        width: 63
+        height: 44
+      alignment: 9
+      pivot: {x: 0.2857143, y: 0.022727273}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6beace352d42b7f4084c086d6179ac4c
+      internalID: 127739482
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_act_4
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 4057
+        width: 63
+        height: 44
+      alignment: 9
+      pivot: {x: 0.2857143, y: 0.022727273}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5d2c716deb48ea4e9b07629275b2c6e
+      internalID: -1017742705
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_act_5
+      rect:
+        serializedVersion: 2
+        x: 347
+        y: 4057
+        width: 63
+        height: 44
+      alignment: 9
+      pivot: {x: 0.2857143, y: 0.022727273}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6cf95d26e7570ba4e81cefa553a01b8b
+      internalID: 980396819
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_act_6
+      rect:
+        serializedVersion: 2
+        x: 415
+        y: 4057
+        width: 63
+        height: 44
+      alignment: 9
+      pivot: {x: 0.2857143, y: 0.022727273}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2064c717f552c3f40abbc322d40cf16b
+      internalID: -968663584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_act_7
+      rect:
+        serializedVersion: 2
+        x: 483
+        y: 4057
+        width: 63
+        height: 44
+      alignment: 9
+      pivot: {x: 0.2857143, y: 0.022727273}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 935bfd683efe29b418feb0702eb3a143
+      internalID: 850976609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_act_8
+      rect:
+        serializedVersion: 2
+        x: 551
+        y: 4057
+        width: 63
+        height: 44
+      alignment: 9
+      pivot: {x: 0.2857143, y: 0.022727273}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ada9b6185d658334c9c3ce7dca987b37
+      internalID: -1113887369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_act_9
+      rect:
+        serializedVersion: 2
+        x: 619
+        y: 4057
+        width: 63
+        height: 44
+      alignment: 9
+      pivot: {x: 0.2857143, y: 0.022727273}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d0c00d7e09bc134688193e16015419c
+      internalID: 685659378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_act_10
+      rect:
+        serializedVersion: 2
+        x: 687
+        y: 4057
+        width: 63
+        height: 44
+      alignment: 9
+      pivot: {x: 0.2857143, y: 0.022727273}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38d71066885fda84fa16f1a1de82efac
+      internalID: 696520113
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -748,6 +990,17 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+      kris_act_0: 495017877
+      kris_act_1: -1803630398
+      kris_act_10: 696520113
+      kris_act_2: -1772874797
+      kris_act_3: 127739482
+      kris_act_4: -1017742705
+      kris_act_5: 980396819
+      kris_act_6: -968663584
+      kris_act_7: 850976609
+      kris_act_8: -1113887369
+      kris_act_9: 685659378
       kris_battle_idle_0: 146645422
       kris_battle_idle_1: -162253008
       kris_battle_idle_2: 724886373

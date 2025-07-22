@@ -120,6 +120,20 @@ public partial class Battle
             {
                 // Act/Magic
                 case ActionType.ActMagic:
+                    if (i == 0) // Kris
+                    {
+                        battleSequence.Add(new PlayerAnimationSequence()
+                        {
+                            RunInParallel = true,
+                            character = 0,
+                            animation = "Act"
+                        });
+                        battleSequence.Add(new TextSequence
+                        {
+                            RunInParallel = false,
+                            text = "Kris is acting."
+                        });
+                    }
                     break;
                 // Use Item
                 case ActionType.Item:

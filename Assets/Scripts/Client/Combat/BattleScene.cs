@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Client.Combat
 {
-    public class BattleScene : MonoBehaviour
+    public partial class BattleScene : MonoBehaviour
     {
         public static BattleScene Instance;
         
@@ -88,73 +88,6 @@ namespace Client.Combat
                     Player = 2
                 });
             }));
-        }
-
-        public IEnumerator PlaySequenceIE(List<BattleSequence> sequence, Action callback)
-        {
-            foreach (var s in sequence)
-            {
-                switch (s)
-                {
-                    case DialogSequence dialog:
-                        if (dialog.RunInParallel)
-                        {
-                            StartCoroutine(PlayDialogSequence(dialog));
-                        }
-                        else
-                        {
-                            yield return StartCoroutine(PlayDialogSequence(dialog));
-                        }
-                        
-                        break;
-
-                    case TargetSequence target:
-                        if (target.RunInParallel)
-                        {
-                            StartCoroutine(PlayTargetSequence(target));
-                        }
-                        else
-                        {
-                            yield return StartCoroutine(PlayTargetSequence(target));
-                        }
-                        break;
-
-                    case { } battle:
-                        if (battle.RunInParallel)
-                        {
-                            StartCoroutine(PlayBattleSequence(battle));
-                        }
-                        else
-                        {
-                            yield return StartCoroutine(PlayBattleSequence(battle));
-                        }
-                        break;
-
-                    default:
-                        Debug.LogWarning($"Unknown sequence type: {s.GetType().Name}");
-                        break;
-                }
-            }
-
-            callback?.Invoke();
-        }
-
-        private IEnumerator PlayDialogSequence(DialogSequence dialog)
-        {
-            Debug.Log("Show dialog here...");
-            yield return new WaitForSeconds(1f);
-        }
-
-        private IEnumerator PlayTargetSequence(TargetSequence target)
-        {
-            Debug.Log("Show target animation...");
-            yield return new WaitForSeconds(0.5f);
-        }
-
-        private IEnumerator PlayBattleSequence(BattleSequence battle)
-        {
-            Debug.Log("Execute battle logic...");
-            yield return new WaitForSeconds(0.8f);
         }
 
 
