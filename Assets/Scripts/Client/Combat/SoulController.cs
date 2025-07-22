@@ -1,4 +1,6 @@
 using System;
+using Client.Combat;
+using Client.Combat.Events;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -87,6 +89,11 @@ public class SoulController : MonoBehaviour
     {
         particle.Emit(1);
         SfxHandler.Play("graze");
+        // Update TP
+        BattleScene.Instance.EmitEvent(new GrazeEvent()
+        {
+            Player = 0
+        });
     }
 
     public void EnableInput()

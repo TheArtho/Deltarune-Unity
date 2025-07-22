@@ -24,4 +24,15 @@ namespace Client.Combat.Events
     {
         public int Player;
     }
+
+    public class PlayerHurtEvent : IBattleSceneEvents
+    {
+        public int Player;
+        public int Damage;
+    }
+    
+    public class GrazeEvent : IBattleSceneEvents
+    {
+        public int Player;
+    }
 }

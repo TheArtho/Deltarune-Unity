@@ -325,6 +325,7 @@ GameObject:
   - component: {fileID: 41488960}
   - component: {fileID: 41488962}
   - component: {fileID: 41488961}
+  - component: {fileID: 41488967}
   - component: {fileID: 41488963}
   - component: {fileID: 41488966}
   - component: {fileID: 41488965}
@@ -455,6 +456,25 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 1, y: 1}
   m_UseGraphicAlpha: 1
+--- !u!114 &41488967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 41488959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f01ef03501fed14cb19482e17a10ea1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barWhite: {fileID: 762496280}
+  barOrange: {fileID: 1875527021}
+  tpText: {fileID: 596650762}
+  tpTextObject: {fileID: 1121528}
+  tpTextMaxObject: {fileID: 1701634969}
+  maxColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  value: 0
 --- !u!1001 &55220970
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1221,7 +1241,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 0
+  looping: 1
   prewarm: 0
   playOnAwake: 0
   useUnscaledTime: 0
@@ -1289,7 +1309,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.5
+      scalar: 0.75
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -1396,7 +1416,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 1, g: 1, b: 1, a: 0.47058824}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -2043,7 +2063,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 8
+      scalar: 1
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -2481,8 +2501,8 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 0.25882354}
-        key1: {r: 1, g: 1, b: 1, a: 0}
+        key0: {r: 1, g: 1, b: 1, a: 0.47058824}
+        key1: {r: 1, g: 1, b: 1, a: 0.16078432}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -2498,8 +2518,8 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 65535
-        atime2: 0
+        atime1: 31033
+        atime2: 65535
         atime3: 0
         atime4: 0
         atime5: 0
@@ -2508,7 +2528,7 @@ ParticleSystem:
         m_Mode: 0
         m_ColorSpace: 0
         m_NumColorKeys: 2
-        m_NumAlphaKeys: 2
+        m_NumAlphaKeys: 3
       minGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -16308,7 +16328,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3c5317755dae4e940a19995fcb907ab2, type: 2}
+  - {fileID: 2100000, guid: 5b53e45c492a03d4bbb9225d292ff915, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -16369,8 +16389,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ps: {fileID: 110196183}
-  delay: 0.1
-  velocity: {x: 1.5, y: 0, z: 0}
+  delay: 0.15
+  velocity: {x: 0.61, y: 0, z: 0}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -16426,9 +16446,9 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.1835268
+    x: 0.056382976
     y: 0
-    width: 0.63313067
+    width: 0.88794327
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
@@ -33386,7 +33406,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 54179219586927027, guid: 0b070ba83ba30b94598eaaf5100d4c03, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 56.996506
+      value: 59.808308
       objectReference: {fileID: 0}
     - target: {fileID: 54179219586927027, guid: 0b070ba83ba30b94598eaaf5100d4c03, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -34376,7 +34396,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 54179219586927027, guid: 0b070ba83ba30b94598eaaf5100d4c03, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 47.497086
+      value: 49.840256
       objectReference: {fileID: 0}
     - target: {fileID: 54179219586927027, guid: 0b070ba83ba30b94598eaaf5100d4c03, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -69292,7 +69312,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 3c5317755dae4e940a19995fcb907ab2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -70008,6 +70028,7 @@ MonoBehaviour:
   - {fileID: 2118235149}
   - {fileID: 56823634}
   - {fileID: 980214500}
+  tpBar: {fileID: 41488967}
 --- !u!1 &1972861050
 GameObject:
   m_ObjectHideFlags: 0
@@ -75874,6 +75895,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1056857184448423552, guid: fc9ecf996397b4eb3bb249628bc4454f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 3c5317755dae4e940a19995fcb907ab2, type: 2}
     - target: {fileID: 3679991322072088382, guid: fc9ecf996397b4eb3bb249628bc4454f, type: 3}
       propertyPath: m_TagString
       value: Player
@@ -76434,7 +76459,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 54179219586927027, guid: 0b070ba83ba30b94598eaaf5100d4c03, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 39.11525
+      value: 40.638977
       objectReference: {fileID: 0}
     - target: {fileID: 54179219586927027, guid: 0b070ba83ba30b94598eaaf5100d4c03, type: 3}
       propertyPath: m_AnchoredPosition.x

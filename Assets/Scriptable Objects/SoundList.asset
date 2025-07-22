@@ -25,3 +25,5 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: a3347dacac2932c4b91faf3dc9875d05, type: 3}
   - name: damage_enemy
     clip: {fileID: 8300000, guid: 6c8e495b47fe3e54392c9e6665ecd07d, type: 3}
+  - name: hurt
+    clip: {fileID: 8300000, guid: ad7f6d78981106e4e9b38f5457c61f3b, type: 3}

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Client.Combat.Events;
 using Core.Combat;
 using Core.Combat.Events;
 using UnityEngine;
@@ -137,5 +138,29 @@ public partial class Battle
         // Sort by priority order
 
         return battleSequence;
+    }
+
+    private void AddTp(int playerId, int amount)
+    {
+        int previous = this.tp;
+        this.tp = this.tp + amount;
+        EmitEvent(new AddTpEvent()
+        {
+            Player = playerId,
+            Amount = amount,
+            PreviousValue = previous
+        });
+    }
+    
+    private void RemoveTp(int playerId, int amount)
+    {
+        int previous = this.tp;
+        this.tp = this.tp - amount;
+        EmitEvent(new RemoveTpEvent()
+        {
+            Player = playerId,
+            Amount = amount,
+            PreviousValue = previous
+        });
     }
 }

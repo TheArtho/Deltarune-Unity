@@ -39,6 +39,7 @@ public class Enemy
       }
       
       public bool isSpared = false;
+      public bool spareable = true;
       public bool IsFainted => (Hp <= 0);
       public Status status = Status.None;
 

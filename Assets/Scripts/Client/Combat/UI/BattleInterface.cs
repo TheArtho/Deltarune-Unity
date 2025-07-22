@@ -20,6 +20,7 @@ namespace Client.Combat.UI
         [SerializeField] private DialogBox dialogBox;
         [SerializeField] private List<DialogBox> playerDialogBoxes;
         [SerializeField] private List<DialogBox> enemyDialogBoxes;
+        [SerializeField] private TpBar tpBar;
         
         private EventBus events = new EventBus();
 
@@ -30,6 +31,8 @@ namespace Client.Combat.UI
         public DialogBox DialogBox => dialogBox;
         public List<DialogBox> PlayerDialogBoxes => playerDialogBoxes;
         public List<DialogBox> EnemyDialogBoxes => enemyDialogBoxes;
+
+        public TpBar TpBar => tpBar;
 
         private void Awake()
         {
@@ -80,7 +83,7 @@ namespace Client.Combat.UI
         private IEnumerator ActionSelect()
         {
             StartCoroutine(dialogBox.DrawText(GlobalStateEvent.Text, "text"));
-            
+           
             for (int i = 0; i < playerMenus.Count; i++)
             {
                 var info = playerMenus[i].PlayerInfo;

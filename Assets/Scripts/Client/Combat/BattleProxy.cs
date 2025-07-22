@@ -57,6 +57,8 @@ namespace Client.Combat
             battle.SubscribeEvent<BulletHellStartEvent>(OnBulletHellStart);
             battle.SubscribeEvent<PlayerAttackEvent>(OnPlayerAttack);
             battle.SubscribeEvent<PlayerMissedEvent>(OnPlayerMissed);
+            battle.SubscribeEvent<AddTpEvent>(OnAddTp);
+            battle.SubscribeEvent<RemoveTpEvent>(OnRemoveTp);
 
             if (scene)
             {
@@ -64,6 +66,8 @@ namespace Client.Combat
                 scene.SubscribeEvent<BattleSequenceEnded>(OnBattleSequenceEnded);
                 scene.SubscribeEvent<BulletHellEndedEvent>(OnBulletHellEnded);
                 scene.SubscribeEvent<BulletHellReadyEvent>(OnBulletHellReady);
+                scene.SubscribeEvent<GrazeEvent>(OnGraze);
+                scene.SubscribeEvent<PlayerHurtEvent>(OnPlayerHurt);
             }
 
             if (@interface)
@@ -106,6 +110,8 @@ namespace Client.Combat
                 scene.UnsubscribeEvent<BattleSequenceEnded>(OnBattleSequenceEnded);
                 scene.UnsubscribeEvent<BulletHellEndedEvent>(OnBulletHellEnded);
                 scene.UnsubscribeEvent<BulletHellReadyEvent>(OnBulletHellReady);
+                scene.UnsubscribeEvent<GrazeEvent>(OnGraze);
+                scene.UnsubscribeEvent<PlayerHurtEvent>(OnPlayerHurt);
             }
 
             if (@interface)
@@ -211,6 +217,18 @@ namespace Client.Combat
             battle.ReceiveFightQte(evt);
         }
         
+        private void OnAddTp(AddTpEvent evt)
+        {
+            @interface.TpBar.SetTp(evt.PreviousValue);
+            @interface.TpBar.AddTp(evt.Amount);
+        }
+        
+        private void OnRemoveTp(RemoveTpEvent evt)
+        {
+            @interface.TpBar.SetTp(evt.PreviousValue);
+            @interface.TpBar.RemoveTp(evt.Amount);
+        }
+        
         #endregion
         
         #region Scene ===> Proxy
@@ -228,6 +246,16 @@ namespace Client.Combat
         private void OnBulletHellEnded(BulletHellEndedEvent evt)
         {
             battle.ReceiveBulletPhaseEnded(evt.Player);
+        }
+
+        private void OnPlayerHurt(PlayerHurtEvent evt)
+        {
+            
+        }
+
+        private void OnGraze(GrazeEvent evt)
+        {
+            battle.Graze(evt);
         }
         
         #endregion

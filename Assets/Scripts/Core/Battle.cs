@@ -140,6 +140,10 @@ public partial class Battle
         // Store the player command
         playerCommandBuffer[playerId] = command;
         Debug.Log($"[Battle] Command of player {playerId} received.");
+        if (command.ActionType == ActionType.Defend)
+        {
+            AddTp(playerId, 40);
+        }
         EmitEvent(new ChooseActionEvent() {Player = playerId, ActionType = command.ActionType});
         
         if (playerCommandBuffer.All(playerCommand => playerCommand != null))
@@ -159,6 +163,10 @@ public partial class Battle
         
         Debug.Log($"[Battle] Player {playerId}'s action cancelled.");
         
+        if (playerCommandBuffer[playerId].ActionType == ActionType.Defend)
+        {
+            RemoveTp(playerId, 40);
+        }
         playerCommandBuffer[playerId] = null;
         EmitEvent(new CancelActionEvent() {Player = playerId});
     }
@@ -192,6 +200,9 @@ public partial class Battle
     {
         state = BattleState.ProcessingTurn;
         Debug.Log($"[Battle] Processing turn...");
+        
+        // Clamp the tp value
+        tp = Math.Clamp(tp, 0, 100);
 
         CalculateBattleSequence();
         

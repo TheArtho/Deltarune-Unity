@@ -95,4 +95,18 @@ namespace Core.Combat.Events
     }
     
     public class BulletHellStartEvent : IBattleEvent {}
+
+    public class AddTpEvent : IBattleEvent
+    {
+        public int Player;
+        public int Amount;
+        public int PreviousValue;
+    }
+    
+    public class RemoveTpEvent : IBattleEvent
+    {
+        public int Player;
+        public int Amount;
+        public int PreviousValue;
+    }
 }
