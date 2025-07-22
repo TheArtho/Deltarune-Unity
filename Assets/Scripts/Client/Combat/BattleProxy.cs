@@ -18,7 +18,7 @@ namespace Client.Combat
 
         private void Start()
         {
-            Player Kris = new Player("Kris", 10, 160, 14, 2, 0);
+            Player Kris = new Player("Kris", 160, 160, 14, 2, 0);
             Player Susie = new Player("Susie", 190, 190, 18, 2, 3);
             Player Ralsei = new Player("Ralsei", 140, 140, 12, 2, 11);
 

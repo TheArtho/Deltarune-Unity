@@ -45,7 +45,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 50
@@ -118,6 +118,204 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: quick_slash_0
+      rect:
+        serializedVersion: 2
+        x: 1326
+        y: 1461
+        width: 250
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d5f23f976a49ea4a9959c8d9dac2ae0
+      internalID: 998504748
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: quick_slash_1
+      rect:
+        serializedVersion: 2
+        x: 1581
+        y: 1461
+        width: 250
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c6c4288a6e96574586d0c8a36968277
+      internalID: 709498648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: quick_slash_2
+      rect:
+        serializedVersion: 2
+        x: 1836
+        y: 1461
+        width: 250
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27d26a2ac78dcc840af37d9d945fed32
+      internalID: 568096847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: quick_slash_3
+      rect:
+        serializedVersion: 2
+        x: 2091
+        y: 1461
+        width: 250
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0fa1a48d6472d84b9f43985c7101e7c
+      internalID: -823029999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: roaring_knight_slash
+      rect:
+        serializedVersion: 2
+        x: 546
+        y: 2770
+        width: 117
+        height: 115
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d825bf2ae80dd34297a8591119270ba
+      internalID: -622112081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: roaring_knight_slash_1
+      rect:
+        serializedVersion: 2
+        x: 668
+        y: 2770
+        width: 117
+        height: 115
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fede4111b86b6e844bf4c73c1947d080
+      internalID: -1930649827
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: roaring_knight_slash_2
+      rect:
+        serializedVersion: 2
+        x: 790
+        y: 2770
+        width: 117
+        height: 115
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a9f0d2e9bb58c0409a093126af9b474
+      internalID: 1762826274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: roaring_knight_slash_3
+      rect:
+        serializedVersion: 2
+        x: 912
+        y: 2770
+        width: 117
+        height: 115
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 298668ec0937c9b41b700624d65638e3
+      internalID: -2036620598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: roaring_knight_slash_4
+      rect:
+        serializedVersion: 2
+        x: 1034
+        y: 2770
+        width: 117
+        height: 115
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57d37196a448ec14aac964ceb7d76fba
+      internalID: -318264790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -132,7 +330,16 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+      quick_slash_0: 998504748
+      quick_slash_1: 709498648
+      quick_slash_2: 568096847
+      quick_slash_3: -823029999
       roaring_knight_idle: 1901722383
+      roaring_knight_slash: -622112081
+      roaring_knight_slash_1: -1930649827
+      roaring_knight_slash_2: 1762826274
+      roaring_knight_slash_3: -2036620598
+      roaring_knight_slash_4: -318264790
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

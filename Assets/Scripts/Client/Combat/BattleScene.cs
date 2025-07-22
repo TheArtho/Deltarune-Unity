@@ -197,7 +197,7 @@ namespace Client.Combat
             DialogBox dialog = BattleInterface.Instance.EnemyDialogBoxes[0];
             dialog.gameObject.SetActive(true);
             dialog.Clear();
-            yield return StartCoroutine(dialog.DrawText("This is a test dialog.", "text", 0.05f));
+            yield return StartCoroutine(dialog.DrawText("Made by\nArtho.", "text", 0.05f));
             yield return new WaitForSeconds(1f);
             dialog.gameObject.SetActive(false);
             

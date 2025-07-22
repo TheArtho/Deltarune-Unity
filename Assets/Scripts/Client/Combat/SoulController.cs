@@ -4,6 +4,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class SoulController : MonoBehaviour
 {
+    public static Transform Player;
+    
     public float speed = 1;
     
     public SpriteRenderer soulSprite;
@@ -19,6 +21,15 @@ public class SoulController : MonoBehaviour
 
     private void Awake()
     {
+        if (!Player)
+        {
+            Player = transform;
+        }
+        else
+        {
+            DestroyImmediate(gameObject);
+        }
+        
         _rigidbody = GetComponent<Rigidbody2D>();
         _inputAction = new PlayerInputAction();
 
