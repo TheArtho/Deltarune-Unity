@@ -125,12 +125,14 @@ namespace Client.Combat
         {
             // Update interface actions
             scene.OnPlayerChooseAction(evt);
+            @interface.OnPlayerChooseAction(evt);
         }
         
         private void OnCancelAction(CancelActionEvent evt)
         {
             // Cancel interface action
             scene.OnPlayerCancelAction(evt);
+            @interface.OnPlayerCancelAction(evt);
         }
         
         private void OnPlayBattleSequence(PlayBattleSequenceEvent evt)

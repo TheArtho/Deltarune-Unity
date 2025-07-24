@@ -8,7 +8,7 @@ namespace Core.Combat
 
     public class BattleSequence : IBattleSequence
     {
-        public bool RunInParallel;
+        public bool RunInParallel = false;
     }
 
     public class DialogSequence : BattleSequence
@@ -21,7 +21,9 @@ namespace Core.Combat
     {
         public string text;
         public string sound = "text";
-        public bool canSkip;
+        public bool clearText = true;
+        public bool canSkip = false;
+        public float delay = 1f;
     }
 
     public class PlayerAnimationSequence : BattleSequence

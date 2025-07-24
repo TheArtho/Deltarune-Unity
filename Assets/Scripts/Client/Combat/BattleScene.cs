@@ -26,7 +26,7 @@ namespace Client.Combat
         public BattleSprite[] PlayerBattleSprites => playerBattleSprites;
         public BattleSprite[] EnemyBattleSprites => enemyBattleSprites;
 
-        public DialogBox dialogBox;
+        public BattleDialogBox dialogBox;
 
         private Queue<IEnumerator> sequence;
         private bool sequencePaused;

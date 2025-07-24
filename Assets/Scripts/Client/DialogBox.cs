@@ -1,11 +1,14 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class DialogBox : MonoBehaviour
 {
     [SerializeField] private Text textObject;
+    [SerializeField] private TextMeshProUGUI tmpObject;
     private string _soundId;
     private PlayerInputAction _inputAction;
     private bool _canSkip;
@@ -52,7 +55,14 @@ public class DialogBox : MonoBehaviour
 
     public virtual void Clear()
     {
-        textObject.text = "";
+        if (textObject)
+        {
+            textObject.text = "";
+        }
+        if (tmpObject)
+        {
+            tmpObject.text = "";
+        }
     }
     
     public virtual IEnumerator DrawText(string text, string soundId, float timePerChar = 0.02f)
@@ -60,12 +70,22 @@ public class DialogBox : MonoBehaviour
         _currentText = text;
         _skip = false;
         SetTypingSound(soundId);
+        
+        var richTextChunks = RichTextProcessor.Process(text);
 
-        foreach (char c in text)
+        foreach (var chunk in richTextChunks)
         {
             if (_skip) break;
+
+            if (textObject)
+            {
+                textObject.text += chunk;
+            }
+            if (tmpObject)
+            {
+                tmpObject.text += chunk;
+            }
             
-            textObject.text += c;
             SfxHandler.Play(_soundId);
             yield return new WaitForSeconds(timePerChar <= 0 ? 0.02f : timePerChar);
         }
@@ -83,6 +103,13 @@ public class DialogBox : MonoBehaviour
     
     public virtual void DrawTextInstant(string text)
     {
-        textObject.text = text;
+        if (textObject)
+        {
+            textObject.text = text;
+        }
+        if (tmpObject)
+        {
+            tmpObject.text = text;
+        }
     }
 }

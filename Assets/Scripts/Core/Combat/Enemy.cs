@@ -38,8 +38,14 @@ public class Enemy
             }
       }
       
+      /// <summary>
+      /// Determines if the enemy is already spared
+      /// </summary>
       public bool IsSpared = false;
-      public bool Spareable = true;
+      /// <summary>
+      /// Determines if you can have mercy for the enemy (example: asgore)
+      /// </summary>
+      public bool HaveMercy = true;
       public bool IsFainted => (Hp <= 0);
       public Status status = Status.None;
 
@@ -54,6 +60,7 @@ public class Enemy
       
       #region Hardcoded Variables
 
+      public string description = "This is a test description.";
       public string[] battleText { get; protected set; }
       
       #endregion

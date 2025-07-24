@@ -140,55 +140,131 @@ public partial class Battle
 
         return damage;
     }
+    
+    private int GetActionPriority(ActionType type)
+    {
+        return type switch
+        {
+            ActionType.Defend => 0,
+            ActionType.Spare => 1,
+            ActionType.ActMagic => 2,
+            ActionType.Item => 3,
+            ActionType.Fight => 4,
+            _ => 999
+        };
+    }
 
-    private List<BattleSequence> CalculateBattleSequence()
+    private void CalculateBattleSequence()
     {
         battleSequence.Clear();
-        
-        for (var i = 0; i < playerCommandBuffer.Length; i++)
+        enemySequence.Clear();
+
+        // Step 1 : create a list of indices
+        List<int> actionOrder = Enumerable.Range(0, playerCommandBuffer.Length).ToList();
+
+        // Step 2 : sort by priority
+        actionOrder.Sort((a, b) =>
+        {
+            int prioA = GetActionPriority(playerCommandBuffer[a].ActionType);
+            int prioB = GetActionPriority(playerCommandBuffer[b].ActionType);
+            if (prioA == prioB) return a.CompareTo(b); // tie-breaker = ordre d'entrée
+            return prioA.CompareTo(prioB);
+        });
+
+        // Step 3 : create a sequence in the sorted order
+        foreach (int i in actionOrder)
         {
             int target = 0;
             int damage = -1;
             int damagePercentage = 0;
             players[i].defending = false;
-            
-            switch (playerCommandBuffer[i].ActionType)
+
+            var action = playerCommandBuffer[i];
+
+            switch (action.ActionType)
             {
-                // Act/Magic
                 case ActionType.ActMagic:
+                    // TODO make a more dynamic of implementing actions using custom classes
                     if (i == 0) // Kris
                     {
-                        battleSequence.Add(new PlayerAnimationSequence()
+                        if (action.Index == 0) // CHECK
+                        {
+                            battleSequence.Add(new PlayerAnimationSequence
+                            {
+                                RunInParallel = true,
+                                character = i,
+                                animation = "Act"
+                            });
+                            battleSequence.Add(new TextSequence
+                            {
+                                text = $"{enemies[action.TargetId].name.ToUpperInvariant()} - ATK {enemies[action.TargetId].attack} DF {enemies[action.TargetId].defense}",
+                                delay = 0
+                            });
+                            battleSequence.Add(new TextSequence
+                            {
+                                clearText = false,
+                                text = $"\n{enemies[action.TargetId].description}"
+                            });
+                            
+                        }
+                        else
+                        {
+                            battleSequence.Add(new PlayerAnimationSequence
+                            {
+                                RunInParallel = true,
+                                character = i,
+                                animation = "Act"
+                            });
+                            battleSequence.Add(new TextSequence
+                            {
+                                text = "Kris is acting."
+                            });
+                        }
+                    }
+                    break;
+                
+                case ActionType.Item:
+                    target = action.TargetId;
+                    // TODO: Add item animation or effect
+                    break;
+                
+                case ActionType.Spare:
+                    if (enemies[action.TargetId].CanSpare())
+                    {
+                        // TODO Spare enemy
+                    }
+                    else
+                    {
+                        battleSequence.Add(new PlayerAnimationSequence
                         {
                             RunInParallel = true,
-                            character = 0,
+                            character = i,
                             animation = "Act"
                         });
                         battleSequence.Add(new TextSequence
                         {
-                            RunInParallel = false,
-                            text = "Kris is acting."
+                            text = $"{players[action.Player].name} spared {enemies[action.TargetId].name}",
+                            delay = 0.5f
+                        });
+                        battleSequence.Add(new TextSequence
+                        {
+                            text = $"\nBut its name wasn't <gradient=Yellow>YELLOW</gradient>...",
+                            clearText = false
                         });
                     }
                     break;
-                // Use Item
-                case ActionType.Item:
-                    target = playerCommandBuffer[i].TargetId;
-                    break;
-                // Spare
-                case ActionType.Spare:
-                    break;
-                // Defend
+                
                 case ActionType.Defend:
                     players[i].defending = true;
                     break;
+                
+                case ActionType.Fight:
+                    // Will likely be handled elsewhere (e.g., QTE)
+                    break;
             }
         }
-        
-        // Sort by priority order
-
-        return battleSequence;
     }
+
 
     private void AddTp(int playerId, int amount)
     {

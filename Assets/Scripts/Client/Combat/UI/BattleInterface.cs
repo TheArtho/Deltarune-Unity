@@ -13,7 +13,7 @@ namespace Client.Combat.UI
         public static BattleInterface Instance;
         
         [SerializeField] private List<PlayerBattleMenu> playerMenus;
-        [SerializeField] private List<PlayerBattleMenu> controlledPlayerMenus;
+        [SerializeField] private List<int> controlledPlayerIds;
         [SerializeField] private BattleSubMenu subMenu;
         [SerializeField] private BattleEnemyMenu enemyMenu;
         [SerializeField] private GameObject fightInterface;
@@ -48,10 +48,14 @@ namespace Client.Combat.UI
             {
                 Destroy(gameObject);
             }
+
+            Initialize();
         }
 
         public void Initialize()
         {
+            // Delete duplicates in the controlled player list
+            controlledPlayerIds = controlledPlayerIds.Distinct().ToList();
             // TODO complete the Initialize method
             // Spawns custom dialog boxes for players and enemies if needed
         }
@@ -69,6 +73,10 @@ namespace Client.Combat.UI
 
         public void StartTurn()
         {
+            foreach (var playerBattleMenu in playerMenus)
+            {
+                playerBattleMenu.PlayerInfo.SetLogo(-1);
+            }
             StartCoroutine(nameof(ActionSelect));
         }
         
@@ -85,17 +93,13 @@ namespace Client.Combat.UI
         private IEnumerator ActionSelect()
         {
             StartCoroutine(dialogBox.DrawText(GlobalStateEvent.Text, "text"));
-            
-            foreach (var playerBattleMenu in playerMenus)
-            {
-                playerBattleMenu.PlayerInfo.SetLogo(-1);
-            }
            
-            for (int i = 0; i < controlledPlayerMenus.Count; i++)
+            for (int i = 0; i < controlledPlayerIds.Count; i++)
             {
-                var info = controlledPlayerMenus[i].PlayerInfo;
-                var battleChoice = controlledPlayerMenus[i].BattleChoice;
+                var info = playerMenus[controlledPlayerIds[i]].PlayerInfo;
+                var battleChoice = playerMenus[controlledPlayerIds[i]].BattleChoice;
                 int index = i;
+                int playerId = controlledPlayerIds[i];
                 bool cancelled = false;
                 
                 Debug.Log($"[Battle Interface] Choosing action for {PlayerStateEvents[i].State.Name}");
@@ -104,8 +108,7 @@ namespace Client.Combat.UI
                 {
                     // Start sub-menu of the action
                     info.Unselect();
-                    info.SetLogo(((int) value.ActionType) - 1);
-                    value.Player = index;
+                    value.Player = playerId;
                     EmitEvent<PlayerCommandEvent>(value);
                 };
 
@@ -120,13 +123,12 @@ namespace Client.Combat.UI
                     
                     EmitEvent<PlayerCancelCommandEvent>(new PlayerCancelCommandEvent()
                     {
-                        Player = index - 1
+                        Player = playerId - 1
                     });
                 };
                 
                 // Activate menu GameObject
                 info.Select();
-                info.SetLogo(-1);
                 battleChoice.EnableInput();
                 battleChoice.playerId = index;
                 // First player can't cancel
@@ -298,6 +300,16 @@ namespace Client.Combat.UI
             {
                 target.SetActive(false);
             }
+        }
+
+        public void OnPlayerChooseAction(ChooseActionEvent evt)
+        {
+            playerMenus[evt.Player].PlayerInfo.SetLogo((int) evt.ActionType - 1);
+        }
+        
+        public void OnPlayerCancelAction(CancelActionEvent evt)
+        {
+            playerMenus[evt.Player].PlayerInfo.SetLogo(-1);
         }
         
         public void OnDamagePlayerEvent(DamagePlayerEvent evt)

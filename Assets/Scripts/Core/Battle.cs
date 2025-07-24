@@ -44,6 +44,7 @@ public partial class Battle : IEventSource<IBattleEvent>
     private bool[] bulletHellEndedBuffer;
     
     private List<BattleSequence> battleSequence = new List<BattleSequence>();
+    private List<BattleSequence> enemySequence = new List<BattleSequence>();
 
     private List<int> targetIndexes = new List<int>();
     
@@ -318,7 +319,7 @@ public partial class Battle : IEventSource<IBattleEvent>
         {
             battleMode = "base",
             attacks = new string[] {"Test Attack"},
-            battleSequence = new List<BattleSequence>(),
+            battleSequence = enemySequence,
             targets = targetIndexes
         });
     }

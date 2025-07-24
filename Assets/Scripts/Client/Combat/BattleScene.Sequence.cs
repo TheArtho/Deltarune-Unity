@@ -77,9 +77,12 @@ namespace Client.Combat
         private IEnumerator PlayTextSequence(TextSequence seq)
         {
             Debug.Log($"[BattleScene] Text Sequence : {seq.text}");
-            dialogBox.Clear();
+            if (seq.clearText)
+            {
+                dialogBox.Clear();
+            }
             yield return StartCoroutine(dialogBox.DrawText(seq.text));
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(seq.delay);
         }
 
         private IEnumerator PlayDialogSequence(DialogSequence seq)
