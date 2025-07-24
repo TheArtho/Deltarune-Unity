@@ -57,10 +57,12 @@ public class CharacterBattleInfo : MonoBehaviour
         {
             infoBackground.enabled = true;
             choiceButtons.SetActive(true);
+            transform.parent.GetComponent<Animator>().Play("Show Menu");
         }
         else
         {
             infoBackground.enabled = false;
+            transform.parent.GetComponent<Animator>().Play("Hide Menu");
             choiceButtons.SetActive(false);
         }
     }

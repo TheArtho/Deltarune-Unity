@@ -248,7 +248,7 @@ public partial class Battle
                         });
                         battleSequence.Add(new TextSequence
                         {
-                            text = $"\nBut its name wasn't <gradient=Yellow>YELLOW</gradient>...",
+                            text = $"\nBut its name wasn't <gradient=spare>YELLOW</gradient>...",
                             clearText = false
                         });
                     }

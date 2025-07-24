@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Client.Combat.UI;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +11,7 @@ public class BattleSubMenu : MonoBehaviour
     [SerializeField] private Image soul;
     
     [SerializeField] private List<BattleMenuItem> menuItems;
-    [SerializeField] private Text description;
+    [SerializeField] private TextMeshProUGUI description;
     [SerializeField] private int columns = 2; // 2x2 grid
     public List<string> options;
     

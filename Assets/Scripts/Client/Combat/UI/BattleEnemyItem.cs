@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,7 +7,7 @@ namespace Client.Combat.UI
     public class BattleEnemyItem : MonoBehaviour
     {
         [SerializeField] private RectTransform soulPosition;
-        [SerializeField] private Text name;
+        [SerializeField] private TextMeshProUGUI name;
         [SerializeField] private Text hp;
         [SerializeField] private Text mercy;
         [SerializeField] private Image hpBar;
@@ -16,7 +17,7 @@ namespace Client.Combat.UI
         
         public RectTransform SoulPosition => soulPosition;
 
-        public Text Name => name;
+        public TextMeshProUGUI Name => name;
 
         public Text Hp => hp;
 

@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,9 +7,9 @@ namespace Client.Combat.UI
     public class BattleMenuItem : MonoBehaviour
     {
         [SerializeField] private RectTransform soulPosition;
-        [SerializeField] private Text text;
+        [SerializeField] private TextMeshProUGUI text;
 
         public RectTransform SoulPosition => soulPosition;
-        public Text Text => text;
+        public TextMeshProUGUI Text => text;
     }
 }

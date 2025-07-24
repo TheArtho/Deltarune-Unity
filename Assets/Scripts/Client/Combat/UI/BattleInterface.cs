@@ -92,7 +92,7 @@ namespace Client.Combat.UI
 
         private IEnumerator ActionSelect()
         {
-            StartCoroutine(dialogBox.DrawText(GlobalStateEvent.Text, "text"));
+            yield return StartCoroutine(dialogBox.DrawText(GlobalStateEvent.Text, "text"));
            
             for (int i = 0; i < controlledPlayerIds.Count; i++)
             {
