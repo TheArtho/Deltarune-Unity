@@ -8,11 +8,12 @@ using UnityEngine;
 
 namespace Client.Combat.UI
 {
-    public class BattleInterface : MonoBehaviour
+    public class BattleInterface : MonoBehaviour, IEventSource<IBattleInterfaceEvent>
     {
         public static BattleInterface Instance;
         
         [SerializeField] private List<PlayerBattleMenu> playerMenus;
+        [SerializeField] private List<PlayerBattleMenu> controlledPlayerMenus;
         [SerializeField] private BattleSubMenu subMenu;
         [SerializeField] private BattleEnemyMenu enemyMenu;
         [SerializeField] private GameObject fightInterface;
@@ -21,6 +22,7 @@ namespace Client.Combat.UI
         [SerializeField] private List<DialogBox> playerDialogBoxes;
         [SerializeField] private List<DialogBox> enemyDialogBoxes;
         [SerializeField] private TpBar tpBar;
+        [SerializeField] private List<GameObject> targets;
         
         private EventBus events = new EventBus();
 
@@ -83,11 +85,16 @@ namespace Client.Combat.UI
         private IEnumerator ActionSelect()
         {
             StartCoroutine(dialogBox.DrawText(GlobalStateEvent.Text, "text"));
-           
-            for (int i = 0; i < playerMenus.Count; i++)
+            
+            foreach (var playerBattleMenu in playerMenus)
             {
-                var info = playerMenus[i].PlayerInfo;
-                var battleChoice = playerMenus[i].BattleChoice;
+                playerBattleMenu.PlayerInfo.SetLogo(-1);
+            }
+           
+            for (int i = 0; i < controlledPlayerMenus.Count; i++)
+            {
+                var info = controlledPlayerMenus[i].PlayerInfo;
+                var battleChoice = controlledPlayerMenus[i].BattleChoice;
                 int index = i;
                 bool cancelled = false;
                 
@@ -97,6 +104,7 @@ namespace Client.Combat.UI
                 {
                     // Start sub-menu of the action
                     info.Unselect();
+                    info.SetLogo(((int) value.ActionType) - 1);
                     value.Player = index;
                     EmitEvent<PlayerCommandEvent>(value);
                 };
@@ -118,6 +126,7 @@ namespace Client.Combat.UI
                 
                 // Activate menu GameObject
                 info.Select();
+                info.SetLogo(-1);
                 battleChoice.EnableInput();
                 battleChoice.playerId = index;
                 // First player can't cancel
@@ -272,22 +281,43 @@ namespace Client.Combat.UI
             }
             
             fightInterface.SetActive(false);
-            FightQteDataEvents = new  ReqFightQuickTimeDataEvent[playerMenus.Count];
+            FightQteDataEvents = new ReqFightQuickTimeDataEvent[playerMenus.Count];
+        }
+
+        public void ShowTargets(List<int> targetIndexes)
+        {
+            foreach (var index in targetIndexes)
+            {
+                targets[index].SetActive(true);
+            }
+        }
+
+        public void HideTargets()
+        {
+            foreach (var target in targets)
+            {
+                target.SetActive(false);
+            }
+        }
+        
+        public void OnDamagePlayerEvent(DamagePlayerEvent evt)
+        {
+            playerMenus[evt.Player].UpdateHp(evt.currentHp, evt.maxHp);
         }
         
         #region Interface Events
     
-        public void SubscribeEvent<T>(Action<T> callback) where T : class, IBattleInterfaceEvents
+        public void SubscribeEvent<T>(Action<T> callback) where T : class, IBattleInterfaceEvent
         {
             events.Subscribe(callback);
         }
 
-        public void UnsubscribeEvent<T>(Action<T> callback) where T : class,  IBattleInterfaceEvents
+        public void UnsubscribeEvent<T>(Action<T> callback) where T : class,  IBattleInterfaceEvent
         {
             events.Unsubscribe(callback);
         }
 
-        private void EmitEvent<T>(T evt) where T : class, IBattleInterfaceEvents
+        private void EmitEvent<T>(T evt) where T : class, IBattleInterfaceEvent
         {
             events.Emit(evt);
         }

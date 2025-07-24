@@ -1,3 +1,4 @@
+using System;
 using Client.Combat.UI;
 using Core.Combat.Events;
 using UnityEngine;
@@ -43,6 +44,15 @@ public class BattleSprite : MonoBehaviour
                 defending = true;
                 break;
         }
+
+        try
+        {
+            _animator.SetBool("defending", defending);
+        }
+        catch (Exception e)
+        {
+            Debug.LogException(e);
+        }
     }
 
     public void OnPlayerCancelAction(CancelActionEvent evt)
@@ -59,6 +69,22 @@ public class BattleSprite : MonoBehaviour
         {
             Play("Idle");
         }
+    }
+
+    public void Darken()
+    {
+        LeanTween.value(gameObject, spriteRenderer.color, Color.gray, 0.8f).setOnUpdate(color =>
+        {
+            spriteRenderer.color = color;
+        }).setEaseOutQuad();
+    }
+    
+    public void Lighten()
+    {
+        LeanTween.value(gameObject, spriteRenderer.color, Color.white, 0.8f).setOnUpdate(color =>
+        {
+            spriteRenderer.color = color;
+        }).setEaseOutQuad();
     }
 
     public void Play(string animation)

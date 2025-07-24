@@ -1,16 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using Client.Combat.Events;
 using Client.Combat.UI;
+using Client.Effects;
 using Core.Combat;
 using Core.Combat.Events;
 using UnityEngine;
 
 namespace Client.Combat
 {
-    public partial class BattleScene : MonoBehaviour
+    public partial class BattleScene : MonoBehaviour, IEventSource<IBattleSceneEvent>
     {
         public static BattleScene Instance;
         
@@ -18,6 +18,7 @@ namespace Client.Combat
         [SerializeField] private SpriteRenderer background;
         [SerializeField] private BattleSprite[] playerBattleSprites;
         [SerializeField] private BattleSprite[] enemyBattleSprites;
+        [SerializeField] private Shaker2D cameraShake;
         
         private EventBus events = new EventBus();
         
@@ -75,6 +76,7 @@ namespace Client.Combat
             {
                 // Emit to the battle system the end of the battle sequence
                 // TODO Change this hard coded part
+                dialogBox.Clear();
                 EmitEvent(new BattleSequenceEnded()
                 {
                     Player = 0
@@ -125,15 +127,29 @@ namespace Client.Combat
         {
             // Wait for animation routine to end
             yield return new WaitUntil(() => !attackAnimation);
-            // TODO set targets
-            // TODO replace hard coded dialog code by a battle sequence
+            // Darken the background
+            LeanTween.value(gameObject, Color.white, Color.gray, 0.8f).setOnUpdate(color =>
+            {
+                if (Background)
+                {
+                    Background.color = color;
+                }
+            }).setEaseOutQuad();
+            for (int i = 0; i < playerBattleSprites.Length; i++)
+            {
+                if (!targets.Contains(i))
+                {
+                    playerBattleSprites[i].Darken();
+                }
+            }
+            BattleInterface.Instance.ShowTargets(targets);
             DialogBox dialog = BattleInterface.Instance.EnemyDialogBoxes[0];
             dialog.gameObject.SetActive(true);
             dialog.Clear();
             yield return StartCoroutine(dialog.DrawText("Made by\nArtho.", "text", 0.05f));
             yield return new WaitForSeconds(1f);
             dialog.gameObject.SetActive(false);
-            
+            BattleInterface.Instance.HideTargets();
             yield return new WaitForSeconds(0.5f);
             EmitEvent(new BulletHellReadyEvent()
             {
@@ -195,19 +211,32 @@ namespace Client.Combat
             yield return new WaitForSeconds(1f);
         }
         
+        public void OnDamagePlayerEvent(DamagePlayerEvent evt)
+        {
+            SfxHandler.Play("hurt");
+            // Play Animation
+            playerBattleSprites[evt.Player].Play("Hurt");
+            // Shake screen
+            LeanTween.value(gameObject, 1, 0, 0.5f).setOnUpdate(flt =>
+            {
+                cameraShake.horizontalStrength = flt;
+                cameraShake.verticalStrength = flt;
+            });
+        }
+        
         #region Scene Events
     
-        public void SubscribeEvent<T>(Action<T> callback) where T : class, IBattleSceneEvents
+        public void SubscribeEvent<T>(Action<T> callback) where T : class, IBattleSceneEvent
         {
             events.Subscribe(callback);
         }
 
-        public void UnsubscribeEvent<T>(Action<T> callback) where T : class,  IBattleSceneEvents
+        public void UnsubscribeEvent<T>(Action<T> callback) where T : class,  IBattleSceneEvent
         {
             events.Unsubscribe(callback);
         }
 
-        public void EmitEvent<T>(T evt) where T : class, IBattleSceneEvents
+        public void EmitEvent<T>(T evt) where T : class, IBattleSceneEvent
         {
             events.Emit(evt);
         }

@@ -109,4 +109,29 @@ namespace Core.Combat.Events
         public int Amount;
         public int PreviousValue;
     }
+
+    public class DamagePlayerEvent : IBattleEvent
+    {
+        public int Player;
+        public int currentHp;
+        public int maxHp;
+    }
+    
+    public class HealPlayerEvent : IBattleEvent
+    {
+        public int Player;
+        public int currentHp;
+    }
+
+    public class KnockOutEvent : IBattleEvent
+    {
+        public int Player;
+    }
+    
+    public class GameOverEvent : IBattleEvent
+    {
+        public string Message = "Stay determined.";
+        public string SoundText = "text";
+        public string Music;
+    }
 }

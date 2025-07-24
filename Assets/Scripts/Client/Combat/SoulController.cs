@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Client.Combat;
 using Client.Combat.Events;
 using UnityEngine;
@@ -11,9 +12,13 @@ public class SoulController : MonoBehaviour
     public float speed = 1;
     
     public SpriteRenderer soulSprite;
-    public SpriteRenderer battleArea;
 
     [SerializeField] private ParticleSystem particle;
+    [Space] [SerializeField] private float invincibleDelay = 1f;
+    [SerializeField] private bool invincible = false;
+    [SerializeField] private float grazeDelay = 0.1f;
+    [SerializeField] private bool canGraze = true;
+    private bool hurt = false;
     
     private PlayerInputAction _inputAction;
 
@@ -54,6 +59,13 @@ public class SoulController : MonoBehaviour
             _move = Vector2.zero;
         };
     }
+
+    private void ResetProperties()
+    {
+        invincible = false;
+        hurt = false;
+        canGraze = true;
+    }
     
     private Vector2 Get8Direction(Vector2 input)
     {
@@ -87,6 +99,8 @@ public class SoulController : MonoBehaviour
 
     public void Graze()
     {
+        if (hurt || !canGraze) return;
+        
         particle.Emit(1);
         SfxHandler.Play("graze");
         // Update TP
@@ -94,6 +108,84 @@ public class SoulController : MonoBehaviour
         {
             Player = 0
         });
+        
+        canGraze = false;
+        Invoke(nameof(SetCanGraze), grazeDelay);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (invincible) return;
+        
+        if (other.CompareTag("Projectile"))
+        {
+            // TODO change this hardcoded value
+            int damage = 10;
+            
+            BattleScene.Instance.EmitEvent(new PlayerHurtEvent
+            {
+                Player = 0,
+                Damage = damage
+            });
+            BattleScene.Instance.EmitEvent(new PlayerHurtEvent
+            {
+                Player = 1,
+                Damage = damage
+            });
+            BattleScene.Instance.EmitEvent(new PlayerHurtEvent
+            {
+                Player = 2,
+                Damage = damage
+            });
+
+            // Make temporarily invincible the player
+            invincible = true;
+            hurt = true;
+            Invoke(nameof(SetVulnerable), invincibleDelay);
+            StartCoroutine(nameof(HurtAnimation));
+        }
+    }
+
+    public void SetVulnerable()
+    {
+        invincible = false;
+        hurt = false;
+    }
+    
+    public void SetCanGraze()
+    {
+        canGraze = true;
+    }
+
+    private IEnumerator HurtAnimation()
+    {
+        Color baseColor = soulSprite.color;
+        Color transitionColor = new Color(baseColor.r, baseColor.g, baseColor.b, baseColor.a / 10);
+        int iterations = 3;
+
+        for (int i = 0; i < iterations; i++)
+        {
+            LeanTween.value(gameObject, baseColor, transitionColor, invincibleDelay / 6).setOnUpdate(color =>
+            {
+                soulSprite.color = color;
+            });
+            yield return new WaitForSeconds(invincibleDelay / 6);
+            LeanTween.value(gameObject, transitionColor, baseColor, invincibleDelay / 6).setOnUpdate(color =>
+            {
+                soulSprite.color = color;
+            });
+            yield return new WaitForSeconds(invincibleDelay / 6);
+        }
+    }
+
+    private void OnEnable()
+    {
+        ResetProperties();
+    }
+
+    private void OnDisable()
+    {
+        StopCoroutine(nameof(HurtAnimation));
     }
 
     public void EnableInput()

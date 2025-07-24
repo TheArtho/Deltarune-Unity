@@ -38,8 +38,8 @@ public class Enemy
             }
       }
       
-      public bool isSpared = false;
-      public bool spareable = true;
+      public bool IsSpared = false;
+      public bool Spareable = true;
       public bool IsFainted => (Hp <= 0);
       public Status status = Status.None;
 
@@ -48,6 +48,7 @@ public class Enemy
       public Battle battle { get; private set; }
       public int battlerIndex { get; private set; }
       public int turnCount { get; private set; }
+      public bool IsInBattle => !IsFainted && !IsSpared;
       
       #endregion
       

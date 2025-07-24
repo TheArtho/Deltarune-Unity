@@ -5,6 +5,7 @@ using Client.Combat.Events;
 using Core.Combat;
 using Core.Combat.Events;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public partial class Battle
 {
@@ -46,7 +47,7 @@ public partial class Battle
             {
                 Name = players[player].name,
                 Hp = players[player].hp,
-                MaxHp = players[player].maxHP,
+                MaxHp = players[player].maxHp,
                 Attack = players[player].attack,
                 Defense = players[player].defense,
                 Magic = players[player].magic,
@@ -85,6 +86,41 @@ public partial class Battle
             Text = "It's the freaking Roaring\nKnight!!!"
         };
     }
+
+    private List<int> CalculateTargets()
+    {
+        // Get a list of indices of all alive players (HP > 0)
+        List<int> validTargets = Enumerable.Range(0, players.Length)
+            .Where(i => players[i].hp > 0)
+            .ToList();
+
+        // Count how many enemies are still in battle
+        int enemyCount = enemies.Count(e => e.IsInBattle);
+
+        // If no valid players or no enemies, return an empty target list
+        if (validTargets.Count == 0 || enemyCount == 0)
+            return new List<int>();
+
+        // If there are more enemies than alive players,
+        // all living players become targets
+        if (enemyCount >= validTargets.Count)
+            return new List<int>(validTargets);
+
+        // Otherwise, randomly select `enemyCount` players from the alive pool
+        List<int> selected = new List<int>();
+        List<int> pool = new List<int>(validTargets);
+
+        for (int i = 0; i < enemyCount; i++)
+        {
+            int index = Random.Range(0, pool.Count); // Pick a random index
+            selected.Add(pool[index]);               // Add it to the result
+            pool.RemoveAt(index);                    // Remove to avoid duplicates
+        }
+
+        return selected;
+    }
+
+
 
     private int CalculateDamageOnEnemy(Player attacker, Enemy target, int accuracy)
     {

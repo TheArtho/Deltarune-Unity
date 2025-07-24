@@ -6,7 +6,7 @@ using Core.Combat;
 using Core.Combat.Events;
 using UnityEngine;
 
-public partial class Battle
+public partial class Battle : IEventSource<IBattleEvent>
 {
     private enum BattleState
     {
@@ -44,6 +44,8 @@ public partial class Battle
     private bool[] bulletHellEndedBuffer;
     
     private List<BattleSequence> battleSequence = new List<BattleSequence>();
+
+    private List<int> targetIndexes = new List<int>();
     
     private EventBus bulletHellEvents = new EventBus();
     private EventBus battleEvents = new EventBus();
@@ -130,10 +132,15 @@ public partial class Battle
     {
         if (state != BattleState.AwaitingForPlayerInput) return;
         
+        if (playerCommandBuffer[playerId] != null)
+        {
+            EmitEvent(new CancelActionEvent() {Player = playerId});
+            return;
+        }
+        
         // Check validity of the player command
         if (playerId < 0 || playerId > playerCommandBuffer.Length)
         {
-            EmitEvent(new CancelActionEvent() {Player = playerId});
             return;
         }
         
@@ -157,6 +164,11 @@ public partial class Battle
     public void CancelPlayerCommand(int playerId)
     {
         if (playerId < 0 || playerId > playerCommandBuffer.Length)
+        {
+            return;
+        }
+
+        if (playerCommandBuffer[playerId] == null)
         {
             return;
         }
@@ -299,13 +311,15 @@ public partial class Battle
     {
         Debug.Log("Waiting for clients to be ready for bullet phase.");
         state = BattleState.AwaitingForPlayersBulletPhaseReady;
+        targetIndexes = CalculateTargets();
         // Send a battle sequence before the bullet hell phase
         // TODO change hard coded values
         EmitEvent(new BulletHellWaitReady()
         {
             battleMode = "base",
             attacks = new string[] {"Test Attack"},
-            battleSequence = new List<BattleSequence>()
+            battleSequence = new List<BattleSequence>(),
+            targets = targetIndexes
         });
     }
 
@@ -348,23 +362,6 @@ public partial class Battle
         Debug.Log($"[Battle] Bullet Phase Ended.");
         // Destroy bullet hell area
         EndTurn();
-    }
-    
-    // Bullet Hell Events
-
-    public void SubscribeBulletHellEvent<T>(Action<T> callback) where T : class, IBulletHellEvent
-    {
-        bulletHellEvents.Subscribe(callback);
-    }
-
-    public void UnsubscribeBulletHellEvent<T>(Action<T> callback) where T : class, IBulletHellEvent
-    {
-        bulletHellEvents.Unsubscribe(callback);
-    }
-
-    private void EmitBulletHellEvent<T>(T evt) where T : class, IBulletHellEvent
-    {
-        bulletHellEvents.Emit(evt);
     }
     
     // Battle Event

@@ -16,4 +16,9 @@ public class PlayerBattleMenu : MonoBehaviour
         playerInfo.UpdateHp(evt.State.Hp, evt.State.MaxHp);
         playerInfo.SetName(evt.State.Name);
     }
+
+    public void UpdateHp(int hp, int maxHp)
+    {
+        playerInfo.UpdateHp(hp, maxHp);
+    }
 }

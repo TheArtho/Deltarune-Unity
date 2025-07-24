@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class CharacterBattleInfo : MonoBehaviour
@@ -7,7 +8,14 @@ public class CharacterBattleInfo : MonoBehaviour
     [SerializeField]
     private bool selected;
     [SerializeField]
-    private Image characterLogo;
+    private Image logo;
+    [SerializeField] 
+    private Color logoColor = Color.white;
+    [SerializeField] 
+    private Sprite charaLogo;
+    [SerializeField] 
+    private Sprite[] logoSprites;
+    [Space]
     [SerializeField]
     private Text name;
     [SerializeField]
@@ -57,9 +65,18 @@ public class CharacterBattleInfo : MonoBehaviour
         }
     }
 
-    public void SetLogo(Sprite logo)
+    public void SetLogo(int logoIndex)
     {
-        this.characterLogo.sprite = logo;
+        if (logoIndex < 0)
+        {
+            this.logo.sprite = charaLogo;
+            this.logo.color = Color.white;
+        }
+        else
+        {
+            this.logo.sprite = logoSprites[logoIndex];
+            this.logo.color = logoColor;
+        }
     }
 
     public void SetName(string name)

@@ -1,4 +1,3 @@
-using System;
 using Client.Combat.Events;
 using Client.Combat.UI;
 using Core.Combat.Events;
@@ -10,6 +9,8 @@ namespace Client.Combat
     {
         [SerializeField] private BattleScene scene;
         [SerializeField] private BattleInterface @interface;
+        
+        private SubscriptionGroup subscriptions = new();
         
         /// <summary>
         /// Battle only exists for the hosting client / server
@@ -24,7 +25,8 @@ namespace Client.Combat
 
             Enemy RoaringKnight = new Enemy("Roaring Knight", 7300, 40, 0);
 
-            Battle battleInstance = new Battle(new Player[]
+            Battle battleInstance = new Battle(
+            new Player[]
             {
                 Kris, Susie, Ralsei
             },
@@ -42,44 +44,49 @@ namespace Client.Combat
         /// <param name="battleInstance"></param>
         public void Init(Battle battleInstance)
         {
+            Stop();
             battle = battleInstance;
-            
+
             // Battle Server ===> Proxy
-            battle.SubscribeEvent<GlobalStateEvent>(OnGlobalState);
-            battle.SubscribeEvent<PlayerStateEvent>(OnPlayerState);
-            battle.SubscribeEvent<StartTurnEvent>(OnStartTurn);
-            battle.SubscribeEvent<CancelActionEvent>(OnCancelAction);
-            battle.SubscribeEvent<ChooseActionEvent>(OnChooseAction);
-            battle.SubscribeEvent<PlayBattleSequenceEvent>(OnPlayBattleSequence);
-            battle.SubscribeEvent<ReqFightQuickTimeDataEvent>(OnFightQuickTimeData);
-            battle.SubscribeEvent<FightQteStartEvent>(OnStartQuickTimeEvent);
-            battle.SubscribeEvent<BulletHellWaitReady>(OnBulletHellWaitReady);
-            battle.SubscribeEvent<BulletHellStartEvent>(OnBulletHellStart);
-            battle.SubscribeEvent<PlayerAttackEvent>(OnPlayerAttack);
-            battle.SubscribeEvent<PlayerMissedEvent>(OnPlayerMissed);
-            battle.SubscribeEvent<AddTpEvent>(OnAddTp);
-            battle.SubscribeEvent<RemoveTpEvent>(OnRemoveTp);
+            subscriptions.AddFrom<IBattleEvent, GlobalStateEvent>(battle, OnGlobalState);
+            subscriptions.AddFrom<IBattleEvent, PlayerStateEvent>(battle, OnPlayerState);
+            subscriptions.AddFrom<IBattleEvent, StartTurnEvent>(battle, OnStartTurn);
+            subscriptions.AddFrom<IBattleEvent, CancelActionEvent>(battle, OnCancelAction);
+            subscriptions.AddFrom<IBattleEvent, ChooseActionEvent>(battle, OnChooseAction);
+            subscriptions.AddFrom<IBattleEvent, PlayBattleSequenceEvent>(battle, OnPlayBattleSequence);
+            subscriptions.AddFrom<IBattleEvent, ReqFightQuickTimeDataEvent>(battle, OnFightQuickTimeData);
+            subscriptions.AddFrom<IBattleEvent, FightQteStartEvent>(battle, OnStartQuickTimeEvent);
+            subscriptions.AddFrom<IBattleEvent, BulletHellWaitReady>(battle, OnBulletHellWaitReady);
+            subscriptions.AddFrom<IBattleEvent, BulletHellStartEvent>(battle, OnBulletHellStart);
+            subscriptions.AddFrom<IBattleEvent, PlayerAttackEvent>(battle, OnPlayerAttack);
+            subscriptions.AddFrom<IBattleEvent, PlayerMissedEvent>(battle, OnPlayerMissed);
+            subscriptions.AddFrom<IBattleEvent, AddTpEvent>(battle, OnAddTp);
+            subscriptions.AddFrom<IBattleEvent, RemoveTpEvent>(battle, OnRemoveTp);
+            subscriptions.AddFrom<IBattleEvent, DamagePlayerEvent>(battle, OnPlayerDamage);
+            subscriptions.AddFrom<IBattleEvent, KnockOutEvent>(battle, OnKnockOut);
+            subscriptions.AddFrom<IBattleEvent, GameOverEvent>(battle, OnGameOver);
 
             if (scene)
             {
                 // Scene ===> Proxy
-                scene.SubscribeEvent<BattleSequenceEnded>(OnBattleSequenceEnded);
-                scene.SubscribeEvent<BulletHellEndedEvent>(OnBulletHellEnded);
-                scene.SubscribeEvent<BulletHellReadyEvent>(OnBulletHellReady);
-                scene.SubscribeEvent<GrazeEvent>(OnGraze);
-                scene.SubscribeEvent<PlayerHurtEvent>(OnPlayerHurt);
+                subscriptions.AddFrom<IBattleSceneEvent, BattleSequenceEnded>(scene, OnBattleSequenceEnded);
+                subscriptions.AddFrom<IBattleSceneEvent, BulletHellEndedEvent>(scene, OnBulletHellEnded);
+                subscriptions.AddFrom<IBattleSceneEvent, BulletHellReadyEvent>(scene, OnBulletHellReady);
+                subscriptions.AddFrom<IBattleSceneEvent, GrazeEvent>(scene, OnGraze);
+                subscriptions.AddFrom<IBattleSceneEvent, PlayerHurtEvent>(scene, OnPlayerHurt);
             }
 
             if (@interface)
             {
                 // Interface ===> Proxy
-                @interface.SubscribeEvent<PlayerCommandEvent>(OnReceivePlayerAction);
-                @interface.SubscribeEvent<PlayerCancelCommandEvent>(OnCancelPlayerAction);
-                @interface.SubscribeEvent<AnsFightQuickTimeEvent>(OnReceiveFightQuickTime);
+                subscriptions.AddFrom<IBattleInterfaceEvent, PlayerCommandEvent>(@interface, OnReceivePlayerAction);
+                subscriptions.AddFrom<IBattleInterfaceEvent, PlayerCancelCommandEvent>(@interface, OnCancelPlayerAction);
+                subscriptions.AddFrom<IBattleInterfaceEvent, AnsFightQuickTimeEvent>(@interface, OnReceiveFightQuickTime);
             }
-            
+
             battle.Start();
         }
+
 
         /// <summary>
         /// Unsubscribes events to the battle system
@@ -87,40 +94,7 @@ namespace Client.Combat
         /// <param name="battleInstance"></param>
         public void Stop()
         {
-            if (battle != null)
-            {
-                // Battle Server ===> Proxy
-                battle.UnsubscribeEvent<GlobalStateEvent>(OnGlobalState);
-                battle.UnsubscribeEvent<PlayerStateEvent>(OnPlayerState);
-                battle.UnsubscribeEvent<StartTurnEvent>(OnStartTurn);
-                battle.UnsubscribeEvent<CancelActionEvent>(OnCancelAction);
-                battle.UnsubscribeEvent<ChooseActionEvent>(OnChooseAction);
-                battle.UnsubscribeEvent<PlayBattleSequenceEvent>(OnPlayBattleSequence);
-                battle.UnsubscribeEvent<ReqFightQuickTimeDataEvent>(OnFightQuickTimeData);
-                battle.UnsubscribeEvent<FightQteStartEvent>(OnStartQuickTimeEvent);
-                battle.UnsubscribeEvent<BulletHellWaitReady>(OnBulletHellWaitReady);
-                battle.UnsubscribeEvent<BulletHellStartEvent>(OnBulletHellStart);
-                battle.UnsubscribeEvent<PlayerAttackEvent>(OnPlayerAttack);
-                battle.UnsubscribeEvent<PlayerMissedEvent>(OnPlayerMissed);
-            }
-            
-            if (scene)
-            {
-                // Scene ===> Proxy
-                scene.UnsubscribeEvent<BattleSequenceEnded>(OnBattleSequenceEnded);
-                scene.UnsubscribeEvent<BulletHellEndedEvent>(OnBulletHellEnded);
-                scene.UnsubscribeEvent<BulletHellReadyEvent>(OnBulletHellReady);
-                scene.UnsubscribeEvent<GrazeEvent>(OnGraze);
-                scene.UnsubscribeEvent<PlayerHurtEvent>(OnPlayerHurt);
-            }
-
-            if (@interface)
-            {
-                // Scene ===> Proxy
-                @interface.UnsubscribeEvent<PlayerCommandEvent>(OnReceivePlayerAction);
-                @interface.UnsubscribeEvent<PlayerCancelCommandEvent>(OnCancelPlayerAction);
-                @interface.UnsubscribeEvent<AnsFightQuickTimeEvent>(OnReceiveFightQuickTime);
-            }
+            subscriptions.UnsubscribeAll();
         }
 
         #region Battle Server ===> Proxy
@@ -197,6 +171,24 @@ namespace Client.Combat
             scene.StartBulletHell();
         }
 
+        private void OnPlayerDamage(DamagePlayerEvent evt)
+        {
+            // Play damage animation
+            // Update Hp
+            @interface.OnDamagePlayerEvent(evt);
+            scene.OnDamagePlayerEvent(evt);
+        }
+        
+        private void OnKnockOut(KnockOutEvent evt)
+        {
+            
+        }
+        
+        private void OnGameOver(GameOverEvent evt)
+        {
+            Debug.Log("Game Over");
+        }
+
         #endregion
         
         #region Interface ===> Proxy
@@ -250,7 +242,7 @@ namespace Client.Combat
 
         private void OnPlayerHurt(PlayerHurtEvent evt)
         {
-            
+            battle.PlayerHurt(evt);
         }
 
         private void OnGraze(GrazeEvent evt)

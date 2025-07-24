@@ -29,9 +29,11 @@ namespace Client.Combat.UI
         private bool canPress;
         public bool done;
 
-        [SerializeField] private float speed = 1;
+        [SerializeField] private float speed = 200;
 
         public Action<int> OnPress;
+
+        private float perfectTime;
 
         private void Awake()
         {
@@ -90,9 +92,15 @@ namespace Client.Combat.UI
             
             whiteBar.anchoredPosition = new Vector2(180, whiteBar.anchoredPosition.y);
             
+            // Calculate how many seconds needed to reach the target
+            float distanceToTarget = whiteBar.anchoredPosition.x - bar.anchoredPosition.x;
+            float timeToTarget = distanceToTarget / speed; // speed must be in unit/sec
+
+            perfectTime = Time.time + timeToTarget;
+            
             while (true)
             {
-                whiteBar.position += Vector3.left * (Time.deltaTime * speed);
+                whiteBar.anchoredPosition += Vector2.left * (Time.deltaTime * speed);
 
                 if (whiteBar.position.x <= bar.position.x - 0.2f)
                 {
@@ -107,41 +115,51 @@ namespace Client.Combat.UI
 
         private void Press()
         {
-            perfectPressParticle.GetComponent<RectTransform>().position = whiteBarRect.GetComponent<RectTransform>().position;
-            pressParticle.GetComponent<RectTransform>().position = whiteBarRect.GetComponent<RectTransform>().position;
-                
-            float distance = Vector3.Distance(
-                whiteBarRect.rectTransform.anchoredPosition,
-                barRectGoal.rectTransform.anchoredPosition
-            );
+            // Positionne les particules au bon endroit
+            Vector3 position = whiteBarRect.rectTransform.position;
+            perfectPressParticle.GetComponent<RectTransform>().position = position;
+            pressParticle.GetComponent<RectTransform>().position = position;
 
+            // Calcule l'écart de temps entre le moment d'appui et le moment "parfait"
+            float timeError = Mathf.Abs(Time.time - perfectTime);
+            
+            const float LOGIC_FRAME_RATE = 30f;
+            int framesOff = Mathf.RoundToInt(timeError * LOGIC_FRAME_RATE);
+
+            // Calculating accuracy following Deltarune rules
             int accuracy;
-
-            if (distance <= minDistance)
+            if (framesOff == 0)
             {
-                accuracy = damageMax;
+                accuracy = 150;
                 perfectPressParticle.Emit(1);
             }
-            else if (distance >= maxDistance)
+            else if (framesOff == 1)
             {
-                accuracy = damageMin;
+                accuracy = 120;
+                pressParticle.Emit(1);
+            }
+            else if (framesOff == 2)
+            {
+                accuracy = 110;
                 pressParticle.Emit(1);
             }
             else
             {
-                // Inverse linear interpolation
-                float t = Mathf.InverseLerp(maxDistance, minDistance, distance);
-                accuracy = Mathf.RoundToInt(Mathf.Lerp(damageMin, damageMax, t));
+                accuracy = Mathf.Max(1, 100 - (framesOff * 2));
                 pressParticle.Emit(1);
             }
-            
+
+            // Nettoyage
             canPress = false;
             whiteBarRect.gameObject.SetActive(false);
-            // Particles
             StopCoroutine(nameof(MoveWhiteBar));
+
+            // Envoie le résultat
+            Debug.Log("Accuracy is " + accuracy);
             OnPress?.Invoke(accuracy);
             Done();
         }
+
 
         private void Miss()
         {

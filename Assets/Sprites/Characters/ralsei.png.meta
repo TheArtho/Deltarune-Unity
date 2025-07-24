@@ -514,6 +514,28 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: ralsei_hurt
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 2675
+        width: 38
+        height: 47
+      alignment: 9
+      pivot: {x: 0.7631579, y: 0.021276595}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a4f68adc27453a47974f4800bf97a75
+      internalID: -1163903192
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -547,6 +569,7 @@ TextureImporter:
       ralsei_fight_3: 1567334471
       ralsei_fight_4: -818889586
       ralsei_fight_5: -307766203
+      ralsei_hurt: -1163903192
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

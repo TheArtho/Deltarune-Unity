@@ -42,13 +42,6 @@ public class BulletHellScene : MonoBehaviour
 
     private IEnumerator BulletPhase()
     {
-        LeanTween.value(gameObject, Color.white, Color.gray, 0.8f).setOnUpdate(color =>
-        {
-            if (BattleScene.Instance.Background)
-            {
-                BattleScene.Instance.Background.color = color;
-            }
-        }).setEaseOutQuad();
         battleArea.gameObject.SetActive(true);
         yield return new WaitForSeconds(battleAreaAnimator.GetCurrentAnimatorStateInfo(0).length);
         soulController.gameObject.SetActive(true);
@@ -64,6 +57,10 @@ public class BulletHellScene : MonoBehaviour
                 BattleScene.Instance.Background.color = color;
             }
         }).setEaseOutQuad();
+        foreach (var sprites in BattleScene.Instance.PlayerBattleSprites)
+        {
+            sprites.Lighten();
+        }
         yield return null;
         yield return new WaitForSeconds(battleAreaAnimator.GetCurrentAnimatorStateInfo(0).length);
         battleArea.gameObject.SetActive(false);

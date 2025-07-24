@@ -932,6 +932,50 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: target_0
+      rect:
+        serializedVersion: 2
+        x: 1182
+        y: 1349
+        width: 34
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f3103dd3882b78a448ef7b6e781686a6
+      internalID: -1734554696
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: target_1
+      rect:
+        serializedVersion: 2
+        x: 1217
+        y: 1349
+        width: 34
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e5c99b189fc5404d9758882d822efbd
+      internalID: 1433646961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -982,6 +1026,8 @@ TextureImporter:
       spell_logo: 1311866184
       susie_logo: 294683757
       susie_name: 283459502
+      target_0: -1734554696
+      target_1: 1433646961
       tp_bar: 19598493
       tp_logo: 1378797523
   mipmapLimitGroupName: 

@@ -1,37 +1,37 @@
 namespace Client.Combat.Events
 {
-    public interface IBattleSceneEvents
+    public interface IBattleSceneEvent
     {
     
     }
 
-    public class BattleSequenceEnded : IBattleSceneEvents
+    public class BattleSequenceEnded : IBattleSceneEvent
     {
         public int Player;
     }
 
-    public class FightQteEnded : IBattleSceneEvents
+    public class FightQteEnded : IBattleSceneEvent
     {
         public int Player;
     }
     
-    public class BulletHellReadyEvent : IBattleSceneEvents
+    public class BulletHellReadyEvent : IBattleSceneEvent
     {
         public int Player;
     }
 
-    public class BulletHellEndedEvent : IBattleSceneEvents
+    public class BulletHellEndedEvent : IBattleSceneEvent
     {
         public int Player;
     }
 
-    public class PlayerHurtEvent : IBattleSceneEvents
+    public class PlayerHurtEvent : IBattleSceneEvent
     {
         public int Player;
         public int Damage;
     }
     
-    public class GrazeEvent : IBattleSceneEvents
+    public class GrazeEvent : IBattleSceneEvent
     {
         public int Player;
     }

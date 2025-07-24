@@ -492,6 +492,50 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: susie_hurt_0
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 3258
+        width: 54
+        height: 45
+      alignment: 9
+      pivot: {x: 0.46296296, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aaac16e12fdadf844b07b692d6ad8234
+      internalID: -1744829383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: susie_hurt_1
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 3258
+        width: 54
+        height: 45
+      alignment: 9
+      pivot: {x: 0.46296296, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ceaa8df564ce884b9b9253852ef9429
+      internalID: 328867863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -528,6 +572,8 @@ TextureImporter:
       susie_fight_1: 1583786969
       susie_fight_2: 1118696630
       susie_fight_3: 347678797
+      susie_hurt_0: -1744829383
+      susie_hurt_1: 328867863
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
