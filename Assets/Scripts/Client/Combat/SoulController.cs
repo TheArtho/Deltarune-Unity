@@ -7,7 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class SoulController : MonoBehaviour
 {
-    public static Transform Player;
+    public static SoulController Player;
     
     public float speed = 1;
     
@@ -30,11 +30,7 @@ public class SoulController : MonoBehaviour
     {
         if (!Player)
         {
-            Player = transform;
-        }
-        else
-        {
-            DestroyImmediate(gameObject);
+            Player = this;
         }
         
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -120,29 +116,22 @@ public class SoulController : MonoBehaviour
         if (other.CompareTag("Projectile"))
         {
             // TODO change this hardcoded value
-            int damage = 10;
-            
-            BattleScene.Instance.EmitEvent(new PlayerHurtEvent
-            {
-                Player = 0,
-                Damage = damage
-            });
-            BattleScene.Instance.EmitEvent(new PlayerHurtEvent
-            {
-                Player = 1,
-                Damage = damage
-            });
-            BattleScene.Instance.EmitEvent(new PlayerHurtEvent
-            {
-                Player = 2,
-                Damage = damage
-            });
+            int damage = 9999;
 
             // Make temporarily invincible the player
             invincible = true;
             hurt = true;
             Invoke(nameof(SetVulnerable), invincibleDelay);
             StartCoroutine(nameof(HurtAnimation));
+            
+            foreach (var i in BattleScene.Instance.Targets)
+            {
+                BattleScene.Instance.EmitEvent(new PlayerHurtEvent
+                {
+                    Player = i,
+                    Damage = damage
+                });
+            }
         }
     }
 

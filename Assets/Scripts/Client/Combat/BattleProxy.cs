@@ -36,6 +36,8 @@ namespace Client.Combat
             });
             
             Init(battleInstance);
+            
+            BgmHandler.PlayMain("rude_buster");
         }
 
         /// <summary>
@@ -183,12 +185,15 @@ namespace Client.Combat
         
         private void OnKnockOut(KnockOutEvent evt)
         {
-            
+            // Play down animation
+            // Change targets
+            scene.OnKnockOutEvent(evt);
         }
         
         private void OnGameOver(GameOverEvent evt)
         {
             Debug.Log("Game Over");
+            scene.OnGameOver();
         }
 
         #endregion

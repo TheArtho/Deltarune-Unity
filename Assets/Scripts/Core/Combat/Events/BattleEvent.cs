@@ -126,6 +126,7 @@ namespace Core.Combat.Events
     public class KnockOutEvent : IBattleEvent
     {
         public int Player;
+        public List<int> newTargets;
     }
     
     public class GameOverEvent : IBattleEvent

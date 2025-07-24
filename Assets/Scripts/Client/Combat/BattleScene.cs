@@ -19,6 +19,9 @@ namespace Client.Combat
         [SerializeField] private BattleSprite[] playerBattleSprites;
         [SerializeField] private BattleSprite[] enemyBattleSprites;
         [SerializeField] private Shaker2D cameraShake;
+        [SerializeField] private GameOverHandler gameOverHandler;
+
+        public List<int> Targets { get; private set; }
         
         private EventBus events = new EventBus();
         
@@ -125,6 +128,7 @@ namespace Client.Combat
 
         IEnumerator PreBulletSequence(List<int> targets, List<BattleSequence> sequence)
         {
+            Targets = targets;
             // Wait for animation routine to end
             yield return new WaitUntil(() => !attackAnimation);
             // Darken the background
@@ -222,6 +226,30 @@ namespace Client.Combat
                 cameraShake.horizontalStrength = flt;
                 cameraShake.verticalStrength = flt;
             });
+        }
+
+        public void OnKnockOutEvent(KnockOutEvent evt)
+        {
+            Targets = evt.newTargets;
+            playerBattleSprites[evt.Player].SetDowned(true);
+            for (int i = 0; i < playerBattleSprites.Length; i++)
+            {
+                if (!evt.newTargets.Contains(i))
+                {
+                    playerBattleSprites[i].Darken();
+                }
+                else
+                {
+                    playerBattleSprites[i].Lighten();
+                }
+            }
+        }
+
+        public void OnGameOver()
+        {
+            SoulController.Player.DisableInput();
+            gameOverHandler.gameObject.SetActive(true);
+            bulletHell.gameObject.SetActive(false);
         }
         
         #region Scene Events

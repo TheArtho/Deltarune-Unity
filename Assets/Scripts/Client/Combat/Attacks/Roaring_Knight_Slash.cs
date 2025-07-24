@@ -7,7 +7,7 @@ public class Roaring_Knight_Slash : MonoBehaviour
     
     void OnEnable()
     {
-        transform.position = new Vector3(SoulController.Player.position.x, SoulController.Player.position.y, transform.position.z);
+        transform.position = new Vector3(SoulController.Player.transform.position.x, SoulController.Player.transform.position.y, transform.position.z);
         transform.eulerAngles =  new Vector3(0, 0, UnityEngine.Random.Range(0, 90));
         LeanTween.rotateZ(gameObject, transform.eulerAngles.z + rotation, time).setEase(LeanTweenType.easeOutQuad);
     }

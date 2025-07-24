@@ -536,6 +536,28 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: ralsei_downed
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 2675
+        width: 77
+        height: 47
+      alignment: 9
+      pivot: {x: 0.37662336, y: 0.021276595}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75e48541f382d3f4b8f28688fd5eb264
+      internalID: -1914461092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -563,6 +585,7 @@ TextureImporter:
       ralsei_defend_5: -503757532
       ralsei_defend_6: -1573600423
       ralsei_defend_7: 243865846
+      ralsei_downed: -1914461092
       ralsei_fight_0: -1588312511
       ralsei_fight_1: -66822299
       ralsei_fight_2: -1219382380

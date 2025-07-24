@@ -17,3 +17,5 @@ MonoBehaviour:
     music: {fileID: 11400000, guid: a68fbb2d9d06cda41994f8d2bf45a33c, type: 2}
   - name: rude_buster
     music: {fileID: 11400000, guid: cc1843a8587d60b43a68dc8af6688c94, type: 2}
+  - name: game_over
+    music: {fileID: 11400000, guid: 126b146629278254ba8abe44107856e6, type: 2}

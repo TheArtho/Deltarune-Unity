@@ -536,6 +536,28 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: susie_downed
+      rect:
+        serializedVersion: 2
+        x: 123
+        y: 3257
+        width: 60
+        height: 46
+      alignment: 9
+      pivot: {x: 0.41666666, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10cfaf3f6d903c6498cea249c790248c
+      internalID: -1880557342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -568,6 +590,7 @@ TextureImporter:
       susie_defend_3: 1337005803
       susie_defend_4: 52392659
       susie_defend_5: -877848126
+      susie_downed: -1880557342
       susie_fight_0: 1428038224
       susie_fight_1: 1583786969
       susie_fight_2: 1118696630

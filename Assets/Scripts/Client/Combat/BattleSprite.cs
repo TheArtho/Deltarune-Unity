@@ -11,6 +11,7 @@ public class BattleSprite : MonoBehaviour
     [FormerlySerializedAs("_spriteRenderer")] [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Transform damageTextAnchor;
     private bool defending;
+    private bool down;
 
     private void Awake()
     {
@@ -19,7 +20,16 @@ public class BattleSprite : MonoBehaviour
 
     public void ResetAnimations()
     {
-        Play("Idle");
+        if (!down)
+        {
+            Play("Idle");
+        }
+    }
+
+    public void SetDowned(bool isDowned)
+    {
+        down = isDowned;
+        _animator.SetBool("down", isDowned);
     }
 
     public void OnPlayerChooseAction(ChooseActionEvent evt)

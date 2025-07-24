@@ -35,9 +35,11 @@ public partial class Battle
         // Check for downed status
         if (player.hp <= 0)
         {
+            targetIndexes = CalculateTargets();
             EmitEvent(new KnockOutEvent()
             {
-                Player = evt.Player
+                Player = evt.Player,
+                newTargets = targetIndexes
             });
         }
         // Check for Game Over

@@ -117,6 +117,8 @@ public partial class Battle
             pool.RemoveAt(index);                    // Remove to avoid duplicates
         }
 
+        // selected = new List<int>() { 0, 1, 2 };
+
         return selected;
     }
 
