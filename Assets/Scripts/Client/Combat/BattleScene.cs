@@ -249,7 +249,8 @@ namespace Client.Combat
         {
             SoulController.Player.DisableInput();
             gameOverHandler.gameObject.SetActive(true);
-            bulletHell.gameObject.SetActive(false);
+            bulletHell.Stop();
+            gameOverHandler.Play();
         }
         
         #region Scene Events

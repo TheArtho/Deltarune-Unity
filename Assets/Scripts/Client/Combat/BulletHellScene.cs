@@ -37,7 +37,16 @@ public class BulletHellScene : MonoBehaviour
 
     public void OnDisable()
     {
+        Stop();
+    }
+    
+    public void Stop()
+    {
         StopCoroutine(nameof(BulletPhase));
+        foreach (var d in _directors)
+        {
+            d.Stop();
+        }
     }
 
     private IEnumerator BulletPhase()

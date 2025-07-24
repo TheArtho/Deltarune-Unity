@@ -12,6 +12,8 @@ public class SoulController : MonoBehaviour
     public float speed = 1;
     
     public SpriteRenderer soulSprite;
+    public SpriteRenderer brokenSoul;
+    public ParticleSystem shatterParticles;
 
     [SerializeField] private ParticleSystem particle;
     [Space] [SerializeField] private float invincibleDelay = 1f;
@@ -185,5 +187,6 @@ public class SoulController : MonoBehaviour
     public void DisableInput()
     {
         _inputAction.Disable();
+        StopCoroutine(nameof(HurtAnimation));
     }
 }

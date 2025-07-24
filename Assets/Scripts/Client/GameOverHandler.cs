@@ -6,28 +6,17 @@ using UnityEngine.UI;
 
 public class GameOverHandler : MonoBehaviour
 {
-    [SerializeField] private Image soul;
-    [SerializeField] private ParticleSystem soulParticles;
+    [SerializeField] private Sprite soulBroken;
     [SerializeField] private Image title;
     [SerializeField] private DialogBox dialogBox;
     [Space]
     [SerializeField] private float timePerChar = 0.1f;
     [SerializeField] private string sound = "text";
     
-    private void OnEnable()
+    public void Play()
     {
         // Play soul break animation
-        soul.gameObject.SetActive(true);
-        if (SoulController.Player)
-        {
-            soul.rectTransform.position = new Vector3(SoulController.Player.transform.position.x, SoulController.Player.transform.position.y, soul.rectTransform.position.z) / 2;
-            soulParticles.GetComponent<RectTransform>().anchoredPosition = soul.rectTransform.anchoredPosition;
-        }
-        else
-        {
-            soul.rectTransform.anchoredPosition = Vector2.zero;
-            soulParticles.transform.position = soul.transform.position;
-        }
+        SoulController.Player.brokenSoul.gameObject.SetActive(true);
         title.color = Color.clear;
         dialogBox.Clear();
         BgmHandler.Stop();
@@ -36,13 +25,14 @@ public class GameOverHandler : MonoBehaviour
 
     private IEnumerator AnimationIE()
     {
+        SoulController.Player.soulSprite.color = Color.white;
         SfxHandler.Play("break_1");
         
         yield return new WaitForSeconds(1f);
-        
-        soul.gameObject.SetActive(false);
+
+        SoulController.Player.brokenSoul.gameObject.SetActive(false);
         SfxHandler.Play("break_2");
-        soulParticles.Play();
+        SoulController.Player.shatterParticles.Play();
         
         yield return new WaitForSeconds(1.3f);
         
