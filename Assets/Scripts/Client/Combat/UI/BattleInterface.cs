@@ -14,6 +14,7 @@ namespace Client.Combat.UI
         
         [SerializeField] private List<PlayerBattleMenu> playerMenus;
         [SerializeField] private List<int> controlledPlayerIds;
+        [SerializeField] private List<int> alivePlayerIds;
         [SerializeField] private BattleSubMenu subMenu;
         [SerializeField] private BattleEnemyMenu enemyMenu;
         [SerializeField] private GameObject fightInterface;
@@ -23,6 +24,7 @@ namespace Client.Combat.UI
         [SerializeField] private List<DialogBox> enemyDialogBoxes;
         [SerializeField] private TpBar tpBar;
         [SerializeField] private List<GameObject> targets;
+        [SerializeField] private List<GameObject> damageIndicators;
         
         private EventBus events = new EventBus();
 
@@ -33,6 +35,8 @@ namespace Client.Combat.UI
         public DialogBox DialogBox => dialogBox;
         public List<DialogBox> PlayerDialogBoxes => playerDialogBoxes;
         public List<DialogBox> EnemyDialogBoxes => enemyDialogBoxes;
+
+        public List<GameObject> DamageIndicators => damageIndicators;
 
         public TpBar TpBar => tpBar;
 
@@ -63,6 +67,7 @@ namespace Client.Combat.UI
         public void UpdateGlobalState(GlobalStateEvent evt)
         {
             GlobalStateEvent = evt;
+            alivePlayerIds = evt.activePlayers.Distinct().ToList();
         }
         
         public void UpdatePlayerState(PlayerStateEvent evt)
@@ -93,16 +98,17 @@ namespace Client.Combat.UI
         private IEnumerator ActionSelect()
         {
             yield return StartCoroutine(dialogBox.DrawText(GlobalStateEvent.Text, "text"));
+            var players = alivePlayerIds.Intersect(controlledPlayerIds).ToList();
            
-            for (int i = 0; i < controlledPlayerIds.Count; i++)
+            for (int i = 0; i < players.Count; i++)
             {
-                var info = playerMenus[controlledPlayerIds[i]].PlayerInfo;
-                var battleChoice = playerMenus[controlledPlayerIds[i]].BattleChoice;
+                var info = playerMenus[players[i]].PlayerInfo;
+                var battleChoice = playerMenus[players[i]].BattleChoice;
                 int index = i;
-                int playerId = controlledPlayerIds[i];
+                int playerId = players[i];
                 bool cancelled = false;
                 
-                Debug.Log($"[Battle Interface] Choosing action for {PlayerStateEvents[i].State.Name}");
+                Debug.Log($"[Battle Interface] Choosing action for {PlayerStateEvents[players[i]].State.Name}");
                 
                 Action<PlayerCommandEvent> onSelect = value =>
                 {

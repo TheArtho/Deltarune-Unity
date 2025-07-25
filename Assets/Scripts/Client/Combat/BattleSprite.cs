@@ -1,8 +1,10 @@
 using System;
+using System.Collections;
 using Client.Combat.UI;
 using Core.Combat.Events;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class BattleSprite : MonoBehaviour
 {
@@ -100,5 +102,35 @@ public class BattleSprite : MonoBehaviour
     public void Play(string animation)
     {
         _animator.Play(animation);
+    }
+
+    public IEnumerator ShowPlayerDamageIE(string damage)
+    {
+        BattleInterface.Instance.DamageIndicators[playerId].gameObject.SetActive(false);
+        BattleInterface.Instance.DamageIndicators[playerId].gameObject.SetActive(true);
+        BattleInterface.Instance.DamageIndicators[playerId].transform.Find("Damage_Text").GetComponent<Text>().text =
+            damage;
+        // Set position
+        if (Camera.main)
+        {
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(damageTextAnchor.transform.position);
+            BattleInterface.Instance.DamageIndicators[playerId].GetComponent<RectTransform>().position = new Vector3(screenPos.x, screenPos.y, screenPos.z);
+        }
+        yield return null;
+    }
+    
+    public IEnumerator ShowEnemyDamageIE(int playerId, string damage)
+    {
+        BattleInterface.Instance.DamageIndicators[playerId].gameObject.SetActive(false);
+        BattleInterface.Instance.DamageIndicators[playerId].gameObject.SetActive(true);
+        BattleInterface.Instance.DamageIndicators[playerId].transform.Find("Damage_Text").GetComponent<Text>().text =
+            damage;
+        // Set position
+        if (Camera.main)
+        {
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(damageTextAnchor.transform.position);
+            BattleInterface.Instance.DamageIndicators[playerId].GetComponent<RectTransform>().position = new Vector3(screenPos.x, screenPos.y + playerId * 45, screenPos.z);
+        }
+        yield return null;
     }
 }

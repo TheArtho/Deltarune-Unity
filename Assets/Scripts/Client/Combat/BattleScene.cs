@@ -185,7 +185,7 @@ namespace Client.Combat
             attackAnimation = true;
             yield return StartCoroutine(PlayerAttackAnimation(playerId));
             // TODO Show damage
-            yield return StartCoroutine(EnemyHurtAnimation(targetId));
+            yield return StartCoroutine(EnemyHurtAnimation(playerId, targetId, damage.ToString()));
             attackAnimation = false;
         }
         
@@ -206,13 +206,14 @@ namespace Client.Combat
             yield return new WaitForSeconds(0.8f);
         }
 
-        private IEnumerator EnemyHurtAnimation(int targetId)
+        private IEnumerator EnemyHurtAnimation(int playerId, int targetId, string damage)
         {
             enemyBattleSprites[targetId].Play("Hurt");
             // Play Damaged SFX
             SfxHandler.Play("damage_enemy");
             // Show damage indicator
-            yield return new WaitForSeconds(1f);
+            StartCoroutine(enemyBattleSprites[targetId].ShowEnemyDamageIE(playerId, damage));
+            yield return new WaitForSeconds(1.5f);
         }
         
         public void OnDamagePlayerEvent(DamagePlayerEvent evt)
@@ -220,6 +221,7 @@ namespace Client.Combat
             SfxHandler.Play("hurt");
             // Play Animation
             playerBattleSprites[evt.Player].Play("Hurt");
+            StartCoroutine(playerBattleSprites[evt.Player].ShowPlayerDamageIE(evt.damage));
             // Shake screen
             LeanTween.value(gameObject, 1, 0, 0.5f).setOnUpdate(flt =>
             {
@@ -247,6 +249,10 @@ namespace Client.Combat
 
         public void OnGameOver()
         {
+            foreach (var instanceDamageIndicator in BattleInterface.Instance.DamageIndicators)
+            {
+                instanceDamageIndicator.SetActive(false);
+            }
             SoulController.Player.DisableInput();
             gameOverHandler.gameObject.SetActive(true);
             bulletHell.Stop();

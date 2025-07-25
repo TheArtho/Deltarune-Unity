@@ -135,7 +135,6 @@ public partial class Battle : IEventSource<IBattleEvent>
         
         if (playerCommandBuffer[playerId] != null)
         {
-            EmitEvent(new CancelActionEvent() {Player = playerId});
             return;
         }
         
@@ -154,12 +153,29 @@ public partial class Battle : IEventSource<IBattleEvent>
         }
         EmitEvent(new ChooseActionEvent() {Player = playerId, ActionType = command.ActionType});
         
-        if (playerCommandBuffer.All(playerCommand => playerCommand != null))
+        if (AllActivePlayersHaveCommands())
         {
             state = BattleState.ExecutingPlayerAction;
             Debug.Log($"[Battle] All command received. Executing actions...");
             ProcessTurn();
         }
+    }
+    
+    bool AllActivePlayersHaveCommands()
+    {
+        for (int i = 0; i < players.Length; i++)
+        {
+            // Skip dead players
+            if (players[i].hp <= 0)
+                continue;
+            
+            // Should also check for other status that can make the player inactive
+
+            if (playerCommandBuffer[i] == null)
+                return false;
+        }
+
+        return true;
     }
 
     public void CancelPlayerCommand(int playerId)
@@ -186,18 +202,21 @@ public partial class Battle : IEventSource<IBattleEvent>
 
     private void ProcessFightQte()
     {
+        var commands = playerCommandBuffer.Where(cmd => cmd != null).ToArray(); 
+        
         // If at least one player is fighting
-        if (playerCommandBuffer.ToList().Any(x => x.ActionType == ActionType.Fight))
+        if (commands.ToList().Any(x => x.ActionType == ActionType.Fight))
         {
             state = BattleState.AwaitingForPlayerFightQte;
             
             // For each fight action send QTE data
-            for (var i = 0; i < playerCommandBuffer.Length; i++)
+            for (var i = 0; i < commands.Length; i++)
             {
-                if (playerCommandBuffer[i].ActionType == ActionType.Fight)
+                int playerId = commands[i].Player;
+                if (commands[i].ActionType == ActionType.Fight)
                 {
-                    Debug.Log($"[Battle] Player {i} has a Fight QTE.");
-                    EmitEvent(new ReqFightQuickTimeDataEvent() {Player = i, Delay = 0});
+                    Debug.Log($"[Battle] Player {playerId} has a Fight QTE.");
+                    EmitEvent(new ReqFightQuickTimeDataEvent() {Player = playerId, Delay = 0});
                 }
             }
             
@@ -296,6 +315,7 @@ public partial class Battle : IEventSource<IBattleEvent>
         bool isFightBufferFull = true;
         for (var i = 0; i < playerCommandBuffer.Length; i++)
         {
+            if (playerCommandBuffer[i] == null) continue;
             if (playerCommandBuffer[i].ActionType != ActionType.Fight) continue;
             if (fightCommandBuffer[i] == null)
             {

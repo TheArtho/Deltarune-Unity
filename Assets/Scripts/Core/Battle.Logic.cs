@@ -83,7 +83,11 @@ public partial class Battle
             {
                 "Darkburger", "Light Candy", "Java Cookie"
             },
-            Text = "It's the freaking Roaring\nKnight!!!"
+            Text = "It's the freaking Roaring\nKnight!!!",
+            activePlayers = players
+                .Select((p, index) => new { p, index })   // Associate each player with their index
+                .Where(x => x.p.hp > 0)                 // Keep players with hp > 0
+                .Select(x => x.index).ToArray()
         };
     }
 
@@ -161,14 +165,16 @@ public partial class Battle
         battleSequence.Clear();
         enemySequence.Clear();
 
+        var commands = playerCommandBuffer.Where(cmd => cmd != null).ToArray(); 
+
         // Step 1 : create a list of indices
-        List<int> actionOrder = Enumerable.Range(0, playerCommandBuffer.Length).ToList();
+        List<int> actionOrder = Enumerable.Range(0, commands.Length).ToList();
 
         // Step 2 : sort by priority
         actionOrder.Sort((a, b) =>
         {
-            int prioA = GetActionPriority(playerCommandBuffer[a].ActionType);
-            int prioB = GetActionPriority(playerCommandBuffer[b].ActionType);
+            int prioA = GetActionPriority(commands[a].ActionType);
+            int prioB = GetActionPriority(commands[b].ActionType);
             if (prioA == prioB) return a.CompareTo(b); // tie-breaker = ordre d'entrée
             return prioA.CompareTo(prioB);
         });
@@ -181,7 +187,7 @@ public partial class Battle
             int damagePercentage = 0;
             players[i].defending = false;
 
-            var action = playerCommandBuffer[i];
+            var action = commands[i];
 
             switch (action.ActionType)
             {

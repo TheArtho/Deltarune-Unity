@@ -30,6 +30,7 @@ public partial class Battle
             Player = evt.Player,
             currentHp = player.hp,
             maxHp = player.maxHp,
+            damage = evt.Damage.ToString()
         });
         
         // Check for downed status

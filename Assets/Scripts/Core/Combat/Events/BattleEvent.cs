@@ -39,6 +39,8 @@ namespace Core.Combat.Events
         public EnemyState[] Ennemies;
         public string[] Items;
         public string Text;
+
+        public int[] activePlayers;
     }
     
     public class PlayerStateEvent : IBattleEvent
@@ -115,6 +117,7 @@ namespace Core.Combat.Events
         public int Player;
         public int currentHp;
         public int maxHp;
+        public string damage;
     }
     
     public class HealPlayerEvent : IBattleEvent
