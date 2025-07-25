@@ -117,6 +117,14 @@ namespace Client.Combat.UI
                     info.Unselect();
                     value.Player = playerId;
                     EmitEvent<PlayerCommandEvent>(value);
+                    foreach (var e in BattleScene.Instance.PlayerBattleSprites)
+                    {
+                        e.Deselect();
+                    }
+                    foreach (var e in BattleScene.Instance.EnemyBattleSprites)
+                    {
+                        e.Deselect();
+                    }
                 };
 
                 Action onCancel = () =>
@@ -207,7 +215,6 @@ namespace Client.Combat.UI
             Action<int> onSelect = value =>
             {
                 result?.Invoke(value);
-                BattleScene.Instance.EnemyBattleSprites[value].Deselect();
                 enemyMenu.gameObject.SetActive(false);
             };
 
@@ -228,6 +235,10 @@ namespace Client.Combat.UI
             enemyMenu.OnCancel += onCancel;
             enemyMenu.OnChangeSelection += onChangeSelection;
             
+            foreach (var e in BattleScene.Instance.EnemyBattleSprites)
+            {
+                e.Deselect();
+            }
             BattleScene.Instance.EnemyBattleSprites[enemyMenu.Index].Select();
             
             yield return new WaitUntil(() => !enemyMenu.gameObject.activeSelf);
@@ -251,7 +262,6 @@ namespace Client.Combat.UI
             Action<int> onSelect = value =>
             {
                 result?.Invoke(value);
-                BattleScene.Instance.PlayerBattleSprites[value].Deselect();
                 enemyMenu.gameObject.SetActive(false);
             };
 
@@ -272,6 +282,10 @@ namespace Client.Combat.UI
             enemyMenu.OnCancel += onCancel;
             enemyMenu.OnChangeSelection += onChangeSelection;
             
+            foreach (var e in BattleScene.Instance.PlayerBattleSprites)
+            {
+                e.Deselect();
+            }
             BattleScene.Instance.PlayerBattleSprites[enemyMenu.Index].Select();
             
             yield return new WaitUntil(() => !enemyMenu.gameObject.activeSelf);
