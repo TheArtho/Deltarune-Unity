@@ -16,6 +16,7 @@ public class BattleSprite : MonoBehaviour
     [SerializeField] private Color additiveColor = new Color(1,1,1, 0);
     private bool defending;
     private bool down;
+    private int damageCounter = 0;
 
     private void Awake()
     {
@@ -28,6 +29,7 @@ public class BattleSprite : MonoBehaviour
         {
             Play("Idle");
         }
+        damageCounter = 0;
     }
 
     public void SetDowned(bool isDowned)
@@ -151,7 +153,8 @@ public class BattleSprite : MonoBehaviour
         if (Camera.main)
         {
             Vector3 screenPos = Camera.main.WorldToScreenPoint(damageTextAnchor.transform.position);
-            BattleInterface.Instance.DamageIndicators[playerId].GetComponent<RectTransform>().position = new Vector3(screenPos.x, screenPos.y + playerId * 45, screenPos.z);
+            BattleInterface.Instance.DamageIndicators[playerId].GetComponent<RectTransform>().position = new Vector3(screenPos.x, screenPos.y + damageCounter * 45, screenPos.z);
+            damageCounter++;
         }
         yield return null;
     }
