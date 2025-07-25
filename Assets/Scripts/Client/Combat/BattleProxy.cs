@@ -67,6 +67,7 @@ namespace Client.Combat
             subscriptions.AddFrom<IBattleEvent, DamagePlayerEvent>(battle, OnPlayerDamage);
             subscriptions.AddFrom<IBattleEvent, KnockOutEvent>(battle, OnKnockOut);
             subscriptions.AddFrom<IBattleEvent, GameOverEvent>(battle, OnGameOver);
+            subscriptions.AddFrom<IBattleEvent, HealPlayerEvent>(battle, OnHealPlayer);
 
             if (scene)
             {
@@ -194,6 +195,11 @@ namespace Client.Combat
         {
             Debug.Log("Game Over");
             scene.OnGameOver();
+        }
+
+        private void OnHealPlayer(HealPlayerEvent evt)
+        {
+            scene.OnHealPlayerEvent(evt);
         }
 
         #endregion

@@ -25,6 +25,7 @@ namespace Client.Combat.UI
         [SerializeField] private TpBar tpBar;
         [SerializeField] private List<GameObject> targets;
         [SerializeField] private List<GameObject> damageIndicators;
+        [SerializeField] private List<GameObject> healIndicators;
         
         private EventBus events = new EventBus();
 
@@ -35,8 +36,8 @@ namespace Client.Combat.UI
         public DialogBox DialogBox => dialogBox;
         public List<DialogBox> PlayerDialogBoxes => playerDialogBoxes;
         public List<DialogBox> EnemyDialogBoxes => enemyDialogBoxes;
-
         public List<GameObject> DamageIndicators => damageIndicators;
+        public List<GameObject> HealIndicators => healIndicators;
 
         public TpBar TpBar => tpBar;
 
@@ -67,7 +68,7 @@ namespace Client.Combat.UI
         public void UpdateGlobalState(GlobalStateEvent evt)
         {
             GlobalStateEvent = evt;
-            alivePlayerIds = evt.activePlayers.Distinct().ToList();
+            alivePlayerIds = evt.ActivePlayers.Distinct().ToList();
         }
         
         public void UpdatePlayerState(PlayerStateEvent evt)
@@ -320,7 +321,7 @@ namespace Client.Combat.UI
         
         public void OnDamagePlayerEvent(DamagePlayerEvent evt)
         {
-            playerMenus[evt.Player].UpdateHp(evt.currentHp, evt.maxHp);
+            playerMenus[evt.Player].UpdateHp(evt.CurrentHp, evt.MaxHp);
         }
         
         #region Interface Events

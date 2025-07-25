@@ -40,7 +40,7 @@ namespace Core.Combat.Events
         public string[] Items;
         public string Text;
 
-        public int[] activePlayers;
+        public int[] ActivePlayers;
     }
     
     public class PlayerStateEvent : IBattleEvent
@@ -85,15 +85,15 @@ namespace Core.Combat.Events
 
     public class PlayBattleSequenceEvent : IBattleEvent
     {
-        public List<BattleSequence> battleSequence;
+        public List<BattleSequence> BattleSequence;
     }
 
     public class BulletHellWaitReady : IBattleEvent
     {
-        public List<int> targets;
-        public List<BattleSequence> battleSequence;
-        public string battleMode;
-        public string[] attacks;
+        public List<int> Targets;
+        public List<BattleSequence> BattleSequence;
+        public string BattleMode;
+        public string[] Attacks;
     }
     
     public class BulletHellStartEvent : IBattleEvent {}
@@ -115,21 +115,22 @@ namespace Core.Combat.Events
     public class DamagePlayerEvent : IBattleEvent
     {
         public int Player;
-        public int currentHp;
-        public int maxHp;
-        public string damage;
+        public int CurrentHp;
+        public int MaxHp;
+        public string Damage;
     }
     
     public class HealPlayerEvent : IBattleEvent
     {
         public int Player;
-        public int currentHp;
+        public int CurrentHp;
+        public int HealAmount;
     }
 
     public class KnockOutEvent : IBattleEvent
     {
         public int Player;
-        public List<int> newTargets;
+        public List<int> NewTargets;
     }
     
     public class GameOverEvent : IBattleEvent

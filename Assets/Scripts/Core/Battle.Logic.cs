@@ -84,7 +84,7 @@ public partial class Battle
                 "Darkburger", "Light Candy", "Java Cookie"
             },
             Text = "It's the freaking Roaring\nKnight!!!",
-            activePlayers = players
+            ActivePlayers = players
                 .Select((p, index) => new { p, index })   // Associate each player with their index
                 .Where(x => x.p.hp > 0)                 // Keep players with hp > 0
                 .Select(x => x.index).ToArray()

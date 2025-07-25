@@ -33,3 +33,5 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: cccd55fbdf6066340b3d144e23b94c36, type: 3}
   - name: text_ralsei
     clip: {fileID: 8300000, guid: 60506b6f3a2ffc3438be73cf3fb16ffb, type: 3}
+  - name: heal
+    clip: {fileID: 8300000, guid: a431b9654ca1bc449b1f0173133277d9, type: 3}

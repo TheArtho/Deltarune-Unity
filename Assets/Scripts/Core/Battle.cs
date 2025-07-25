@@ -100,6 +100,20 @@ public partial class Battle : IEventSource<IBattleEvent>
     private void StartTurn()
     {
         ResetBuffers();
+        
+        for (var i = 0; i < players.Length; i++)
+        {
+            if (players[i].hp < 0)
+            {
+                int amount = players[i].maxHp / 8;
+                players[i].Heal(amount);
+                EmitEvent(new HealPlayerEvent()
+                {
+                    Player = i,
+                    HealAmount = amount
+                });
+            }
+        }
 
         GlobalStateEvent globalStateEvent = GetGlobalState();
         EmitEvent(globalStateEvent);
@@ -242,7 +256,7 @@ public partial class Battle : IEventSource<IBattleEvent>
         
         EmitEvent(new PlayBattleSequenceEvent()
         {
-            battleSequence = this.battleSequence
+            BattleSequence = this.battleSequence
         });
     }
 
@@ -337,10 +351,10 @@ public partial class Battle : IEventSource<IBattleEvent>
         // TODO change hard coded values
         EmitEvent(new BulletHellWaitReady()
         {
-            battleMode = "base",
-            attacks = new string[] {"Test Attack"},
-            battleSequence = enemySequence,
-            targets = targetIndexes
+            BattleMode = "base",
+            Attacks = new string[] {"Test Attack"},
+            BattleSequence = enemySequence,
+            Targets = targetIndexes
         });
     }
 

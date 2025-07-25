@@ -75,7 +75,7 @@ namespace Client.Combat
         public void PlayBattleSequence(PlayBattleSequenceEvent evt)
         {
             BattleInterface.Instance.DialogBox.Clear();
-            StartCoroutine(PlaySequenceIE(evt.battleSequence, () =>
+            StartCoroutine(PlaySequenceIE(evt.BattleSequence, () =>
             {
                 // Emit to the battle system the end of the battle sequence
                 // TODO Change this hard coded part
@@ -123,7 +123,7 @@ namespace Client.Combat
         {
             Debug.Log("PrepareBulletPhase");
             // Prepare the bullet hell prefab
-            StartCoroutine(PreBulletSequence(evt.targets, evt.battleSequence));
+            StartCoroutine(PreBulletSequence(evt.Targets, evt.BattleSequence));
         }
 
         IEnumerator PreBulletSequence(List<int> targets, List<BattleSequence> sequence)
@@ -221,7 +221,7 @@ namespace Client.Combat
             SfxHandler.Play("hurt");
             // Play Animation
             playerBattleSprites[evt.Player].Play("Hurt");
-            StartCoroutine(playerBattleSprites[evt.Player].ShowPlayerDamageIE(evt.damage));
+            StartCoroutine(playerBattleSprites[evt.Player].ShowPlayerDamageIE(evt.Damage));
             // Shake screen
             LeanTween.value(gameObject, 1, 0, 0.5f).setOnUpdate(flt =>
             {
@@ -230,13 +230,20 @@ namespace Client.Combat
             });
         }
 
+        public void OnHealPlayerEvent(HealPlayerEvent evt)
+        {
+            SfxHandler.Play("heal");
+            StartCoroutine(playerBattleSprites[evt.Player].ShowPlayerHealIE(evt.HealAmount.ToString()));
+            playerBattleSprites[evt.Player].SetDowned(evt.CurrentHp <= 0);
+        }
+
         public void OnKnockOutEvent(KnockOutEvent evt)
         {
-            Targets = evt.newTargets;
+            Targets = evt.NewTargets;
             playerBattleSprites[evt.Player].SetDowned(true);
             for (int i = 0; i < playerBattleSprites.Length; i++)
             {
-                if (!evt.newTargets.Contains(i))
+                if (!evt.NewTargets.Contains(i))
                 {
                     playerBattleSprites[i].Darken();
                 }

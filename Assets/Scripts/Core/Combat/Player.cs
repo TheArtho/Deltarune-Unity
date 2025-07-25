@@ -22,13 +22,18 @@ public class Player
         this.magic = magic;
     }
 
+    public void Down()
+    {
+        hp = -1 * maxHp / 2;
+    }
+
     public void Heal(int amount)
     {
-        hp = Math.Clamp(hp + amount, -9999, maxHp);
+        hp = Math.Clamp(hp + amount, -1 * maxHp / 2, maxHp);
     }
     
     public void Damage(int amount)
     {
-        hp = Math.Clamp(hp - amount, -9999, maxHp);
+        hp = Math.Clamp(hp - amount, -1 * maxHp / 2, maxHp);
     }
 }

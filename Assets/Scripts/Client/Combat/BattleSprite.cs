@@ -12,6 +12,8 @@ public class BattleSprite : MonoBehaviour
     private Animator _animator;
     [FormerlySerializedAs("_spriteRenderer")] [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Transform damageTextAnchor;
+    [SerializeField] private ParticleSystem healParticles;
+    [SerializeField] private Color additiveColor = new Color(1,1,1, 0);
     private bool defending;
     private bool down;
 
@@ -119,6 +121,26 @@ public class BattleSprite : MonoBehaviour
         yield return null;
     }
     
+    public IEnumerator ShowPlayerHealIE(string healAmount)
+    {
+        LeanTween.value(gameObject, additiveColor, Color.white, 0.4f).setOnUpdate(color =>
+        {
+            additiveColor = color;
+        }).setEaseOutQuad().setLoopPingPong(1);
+        healParticles?.Play();
+        BattleInterface.Instance.HealIndicators[playerId].gameObject.SetActive(false);
+        BattleInterface.Instance.HealIndicators[playerId].gameObject.SetActive(true);
+        BattleInterface.Instance.HealIndicators[playerId].transform.Find("Damage_Text").GetComponent<Text>().text =
+            healAmount;
+        // Set position
+        if (Camera.main)
+        {
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(damageTextAnchor.transform.position);
+            BattleInterface.Instance.HealIndicators[playerId].GetComponent<RectTransform>().position = new Vector3(screenPos.x, screenPos.y, screenPos.z);
+        }
+        yield return null;
+    }
+    
     public IEnumerator ShowEnemyDamageIE(int playerId, string damage)
     {
         BattleInterface.Instance.DamageIndicators[playerId].gameObject.SetActive(false);
@@ -132,5 +154,17 @@ public class BattleSprite : MonoBehaviour
             BattleInterface.Instance.DamageIndicators[playerId].GetComponent<RectTransform>().position = new Vector3(screenPos.x, screenPos.y + playerId * 45, screenPos.z);
         }
         yield return null;
+    }
+
+    private void Update()
+    {
+        try
+        {
+            spriteRenderer.material.SetColor("_Additive_Color", additiveColor);
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning(e);
+        }
     }
 }

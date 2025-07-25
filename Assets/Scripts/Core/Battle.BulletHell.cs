@@ -28,19 +28,20 @@ public partial class Battle
         EmitEvent(new DamagePlayerEvent()
         {
             Player = evt.Player,
-            currentHp = player.hp,
-            maxHp = player.maxHp,
-            damage = evt.Damage.ToString()
+            CurrentHp = player.hp,
+            MaxHp = player.maxHp,
+            Damage = evt.Damage.ToString()
         });
         
         // Check for downed status
         if (player.hp <= 0)
         {
+            player.Down();
             targetIndexes = CalculateTargets();
             EmitEvent(new KnockOutEvent()
             {
                 Player = evt.Player,
-                newTargets = targetIndexes
+                NewTargets = targetIndexes
             });
         }
         // Check for Game Over
