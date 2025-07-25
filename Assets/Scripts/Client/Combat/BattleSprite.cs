@@ -32,6 +32,31 @@ public class BattleSprite : MonoBehaviour
         damageCounter = 0;
     }
 
+    public void Select()
+    {
+        StartCoroutine("SelectIE");
+    }
+
+    public void Deselect()
+    {
+        StopCoroutine("SelectIE");
+        LeanTween.cancel(gameObject);
+        additiveColor = new Color(1,1,1, 0);
+    }
+
+    private IEnumerator SelectIE()
+    {
+        while (true)
+        {
+            LeanTween.value(gameObject, additiveColor, Color.white, 0.6f).setOnUpdate(color =>
+            {
+                additiveColor = color;
+            }).setEaseInOutQuad().setLoopPingPong(1);
+            yield return new WaitForSeconds(1.2f);
+        }
+        // ReSharper disable once IteratorNeverReturns
+    }
+
     public void SetDowned(bool isDowned)
     {
         down = isDowned;

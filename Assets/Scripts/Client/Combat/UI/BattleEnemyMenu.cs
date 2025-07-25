@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Client.Combat;
 using Client.Combat.UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,8 +29,11 @@ public class BattleEnemyMenu : MonoBehaviour
 
     public Action<int> OnSelect;
     public Action OnCancel;
+    public Action<int, int> OnChangeSelection;
 
     public bool canCancel;
+
+    public int Index => _index;
 
     private void Awake()
     {
@@ -110,6 +114,10 @@ public class BattleEnemyMenu : MonoBehaviour
         {
             _index = Math.Min(menuItems.Count - 1, options.Count - 1);
         }
+        else
+        {
+            OnChangeSelection(_index + 1, _index);
+        }
         
         UpdateButtons();
     }
@@ -121,6 +129,10 @@ public class BattleEnemyMenu : MonoBehaviour
         if (_index >= menuItems.Count || _index >= options.Count)
         {
             _index = 0;
+        }
+        else
+        {
+            OnChangeSelection(_index - 1, _index);
         }
         
         UpdateButtons();

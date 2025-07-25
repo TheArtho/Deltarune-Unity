@@ -233,7 +233,7 @@ namespace Client.Combat.UI
                     });
                 }
                 
-                yield return StartCoroutine(BattleInterface.Instance.EnemySelect(enemies.ToArray(),
+                yield return StartCoroutine(BattleInterface.Instance.PlayerSelect(enemies.ToArray(),
                     value =>
                     {
                         target = value;

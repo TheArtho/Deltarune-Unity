@@ -207,22 +207,78 @@ namespace Client.Combat.UI
             Action<int> onSelect = value =>
             {
                 result?.Invoke(value);
+                BattleScene.Instance.EnemyBattleSprites[value].Deselect();
                 enemyMenu.gameObject.SetActive(false);
             };
 
             Action onCancel = () =>
             {
                 result?.Invoke(-1);
+                BattleScene.Instance.EnemyBattleSprites[enemyMenu.Index].Deselect();
                 enemyMenu.gameObject.SetActive(false);
+            };
+            
+            Action<int, int> onChangeSelection = (previous, current) =>
+            {
+                BattleScene.Instance.EnemyBattleSprites[previous].Deselect();
+                BattleScene.Instance.EnemyBattleSprites[current].Select();
             };
 
             enemyMenu.OnSelect += onSelect;
             enemyMenu.OnCancel += onCancel;
+            enemyMenu.OnChangeSelection += onChangeSelection;
+            
+            BattleScene.Instance.EnemyBattleSprites[enemyMenu.Index].Select();
             
             yield return new WaitUntil(() => !enemyMenu.gameObject.activeSelf);
             
             enemyMenu.OnSelect -= onSelect;
             enemyMenu.OnCancel -= onCancel;
+            enemyMenu.OnChangeSelection -= onChangeSelection;
+        }
+        
+        public IEnumerator PlayerSelect(BattleEnemyMenu.EnemyData[] options, Action<int> result = null)
+        {
+            enemyMenu.canCancel = true;
+            enemyMenu.options = options.ToList();
+            enemyMenu.gameObject.SetActive(true);
+
+            yield return null;
+            
+            enemyMenu.EnableInput();
+            enemyMenu.UpdateButtons();
+
+            Action<int> onSelect = value =>
+            {
+                result?.Invoke(value);
+                BattleScene.Instance.PlayerBattleSprites[value].Deselect();
+                enemyMenu.gameObject.SetActive(false);
+            };
+
+            Action onCancel = () =>
+            {
+                result?.Invoke(-1);
+                BattleScene.Instance.PlayerBattleSprites[enemyMenu.Index].Deselect();
+                enemyMenu.gameObject.SetActive(false);
+            };
+            
+            Action<int, int> onChangeSelection = (previous, current) =>
+            {
+                BattleScene.Instance.PlayerBattleSprites[previous].Deselect();
+                BattleScene.Instance.PlayerBattleSprites[current].Select();
+            };
+
+            enemyMenu.OnSelect += onSelect;
+            enemyMenu.OnCancel += onCancel;
+            enemyMenu.OnChangeSelection += onChangeSelection;
+            
+            BattleScene.Instance.PlayerBattleSprites[enemyMenu.Index].Select();
+            
+            yield return new WaitUntil(() => !enemyMenu.gameObject.activeSelf);
+            
+            enemyMenu.OnSelect -= onSelect;
+            enemyMenu.OnCancel -= onCancel;
+            enemyMenu.OnChangeSelection -= onChangeSelection;
         }
 
         private IEnumerator FightQte()
