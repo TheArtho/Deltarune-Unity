@@ -368,6 +368,7 @@ public partial class Battle : IEventSource<IBattleEvent>
         state = BattleState.AwaitingForPlayersBulletPhaseReady;
         targetIndexes = CalculateTargets();
         // Send a battle sequence before the bullet hell phase
+        enemySequence.Add(new EnemyDialogSequence());
         // TODO change hard coded values
         EmitEvent(new BulletHellWaitReady()
         {

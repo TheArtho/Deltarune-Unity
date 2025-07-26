@@ -147,12 +147,8 @@ namespace Client.Combat
                 }
             }
             BattleInterface.Instance.ShowTargets(targets);
-            DialogBox dialog = BattleInterface.Instance.EnemyDialogBoxes[0];
-            dialog.gameObject.SetActive(true);
-            dialog.Clear();
-            yield return StartCoroutine(dialog.DrawText("Made by\nArtho.", "text", 0.05f));
-            yield return new WaitForSeconds(1f);
-            dialog.gameObject.SetActive(false);
+            yield return StartCoroutine(PlaySequenceIE(sequence));
+            yield return new WaitForSeconds(0.5f);
             BattleInterface.Instance.HideTargets();
             yield return new WaitForSeconds(0.5f);
             EmitEvent(new BulletHellReadyEvent()

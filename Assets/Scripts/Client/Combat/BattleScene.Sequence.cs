@@ -12,13 +12,13 @@ namespace Client.Combat
 {
     public partial class BattleScene
     {
-        public IEnumerator PlaySequenceIE(List<BattleSequence> sequence, Action callback)
+        public IEnumerator PlaySequenceIE(List<BattleSequence> sequence, Action callback = null)
         {
             foreach (var s in sequence)
             {
                 switch (s)
                 {
-                    case DialogSequence dialog:
+                    case EnemyDialogSequence dialog:
                         if (dialog.RunInParallel)
                         {
                             StartCoroutine(PlayDialogSequence(dialog));
@@ -85,10 +85,17 @@ namespace Client.Combat
             yield return new WaitForSeconds(seq.Delay);
         }
 
-        private IEnumerator PlayDialogSequence(DialogSequence seq)
+        private IEnumerator PlayDialogSequence(EnemyDialogSequence seq)
         {
-            Debug.Log("Show dialog here...");
-            yield return new WaitForSeconds(1f);
+            DialogBox dialog = BattleInterface.Instance.EnemyDialogBoxes[seq.EnemyId];
+            dialog.gameObject.SetActive(true);
+            if (seq.ClearText)
+            {
+                dialog.Clear();
+            }
+            yield return StartCoroutine(dialog.DrawText(seq.Text, seq.Sound, seq.TimePerChar));
+            yield return new WaitForSeconds(seq.Time);
+            dialog.gameObject.SetActive(false);
         }
         
         private IEnumerator PlayPlayerAnimSequence(PlayerAnimationSequence seq)

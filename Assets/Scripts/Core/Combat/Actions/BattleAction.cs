@@ -10,7 +10,6 @@ namespace Core.Combat.Actions
         protected List<BattleSequence> enemySequence;
         public BattleAction(Battle battle)
         {
-            Debug.Log("BattleAction created");
             this.battle = battle;
             this.battleSequence = battle.BattleSequence;
             this.enemySequence = battle.EnemySequence;
