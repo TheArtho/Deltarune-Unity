@@ -104,7 +104,7 @@ public class BattleSprite : MonoBehaviour
         }
     }
 
-    public void OnBulletHellStart()
+    public void OnBulletHellPrepare()
     {
         if (!defending)
         {

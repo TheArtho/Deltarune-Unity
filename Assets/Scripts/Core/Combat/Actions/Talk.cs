@@ -24,7 +24,7 @@ namespace Core.Combat.Actions
             });
             battleSequence.Add(new TextSequence
             {
-                Text = $"{battle.Players[user].name} is talking to\n{battle.Enemies[target].name}."
+                Text = $"{battle.Players[user].name} is talking to {battle.Enemies[target].name}."
             });
         }
     }

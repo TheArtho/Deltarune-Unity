@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Core.Combat.Actions;
 using UnityEngine.InputSystem.Utilities;
 
 namespace Core.Combat.Events
@@ -58,6 +59,13 @@ namespace Core.Combat.Events
         
         public int Player;
         public PlayerState State;
+    }
+    
+    public class UpdateInventoryEvent : IBattleEvent
+    {
+        public string[] items;
+        public BattleItem.TargetType[] targetType;
+        public bool[] selected;
     }
 
     public class StartTurnEvent : IBattleEvent {}

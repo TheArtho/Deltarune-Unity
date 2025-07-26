@@ -18433,6 +18433,12 @@ MonoBehaviour:
   musicList: {fileID: 11400000, guid: 611d2cca2fe32e94ba0f254707d883b1, type: 2}
   soundList: {fileID: 11400000, guid: bd2ebdad71abc1c41860b860978b345b, type: 2}
   spriteList: {fileID: 11400000, guid: ac6665f9f3d9e094f8180ecde38f9298, type: 2}
+  inventory:
+    items:
+    - {fileID: 11400000, guid: a22520a5aff1fa345a8b8237d27edac0, type: 2}
+    - {fileID: 11400000, guid: a22520a5aff1fa345a8b8237d27edac0, type: 2}
+    - {fileID: 11400000, guid: a22520a5aff1fa345a8b8237d27edac0, type: 2}
+    - {fileID: 11400000, guid: c98671d7f1a97884bba32d94a63c555c, type: 2}
 --- !u!4 &561331000 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7465515791691923616, guid: 9bc1741749587034b81ec50ad2e92928, type: 3}
@@ -50972,8 +50978,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 27.700012, y: -3.3625183}
-  m_SizeDelta: {x: -106.68005, y: 4.4850006}
+  m_AnchoredPosition: {x: 31.02002, y: -3.3625183}
+  m_SizeDelta: {x: -100.04004, y: 4.4850006}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1060570390
 MonoBehaviour:
@@ -50995,9 +51001,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'It''s the freaking Roaring
-
-    Knight!!!'
+  m_text: It's the freaking Roaring\nKnight!!!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4bffa563192c719418bf361d86acff11, type: 2}
   m_sharedMaterial: {fileID: 5187655729400016756, guid: 4bffa563192c719418bf361d86acff11, type: 2}
@@ -102895,7 +102899,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3226640147465635998, guid: 05854ddabebb782499b45ff566bc4813, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 48.888878
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3226640147465635998, guid: 05854ddabebb782499b45ff566bc4813, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -103178,7 +103182,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 261089860288169546, guid: f7fe1f8e00f94bb45b8677a2df95514b, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 39.999992
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 261089860288169546, guid: f7fe1f8e00f94bb45b8677a2df95514b, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -103794,7 +103798,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7499787004697909960, guid: 1e6fc03eefa47c843be4cec29e463090, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 58.666653
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7499787004697909960, guid: 1e6fc03eefa47c843be4cec29e463090, type: 3}
       propertyPath: m_AnchoredPosition.x

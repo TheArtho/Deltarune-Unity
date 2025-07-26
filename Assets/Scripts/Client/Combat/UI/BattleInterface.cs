@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Client.Combat.Events;
+using Core.Combat;
 using Core.Combat.Events;
 using UnityEngine;
 
@@ -32,6 +33,7 @@ namespace Client.Combat.UI
         public GlobalStateEvent GlobalStateEvent;
         public PlayerStateEvent[] PlayerStateEvents;
         public ReqFightQuickTimeDataEvent[] FightQteDataEvents;
+        public UpdateInventoryEvent InventoryEvent;
 
         public DialogBox DialogBox => dialogBox;
         public List<DialogBox> PlayerDialogBoxes => playerDialogBoxes;
@@ -39,7 +41,11 @@ namespace Client.Combat.UI
         public List<GameObject> DamageIndicators => damageIndicators;
         public List<GameObject> HealIndicators => healIndicators;
 
+        public BattleSubMenu SubMenu => subMenu;
+
         public TpBar TpBar => tpBar;
+
+        public Action<UpdateInventoryEvent> OnUpdateInventory;
 
         private void Awake()
         {
@@ -75,6 +81,12 @@ namespace Client.Combat.UI
         {
             PlayerStateEvents[evt.Player] = evt;
             playerMenus[evt.Player].UpdateInfo(evt);
+        }
+        
+        public void UpdateInventory(UpdateInventoryEvent evt)
+        {
+            InventoryEvent = evt;
+            OnUpdateInventory?.Invoke(evt);
         }
 
         public void StartTurn()
@@ -163,16 +175,22 @@ namespace Client.Combat.UI
                 }
             }
         }
-
+        
         public IEnumerator SubMenuSelect(string[] options, Action<int> result = null)
         {
-            return SubMenuSelect(options, new string[options.Length],  result);
+            return SubMenuSelect(options, Enumerable.Repeat(true, options.Length).ToArray(), new string[options.Length],  result);
         }
 
-        public IEnumerator SubMenuSelect(string[] options, string[] descriptions, Action<int> result = null)
+        public IEnumerator SubMenuSelect(string[] options, bool[] availableOptions, Action<int> result = null)
+        {
+            return SubMenuSelect(options, availableOptions, new string[options.Length],  result);
+        }
+
+        public IEnumerator SubMenuSelect(string[] options, bool[] availableOptions, string[] descriptions, Action<int> result = null)
         {
             subMenu.canCancel = true;
             subMenu.options = options.ToList();
+            subMenu.availableOptions = availableOptions.ToList();
             subMenu.gameObject.SetActive(true);
 
             yield return null;
@@ -387,6 +405,11 @@ namespace Client.Combat.UI
         public void OnPlayerCancelAction(CancelActionEvent evt)
         {
             playerMenus[evt.Player].PlayerInfo.SetLogo(-1);
+        }
+        
+        public void OnHealPlayerSequence(HealPlayerSequence seq)
+        {
+            playerMenus[seq.Player].UpdateHp(seq.CurrentHp);
         }
         
         public void OnDamagePlayerEvent(DamagePlayerEvent evt)

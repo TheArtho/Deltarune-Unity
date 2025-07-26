@@ -11,6 +11,11 @@ namespace Core.Combat
         public bool RunInParallel = false;
     }
     
+    public class WaitSequence : BattleSequence
+    {
+        public float Time = 0.3f;
+    }
+    
     public class PlayerDialogSequence : BattleSequence
     {
         public int PlayerId = 0;
@@ -36,12 +41,30 @@ namespace Core.Combat
         public bool ClearText = true;
         public bool CanSkip = false;
         public float Delay = 1f;
+        public float timePerChar = 0.02f;
     }
+    
+    public class ClearTextSequence : BattleSequence
+    { }
 
     public class PlayerAnimationSequence : BattleSequence
     {
         public int Character;
         public string Animation;
         public float Time;
+    }
+
+    public class HealPlayerSequence : BattleSequence
+    {
+        public int Player;
+        public int CurrentHp;
+        public int HealAmount;
+    }
+    
+    public class HealEnemySequence : BattleSequence
+    {
+        public int Enemy;
+        public int CurrentHp;
+        public int HealAmount;
     }
 }

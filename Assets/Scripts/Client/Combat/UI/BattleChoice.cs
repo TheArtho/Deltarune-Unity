@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Client.Combat.Events;
+using Core.Combat.Events;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -65,25 +67,34 @@ namespace Client.Combat.UI
             
             _playerInputAction.Battle.Select.performed += context =>
             {
-
-                DisableInput();
-                SfxHandler.Play("menu_select");
-                
                 switch (_index)
                 {
                     case 0: // Fight
+                        DisableInput();
+                        SfxHandler.Play("menu_select");
                         StartCoroutine(Fight());
                         break;
                     case 1:  // Act / Magic
+                        DisableInput();
+                        SfxHandler.Play("menu_select");
                         StartCoroutine(ActMagic());
                         break;
                     case 2: // Item
-                        StartCoroutine(Items());
+                        if (BattleInterface.Instance.InventoryEvent.items.Length > 0)
+                        {
+                            DisableInput();
+                            SfxHandler.Play("menu_select");
+                            StartCoroutine(Items());
+                        }
                         break;
                     case 3: // Spare
+                        DisableInput();
+                        SfxHandler.Play("menu_select");
                         StartCoroutine(Spare());
                         break;
                     case 4: // Defend
+                        DisableInput();
+                        SfxHandler.Play("menu_select");
                         StartCoroutine(Defend());
                         break;
                 }
@@ -207,8 +218,17 @@ namespace Client.Combat.UI
 
             while (true)
             {
+                Action<UpdateInventoryEvent> onUpdateInventory = context =>
+                {
+                    BattleInterface.Instance.SubMenu.options = context.items.ToList();
+                    BattleInterface.Instance.SubMenu.availableOptions = context.selected.Select(b => !b).ToList();
+                };
+
+                BattleInterface.Instance.OnUpdateInventory += onUpdateInventory;
+                
                 yield return StartCoroutine(BattleInterface.Instance.SubMenuSelect(
-                    new string[] {"Darkburger", "Light Candy"},
+                    BattleInterface.Instance.InventoryEvent.items,
+                    BattleInterface.Instance.InventoryEvent.selected.Select(b => !b).ToArray(),
                     value =>
                     {
                         index = value;
@@ -220,6 +240,8 @@ namespace Client.Combat.UI
                     EnableInput();
                     break;
                 }
+                
+                BattleInterface.Instance.OnUpdateInventory -= onUpdateInventory;
                 
                 var enemies = new List<BattleEnemyMenu.EnemyData>();
             

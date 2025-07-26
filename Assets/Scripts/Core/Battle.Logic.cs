@@ -49,11 +49,8 @@ public partial class Battle
         return new GlobalStateEvent
         {
             Ennemies = enemieStates.ToArray(),
-            Items = new string[]
-            {
-                "Darkburger", "Light Candy", "Java Cookie"
-            },
-            Text = this.introText,
+            Items = inventory.Select(x => x.GetName()).ToArray(),
+            Text = introText,
             ActivePlayers = players
                 .Select((p, index) => new { p, index })   // Associate each player with their index
                 .Where(x => x.p.hp > 0)                 // Keep players with hp > 0
@@ -163,7 +160,7 @@ public partial class Battle
                     break;
                 
                 case ActionType.Item:
-                    // TODO: Add item animation or effect
+                    inventory[action.Index].Use(action.Player, action.TargetId);
                     break;
                 
                 case ActionType.Spare:
@@ -201,6 +198,11 @@ public partial class Battle
                     break;
             }
         }
+    }
+
+    private void RemoveUsedItems()
+    {
+        inventory.RemoveAll(x => x.Selected);
     }
 
 

@@ -1,75 +1,79 @@
 #if UNITY_EDITOR
-using UnityEditor;
-using UnityEngine;
 using System;
 using System.Linq;
 using Core.Combat;
-using Scriptables;
+using UnityEditor;
+using UnityEngine;
 
-[CustomEditor(typeof(EnemyDefinition))]
-public class EnemyDefinitionEditor : Editor
+namespace Scriptables.Editor
 {
-    private string[] availableActions;
-    private string[] displayedActionNames;
-    private int selectedIndex;
-
-    private SerializedProperty nameProp;
-    private SerializedProperty hpProp;
-    private SerializedProperty attackProp;
-    private SerializedProperty defenseProp;
-    private SerializedProperty haveMercyProp;
-    private SerializedProperty battleSpritePrefabProp;
-    private SerializedProperty playerActionsProp;
-    private SerializedProperty enemyClassNameProp;
-
-    private void OnEnable()
+    [CustomEditor(typeof(EnemyDefinition))]
+    public class EnemyDefinitionEditor : UnityEditor.Editor
     {
-        nameProp = serializedObject.FindProperty("name");
-        hpProp = serializedObject.FindProperty("hp");
-        attackProp = serializedObject.FindProperty("attack");
-        defenseProp = serializedObject.FindProperty("defense");
-        haveMercyProp = serializedObject.FindProperty("haveMercy");
-        battleSpritePrefabProp = serializedObject.FindProperty("battleSpritePrefab");
-        playerActionsProp = serializedObject.FindProperty("playerActions");
-        enemyClassNameProp = serializedObject.FindProperty("enemyClassName");
-    }
+        private string[] availableActions;
+        private string[] displayedActionNames;
+        private int selectedIndex;
 
-    public override void OnInspectorGUI()
-    {
-        serializedObject.Update();
+        private SerializedProperty nameProp;
+        private SerializedProperty hpProp;
+        private SerializedProperty attackProp;
+        private SerializedProperty defenseProp;
+        private SerializedProperty haveMercyProp;
+        private SerializedProperty battleSpritePrefabProp;
+        private SerializedProperty playerActionsProp;
+        private SerializedProperty enemyClassNameProp;
 
-        var def = (EnemyDefinition)target;
+        private void OnEnable()
+        {
+            nameProp = serializedObject.FindProperty("name");
+            hpProp = serializedObject.FindProperty("hp");
+            attackProp = serializedObject.FindProperty("attack");
+            defenseProp = serializedObject.FindProperty("defense");
+            haveMercyProp = serializedObject.FindProperty("haveMercy");
+            battleSpritePrefabProp = serializedObject.FindProperty("battleSpritePrefab");
+            playerActionsProp = serializedObject.FindProperty("playerActions");
+            enemyClassNameProp = serializedObject.FindProperty("enemyClassName");
+        }
 
-        // --- Behavior Class Selector ---
-        var types = AppDomain.CurrentDomain.GetAssemblies()
-            .SelectMany(a => a.GetTypes())
-            .Where(t => typeof(Enemy).IsAssignableFrom(t) && !t.IsAbstract)
-            .Where(t => t.GetCustomAttributes(typeof(EnemyClassAttribute), false).Length > 0)
-            .ToList();
+        public override void OnInspectorGUI()
+        {
+            serializedObject.Update();
 
-        availableActions = types.Select(t => t.AssemblyQualifiedName).ToArray();
-        displayedActionNames = types.Select(t => t.Name).ToArray();
+            var def = (EnemyDefinition)target;
 
-        selectedIndex = Mathf.Max(0, Array.IndexOf(availableActions, enemyClassNameProp.stringValue));
-        selectedIndex = EditorGUILayout.Popup("Enemy Logic Class", selectedIndex, displayedActionNames);
-        enemyClassNameProp.stringValue = availableActions[selectedIndex];
+            // --- Behavior Class Selector ---
+            var types = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(a => a.GetTypes())
+                .Where(t => typeof(Enemy).IsAssignableFrom(t) && !t.IsAbstract)
+                .Where(t => t.GetCustomAttributes(typeof(EnemyClassAttribute), false).Length > 0)
+                .ToList();
+            
+            if (types.Count == 0) return;
 
-        EditorGUILayout.Space();
-        EditorGUILayout.LabelField("Enemy Parameters", EditorStyles.boldLabel);
+            availableActions = types.Select(t => t.AssemblyQualifiedName).ToArray();
+            displayedActionNames = types.Select(t => t.Name).ToArray();
 
-        EditorGUILayout.PropertyField(nameProp);
-        EditorGUILayout.PropertyField(hpProp);
-        EditorGUILayout.PropertyField(attackProp);
-        EditorGUILayout.PropertyField(defenseProp);
-        EditorGUILayout.PropertyField(haveMercyProp);
-        EditorGUILayout.PropertyField(battleSpritePrefabProp);
+            selectedIndex = Mathf.Max(0, Array.IndexOf(availableActions, enemyClassNameProp.stringValue));
+            selectedIndex = EditorGUILayout.Popup("Enemy Logic Class", selectedIndex, displayedActionNames);
+            enemyClassNameProp.stringValue = availableActions[selectedIndex];
 
-        EditorGUILayout.Space();
-        EditorGUILayout.LabelField("Player Actions", EditorStyles.boldLabel);
-        EditorGUILayout.HelpBox("Each list represents actions available to a player.", MessageType.Info);
-        EditorGUILayout.PropertyField(playerActionsProp, true);
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Enemy Parameters", EditorStyles.boldLabel);
 
-        serializedObject.ApplyModifiedProperties();
+            EditorGUILayout.PropertyField(nameProp);
+            EditorGUILayout.PropertyField(hpProp);
+            EditorGUILayout.PropertyField(attackProp);
+            EditorGUILayout.PropertyField(defenseProp);
+            EditorGUILayout.PropertyField(haveMercyProp);
+            EditorGUILayout.PropertyField(battleSpritePrefabProp);
+
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Player Actions", EditorStyles.boldLabel);
+            EditorGUILayout.HelpBox("Each list represents actions available to a player.", MessageType.Info);
+            EditorGUILayout.PropertyField(playerActionsProp, true);
+
+            serializedObject.ApplyModifiedProperties();
+        }
     }
 }
 #endif

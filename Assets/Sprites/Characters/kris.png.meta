@@ -976,6 +976,160 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: kris_item_1
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 3994
+        width: 63
+        height: 43
+      alignment: 9
+      pivot: {x: 0.2857143, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c299bd300b8ef9b44bbb9dd46282845f
+      internalID: -1061390930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_item_2
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 3994
+        width: 63
+        height: 43
+      alignment: 9
+      pivot: {x: 0.2857143, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a9383de614fa9048999176156054b60
+      internalID: 2142134750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_item_3
+      rect:
+        serializedVersion: 2
+        x: 211
+        y: 3994
+        width: 63
+        height: 43
+      alignment: 9
+      pivot: {x: 0.2857143, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: acc956c19b52d8d43baccb854f32fe20
+      internalID: -1790803992
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_item_4
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 3994
+        width: 63
+        height: 43
+      alignment: 9
+      pivot: {x: 0.2857143, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 930339e0f88827848866d468f85cf3cc
+      internalID: -1950038547
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_item_5
+      rect:
+        serializedVersion: 2
+        x: 347
+        y: 3994
+        width: 63
+        height: 43
+      alignment: 9
+      pivot: {x: 0.2857143, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c5d10476c93f8944b1f5f66158c8d95
+      internalID: 1333800105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_item_6
+      rect:
+        serializedVersion: 2
+        x: 415
+        y: 3994
+        width: 63
+        height: 43
+      alignment: 9
+      pivot: {x: 0.2857143, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f40176c3a97f7b468ea8e3c9580950a
+      internalID: -1441559196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_item_7
+      rect:
+        serializedVersion: 2
+        x: 483
+        y: 3994
+        width: 63
+        height: 43
+      alignment: 9
+      pivot: {x: 0.2857143, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb37ae149a17dbd4fa67aaffa9a997f6
+      internalID: 1192489283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -1023,6 +1177,13 @@ TextureImporter:
       kris_fight_6: 1851100433
       kris_hurt: -303194002
       kris_item_0: -631413471
+      kris_item_1: -1061390930
+      kris_item_2: 2142134750
+      kris_item_3: -1790803992
+      kris_item_4: -1950038547
+      kris_item_5: 1333800105
+      kris_item_6: -1441559196
+      kris_item_7: 1192489283
       kris_prepare_act_0: 1556598444
       kris_prepare_act_1: 1953577955
       kris_prepare_fight: -1379855818

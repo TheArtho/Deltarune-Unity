@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Client.Combat.UI;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class BattleSubMenu : MonoBehaviour
@@ -14,6 +15,7 @@ public class BattleSubMenu : MonoBehaviour
     [SerializeField] private TextMeshProUGUI description;
     [SerializeField] private int columns = 2; // 2x2 grid
     public List<string> options;
+    public List<bool> availableOptions;
     
     private int _index;
     private PlayerInputAction _playerInputAction;
@@ -76,9 +78,12 @@ public class BattleSubMenu : MonoBehaviour
         _playerInputAction.Battle.Select.performed += context =>
         {
 
-            DisableInput();
-            SfxHandler.Play("menu_select");
-            OnSelect?.Invoke(_index);
+            if (availableOptions[_index])
+            {
+                DisableInput();
+                SfxHandler.Play("menu_select");
+                OnSelect?.Invoke(_index);
+            }
         };
         
         _playerInputAction.Battle.Cancel.performed += context =>
@@ -89,6 +94,11 @@ public class BattleSubMenu : MonoBehaviour
             SfxHandler.Play("menu_select");
             OnCancel?.Invoke();
         };
+    }
+    
+    private void Update()
+    {
+        UpdateColor();
     }
 
     public void EnableInput()
@@ -175,6 +185,24 @@ public class BattleSubMenu : MonoBehaviour
         }
         
         soul.rectTransform.position = menuItems[_index].SoulPosition.position;
+    }
+    
+    public void UpdateColor()
+    {
+        for (var i = 0; i < menuItems.Count; i++)
+        {
+            if (i < options.Count && i < availableOptions.Count)
+            {
+                if (availableOptions[i])
+                {
+                    menuItems[i].Text.color = Color.white;
+                }
+                else
+                {
+                    menuItems[i].Text.color = new Color(1,1,1,0.1f);
+                }
+            }
+        }
     }
 
     private void OnEnable()

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Client.Combat;
 using Client.Combat.UI;
+using Core;
 using Core.Combat;
 using Scriptables;
 using UnityEngine;
@@ -38,6 +39,7 @@ public class BattleHandler : MonoBehaviour
 
         battle = new Battle(players.ToArray(), enemies.ToArray());
         battle.SetIntroText(battleDef.introText);
+        battle.SetInventory(Global.instance.Inventory);
             
         proxy.Init(battle);
         battle.Start();

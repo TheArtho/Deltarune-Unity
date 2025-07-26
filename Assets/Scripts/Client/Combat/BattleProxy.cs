@@ -50,6 +50,7 @@ namespace Client.Combat
             subscriptions.AddFrom<IBattleEvent, KnockOutEvent>(battle, OnKnockOut);
             subscriptions.AddFrom<IBattleEvent, GameOverEvent>(battle, OnGameOver);
             subscriptions.AddFrom<IBattleEvent, HealPlayerEvent>(battle, OnHealPlayer);
+            subscriptions.AddFrom<IBattleEvent, UpdateInventoryEvent>(battle, OnUpdateInventory);
 
             if (scene)
             {
@@ -180,6 +181,11 @@ namespace Client.Combat
         private void OnHealPlayer(HealPlayerEvent evt)
         {
             scene.OnHealPlayerEvent(evt);
+        }
+        
+        private void OnUpdateInventory(UpdateInventoryEvent evt)
+        {
+            @interface.UpdateInventory(evt);
         }
 
         #endregion

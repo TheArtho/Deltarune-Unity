@@ -21,4 +21,9 @@ public class PlayerBattleMenu : MonoBehaviour
     {
         playerInfo.UpdateHp(hp, maxHp);
     }
+    
+    public void UpdateHp(int hp)
+    {
+        playerInfo.UpdateHp(hp);
+    }
 }

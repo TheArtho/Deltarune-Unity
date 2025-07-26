@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Client.Combat.Events;
+using Core;
 using Core.Combat;
+using Core.Combat.Actions;
 using Core.Combat.Events;
 using UnityEngine;
 
@@ -52,6 +54,7 @@ public partial class Battle : IEventSource<IBattleEvent>
     private EventBus battleEvents = new EventBus();
 
     private string introText = "...";
+    private List<BattleItem> inventory = new List<BattleItem>();
     
     // Public parameters
     public int TurnCount { get; protected set; }
@@ -76,6 +79,16 @@ public partial class Battle : IEventSource<IBattleEvent>
         }
 
         ResetBuffers();
+    }
+
+    public void SetInventory(Inventory inventory)
+    {
+       this.inventory.Clear();
+        
+        foreach (var itemDefinition in inventory.Items)
+        {
+            this.inventory.Add(itemDefinition.CreateInstance(this));
+        }
     }
 
     public void SetIntroText(string text)
@@ -137,6 +150,12 @@ public partial class Battle : IEventSource<IBattleEvent>
 
         GlobalStateEvent globalStateEvent = GetGlobalState();
         EmitEvent(globalStateEvent);
+        EmitEvent(new UpdateInventoryEvent
+        {
+            items = inventory.Select(i => i.GetName()).ToArray(),
+            targetType = inventory.Select(i => i.Target).ToArray(),
+            selected = inventory.Select(i => i.Selected).ToArray()
+        });
         
         // Send possible actions to players
         for (var i = 0; i < players.Length; i++)
@@ -185,6 +204,16 @@ public partial class Battle : IEventSource<IBattleEvent>
         {
             AddTp(playerId, 40);
         }
+        else if (command.ActionType == ActionType.Item)
+        {
+            inventory[command.Index].Selected = true;
+            EmitEvent(new UpdateInventoryEvent()
+            {
+                items = inventory.Select(i => i.GetName()).ToArray(),
+                targetType = inventory.Select(i => i.Target).ToArray(),
+                selected = inventory.Select(i => i.Selected).ToArray()
+            });
+        }
         EmitEvent(new ChooseActionEvent() {Player = playerId, ActionType = command.ActionType});
         
         if (AllActivePlayersHaveCommands())
@@ -225,6 +254,17 @@ public partial class Battle : IEventSource<IBattleEvent>
         }
         
         Debug.Log($"[Battle] Player {playerId}'s action cancelled.");
+        
+        if (playerCommandBuffer[playerId].ActionType == ActionType.Item)
+        {
+            inventory[playerCommandBuffer[playerId].Index].Selected = false;
+            EmitEvent(new UpdateInventoryEvent()
+            {
+                items = inventory.Select(i => i.GetName()).ToArray(),
+                targetType = inventory.Select(i => i.Target).ToArray(),
+                selected = inventory.Select(i => i.Selected).ToArray()
+            });
+        }
         
         if (playerCommandBuffer[playerId].ActionType == ActionType.Defend)
         {
@@ -271,6 +311,7 @@ public partial class Battle : IEventSource<IBattleEvent>
         tp = Math.Clamp(tp, 0, 100);
 
         CalculateBattleSequence();
+        RemoveUsedItems();
         
         WaitForBattleSequence();
         
@@ -286,8 +327,10 @@ public partial class Battle : IEventSource<IBattleEvent>
     }
 
     public void ReceiveBattleSequenceEnded(int player)
-    {
+    {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
         if (state != BattleState.AwaitingForActionSequence) return;
+
+        if (player < 0 || player >= playerCommandBuffer.Length) return;
         
         battleSequenceReadyBuffer[player] = true;
 

@@ -78,7 +78,6 @@ namespace Client.Combat
             StartCoroutine(PlaySequenceIE(evt.BattleSequence, () =>
             {
                 // Emit to the battle system the end of the battle sequence
-                // TODO Change this hard coded part
                 dialogBox.Clear();
                 EmitEvent(new BattleSequenceEnded()
                 {
@@ -122,7 +121,11 @@ namespace Client.Combat
         public void PrepareBulletPhase(BulletHellWaitReady evt)
         {
             Debug.Log("PrepareBulletPhase");
-            // Prepare the bullet hell prefab
+            foreach (var p in playerBattleSprites)
+            {
+                p.OnBulletHellPrepare();
+            }
+            // TODO Prepare the bullet hell prefab
             StartCoroutine(PreBulletSequence(evt.Targets, evt.BattleSequence));
         }
 
@@ -167,10 +170,6 @@ namespace Client.Combat
 
         public void StartBulletHell()
         {
-            foreach (var p in playerBattleSprites)
-            {
-                p.OnBulletHellStart();
-            }
             dialogBox.Clear();
             bulletHell.gameObject.SetActive(true);
             bulletHell.StartPhase();

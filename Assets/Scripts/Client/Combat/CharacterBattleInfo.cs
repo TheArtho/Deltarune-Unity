@@ -86,6 +86,11 @@ public class CharacterBattleInfo : MonoBehaviour
         this.name.text = name.ToUpper();
     }
 
+    public void UpdateHp(int currentHp)
+    {
+        UpdateHp(currentHp, int.Parse(hpMaxText.text));
+    }
+
     public void UpdateHp(int currentHp, int maxHp)
     {
         if (currentHp <= 0)  // Red text for 0 or below hp

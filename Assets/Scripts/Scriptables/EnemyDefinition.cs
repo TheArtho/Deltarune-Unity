@@ -43,7 +43,7 @@ namespace Scriptables
                     Attr = t.GetCustomAttribute<ActionClassAttribute>()
                 })
                 .Where(x => x.Attr != null)
-                .ToDictionary(x => x.Attr.ActionName, x => x.Type);
+                .ToDictionary(x => x.Attr.ClassName, x => x.Type);
         }
 
         public Enemy CreateInstance()

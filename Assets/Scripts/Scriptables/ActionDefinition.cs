@@ -8,16 +8,16 @@ using UnityEngine;
 
 namespace Scriptables
 {
-    [CreateAssetMenu(fileName = "ActionDefinition", menuName = "Scriptable Objects/ActionDefinition")]
+    [CreateAssetMenu(fileName = "ActionDefinition", menuName = "Scriptable Objects/Action Definition")]
     public class ActionDefinition : ScriptableObject
     {
-        private static readonly Dictionary<string, Type> actionTypes;
+        private static readonly Dictionary<string, Type> ActionTypes;
         
         [SerializeField, HideInInspector] public string actionClassName; // ex: "Check"
         
         static ActionDefinition()
         {
-            actionTypes = AppDomain.CurrentDomain.GetAssemblies()
+            ActionTypes = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(a => a.GetTypes())
                 .Where(t => typeof(BattleAction).IsAssignableFrom(t) && !t.IsAbstract)
                 .Select(t => new
@@ -26,18 +26,20 @@ namespace Scriptables
                     Attr = t.GetCustomAttribute<ActionClassAttribute>()
                 })
                 .Where(x => x.Attr != null)
-                .ToDictionary(x => x.Attr.ActionName, x => x.Type);
+                .ToDictionary(x => x.Attr.ClassName, x => x.Type);
         }
 
         public BattleAction CreateInstance(Battle battle)
         {
-            var type = actionTypes[actionClassName];
+            var type = ActionTypes[actionClassName];
             if (type == null)
             {
                 Debug.LogError($"Action class not found: {actionClassName}");
                 return null;
             }
 
+            Debug.Log("Creating instance of BattleAction with type : " + actionClassName);
+            
             return (BattleAction)Activator.CreateInstance(type, battle);
         }
     }
@@ -46,10 +48,10 @@ namespace Scriptables
 [AttributeUsage(AttributeTargets.Class)]
 public class ActionClassAttribute : Attribute
 {
-    public string ActionName { get; }
+    public string ClassName { get; }
 
-    public ActionClassAttribute(string actionName)
+    public ActionClassAttribute(string className)
     {
-        ActionName = actionName;
+        ClassName = className;
     }
 }
