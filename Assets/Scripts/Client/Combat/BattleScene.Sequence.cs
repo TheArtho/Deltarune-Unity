@@ -143,8 +143,8 @@ namespace Client.Combat
         
         private IEnumerator PlayPlayerAnimSequence(PlayerAnimationSequence seq)
         {
-            Debug.Log($"[BattleScene] Played Animation for player {seq.Character} : {seq.Animation}");
-            playerBattleSprites[seq.Character].Play(seq.Animation);
+            Debug.Log($"[BattleScene] Played Animation for player {seq.Player} : {seq.Animation}");
+            playerBattleSprites[seq.Player].Play(seq.Animation);
             yield return new WaitForSeconds(seq.Time);
         }
         

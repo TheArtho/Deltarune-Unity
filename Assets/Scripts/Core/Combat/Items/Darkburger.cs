@@ -29,7 +29,7 @@ namespace Core.Combat.Items
             });
             battleSequence.Add(new PlayerAnimationSequence
             {
-                Character = user,
+                Player = user,
                 Animation = "UseItem",
                 Time = 0.8f
             });

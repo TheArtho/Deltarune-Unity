@@ -53,6 +53,7 @@ public partial class Battle
 
     private void GameOver()
     {
+        state = BattleState.GameOver;
         EmitEvent(new GameOverEvent());
     }
 }

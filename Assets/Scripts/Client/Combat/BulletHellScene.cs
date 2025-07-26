@@ -76,7 +76,6 @@ public class BulletHellScene : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         gameObject.SetActive(false);
         // Emit event
-        // TODO Change this hardcoded part
         BattleScene.Instance.EmitEvent(new BulletHellEndedEvent()
         {
             Player = 0,

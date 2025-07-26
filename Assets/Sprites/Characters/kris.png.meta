@@ -1130,6 +1130,204 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: kris_end_0
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 3875
+        width: 34
+        height: 37
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3994a049cdb22a4180bf41466a1148f
+      internalID: 935624294
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_end_1
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 3875
+        width: 34
+        height: 37
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af9876f1f71a47e4e8b5e0cfe89811b9
+      internalID: -1365906123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_end_2
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 3875
+        width: 34
+        height: 37
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4e2de6cda42da142abc2e7753bfa44d
+      internalID: -2040335509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_end_3
+      rect:
+        serializedVersion: 2
+        x: 124
+        y: 3875
+        width: 34
+        height: 37
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3598d85144c4a3f4285cce1aa3e03507
+      internalID: -1996212757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_end_4
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 3875
+        width: 34
+        height: 37
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 182c1e35ccc7dc44d8c3d9328e9461b3
+      internalID: -1989420248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_end_5
+      rect:
+        serializedVersion: 2
+        x: 202
+        y: 3875
+        width: 34
+        height: 37
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d3697966f5af594bb7be11177821a7e
+      internalID: 1530090464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_end_6
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 3875
+        width: 34
+        height: 37
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d62a0e1ef8da918499f726e1ab2cdc67
+      internalID: -363840943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_end_7
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 3875
+        width: 34
+        height: 37
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f95803c5468d548418b56975988b080a
+      internalID: 430752651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_end_8
+      rect:
+        serializedVersion: 2
+        x: 319
+        y: 3875
+        width: 34
+        height: 37
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 777609846cce50a42812629d53aa84fd
+      internalID: 351449434
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -1168,6 +1366,15 @@ TextureImporter:
       kris_defend_4: 2019579513
       kris_defend_5: 1978731234
       kris_downed: 1800646639
+      kris_end_0: 935624294
+      kris_end_1: -1365906123
+      kris_end_2: -2040335509
+      kris_end_3: -1996212757
+      kris_end_4: -1989420248
+      kris_end_5: 1530090464
+      kris_end_6: -363840943
+      kris_end_7: 430752651
+      kris_end_8: 351449434
       kris_fight_0: -183975013
       kris_fight_1: 1273560277
       kris_fight_2: -446922131

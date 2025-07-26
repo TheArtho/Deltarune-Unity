@@ -23,8 +23,9 @@ public partial class Battle : IEventSource<IBattleEvent>
         AwaitingForPlayersBulletPhaseReady,
         BulletPhase,
         EndOfTurn,
-        Won,
-        Lost
+        WaitForEndBattleReady,
+        Ended,
+        GameOver
     }
     
     // Private parameters
@@ -44,6 +45,7 @@ public partial class Battle : IEventSource<IBattleEvent>
     private bool[] battleSequenceReadyBuffer;
     private bool[] bulletHellReadyBuffer;
     private bool[] bulletHellEndedBuffer;
+    private bool[] battleEndedBuffer;
     
     private List<BattleSequence> battleSequence = new List<BattleSequence>();
     private List<BattleSequence> enemySequence = new List<BattleSequence>();
@@ -103,6 +105,7 @@ public partial class Battle : IEventSource<IBattleEvent>
         battleSequenceReadyBuffer = new bool[players.Length];
         bulletHellReadyBuffer = new bool[players.Length];
         bulletHellEndedBuffer = new bool[players.Length];
+        battleEndedBuffer = new  bool[players.Length];
     }
 
     public void Start()
@@ -375,6 +378,7 @@ public partial class Battle : IEventSource<IBattleEvent>
                 Player = playerId,
                 Target = target,
                 Damage =  damage,
+                Fainted = enemies[target].IsFainted
             });
         }
         else
@@ -402,9 +406,17 @@ public partial class Battle : IEventSource<IBattleEvent>
         // Process the turn if it is the case
         if (isFightBufferFull)
         {
-            WaitForBulletPhaseReady();
+            if (CheckEndBattle())
+            {
+                WaitForEndBattleSequence();
+            }
+            else
+            {
+                WaitForBulletPhaseReady();
+            }
         }
     }
+    
     private void WaitForBulletPhaseReady()
     {
         Debug.Log("Waiting for clients to be ready for bullet phase.");
@@ -465,6 +477,48 @@ public partial class Battle : IEventSource<IBattleEvent>
         EndTurn();
     }
     
+    private bool CheckEndBattle()
+    {
+        return true;
+    }
+
+    private void WaitForEndBattleSequence()
+    {
+        Debug.Log("Waiting for clients to finish the end battle sequence.");
+        state = BattleState.WaitForEndBattleReady;
+        
+        EmitEvent(new PlayEndBattleSequenceEvent()
+        {
+            sequence = CalculateEndBattleSequence()
+        });
+    }
+    
+    public void ReceiveEndBattleReady(int playerId)
+    {
+        if (state != BattleState.WaitForEndBattleReady) return;
+
+        if (playerId < 0 || playerId >= battleEndedBuffer.Length) return;
+
+        if (battleEndedBuffer[playerId]) return;
+        
+        battleEndedBuffer[playerId] = true;
+        
+        if (battleEndedBuffer.All(x => x))
+        {
+            // Wait for all players to be ready to end the battle
+            EndBattle();
+        }
+    }
+
+    private void EndBattle()
+    {
+        state = BattleState.Ended;
+        EmitEvent(new EndBattleEvent()
+        {
+            
+        });
+    }
+    
     // Battle Event
     
     public void SubscribeEvent<T>(Action<T> callback) where T : class, IBattleEvent
@@ -477,7 +531,7 @@ public partial class Battle : IEventSource<IBattleEvent>
         battleEvents.Unsubscribe(callback);
     }
 
-    private void EmitEvent<T>(T evt) where T : class, IBattleEvent
+    public void EmitEvent<T>(T evt) where T : class, IBattleEvent
     {
         battleEvents.Emit(evt);
     }

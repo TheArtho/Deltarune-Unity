@@ -558,6 +558,380 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: ralsei_end_0
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 2295
+        width: 39
+        height: 47
+      alignment: 9
+      pivot: {x: 0.53846157, y: -0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee162abba81f8ab4bb12238a13780bd2
+      internalID: -1961299750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ralsei_end_1
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 2295
+        width: 39
+        height: 47
+      alignment: 9
+      pivot: {x: 0.53846157, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f0413df36e1172a4c9db9716364184f6
+      internalID: 1481234874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ralsei_end_2
+      rect:
+        serializedVersion: 2
+        x: 93
+        y: 2295
+        width: 39
+        height: 47
+      alignment: 9
+      pivot: {x: 0.53846157, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb75b0f79f911af4a8dc3dd46eea20e7
+      internalID: -910969838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ralsei_end_3
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 2295
+        width: 39
+        height: 47
+      alignment: 9
+      pivot: {x: 0.53846157, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b2abb71342dbf2428a97120dff5a4c1
+      internalID: -1320446551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ralsei_end_4
+      rect:
+        serializedVersion: 2
+        x: 181
+        y: 2295
+        width: 39
+        height: 47
+      alignment: 9
+      pivot: {x: 0.53846157, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38a42996c3d72264aba59510d48df46e
+      internalID: 686070764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ralsei_end_5
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 2295
+        width: 39
+        height: 46
+      alignment: 9
+      pivot: {x: 0.53846157, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 191f87e87eb8dd247a3e9aad400fb660
+      internalID: -1845626923
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ralsei_end_6
+      rect:
+        serializedVersion: 2
+        x: 269
+        y: 2295
+        width: 39
+        height: 47
+      alignment: 9
+      pivot: {x: 0.53846157, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8200dc460e774824f8bf8ca6deefda4f
+      internalID: 748345334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ralsei_end_7
+      rect:
+        serializedVersion: 2
+        x: 313
+        y: 2295
+        width: 39
+        height: 47
+      alignment: 9
+      pivot: {x: 0.53846157, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 291701cdd1085d949b65dbaf40e879cd
+      internalID: 453625998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ralsei_end_8
+      rect:
+        serializedVersion: 2
+        x: 357
+        y: 2295
+        width: 39
+        height: 46
+      alignment: 9
+      pivot: {x: 0.53846157, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e310c43bdcc99d4798faf1da237c38e
+      internalID: 955815128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ralsei_end_9
+      rect:
+        serializedVersion: 2
+        x: 401
+        y: 2295
+        width: 39
+        height: 47
+      alignment: 9
+      pivot: {x: 0.53846157, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76dc691da59ec9843a16e6f1e1fb8ac9
+      internalID: 826458088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ralsei_end_10
+      rect:
+        serializedVersion: 2
+        x: 445
+        y: 2295
+        width: 39
+        height: 47
+      alignment: 9
+      pivot: {x: 0.53846157, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec4bf23154179124a9737c1bc9da159b
+      internalID: 199376181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ralsei_end_11
+      rect:
+        serializedVersion: 2
+        x: 489
+        y: 2295
+        width: 39
+        height: 47
+      alignment: 9
+      pivot: {x: 0.53846157, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 034557f2273ce184cae60a49a5158c58
+      internalID: -101948060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ralsei_end_12
+      rect:
+        serializedVersion: 2
+        x: 533
+        y: 2295
+        width: 39
+        height: 47
+      alignment: 9
+      pivot: {x: 0.53846157, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dab53358e585ba3428182bf7552e870b
+      internalID: 1844419776
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ralsei_end_13
+      rect:
+        serializedVersion: 2
+        x: 577
+        y: 2295
+        width: 39
+        height: 47
+      alignment: 9
+      pivot: {x: 0.53846157, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 209b4366de5bfb94eab0c7fa821ed7cf
+      internalID: -95848503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ralsei_end_14
+      rect:
+        serializedVersion: 2
+        x: 621
+        y: 2295
+        width: 39
+        height: 46
+      alignment: 9
+      pivot: {x: 0.53846157, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a191b4072d9cd974e815e302e3857ff7
+      internalID: 462929032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ralsei_end_15
+      rect:
+        serializedVersion: 2
+        x: 665
+        y: 2295
+        width: 39
+        height: 47
+      alignment: 9
+      pivot: {x: 0.53846157, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 30ef2357585abc4439586f5df4509e7f
+      internalID: 1558760666
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ralsei_end_16
+      rect:
+        serializedVersion: 2
+        x: 709
+        y: 2295
+        width: 39
+        height: 47
+      alignment: 9
+      pivot: {x: 0.53846157, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82c4d7b7aeedff24cb68ecfc00a8f9e3
+      internalID: -1888256754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -586,6 +960,23 @@ TextureImporter:
       ralsei_defend_6: -1573600423
       ralsei_defend_7: 243865846
       ralsei_downed: -1914461092
+      ralsei_end_0: -1961299750
+      ralsei_end_1: 1481234874
+      ralsei_end_10: 199376181
+      ralsei_end_11: -101948060
+      ralsei_end_12: 1844419776
+      ralsei_end_13: -95848503
+      ralsei_end_14: 462929032
+      ralsei_end_15: 1558760666
+      ralsei_end_16: -1888256754
+      ralsei_end_2: -910969838
+      ralsei_end_3: -1320446551
+      ralsei_end_4: 686070764
+      ralsei_end_5: -1845626923
+      ralsei_end_6: 748345334
+      ralsei_end_7: 453625998
+      ralsei_end_8: 955815128
+      ralsei_end_9: 826458088
       ralsei_fight_0: -1588312511
       ralsei_fight_1: -66822299
       ralsei_fight_2: -1219382380

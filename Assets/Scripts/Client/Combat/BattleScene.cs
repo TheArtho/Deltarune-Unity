@@ -94,7 +94,6 @@ namespace Client.Combat
             }));
         }
 
-
         public void ResetAnimations()
         {
             foreach (var p in PlayerBattleSprites)
@@ -116,6 +115,34 @@ namespace Client.Combat
         public void OnPlayerCancelAction(CancelActionEvent evt)
         {
             playerBattleSprites[evt.Player].OnPlayerCancelAction(evt);
+        }
+
+        public void EndBattleSequence(PlayEndBattleSequenceEvent evt)
+        {
+            StartCoroutine(EndBattleSequenceIE(evt.sequence));
+        }
+        
+        public IEnumerator EndBattleSequenceIE(List<BattleSequence> sequence)
+        {
+            yield return new WaitUntil(() => !attackAnimation);
+            yield return StartCoroutine(PlaySequenceIE(sequence));
+            EmitEvent(new EndBattleReadyEvent()
+            {
+                Player = 0
+            });
+            EmitEvent(new EndBattleReadyEvent()
+            {
+                Player = 1
+            });
+            EmitEvent(new EndBattleReadyEvent()
+            {
+                Player = 2
+            });
+        }
+
+        public void EndBattle()
+        {
+            // TODO Reset battle scene
         }
 
         public void PrepareBulletPhase(BulletHellWaitReady evt)
@@ -175,12 +202,15 @@ namespace Client.Combat
             bulletHell.StartPhase();
         }
 
-        public IEnumerator PlayerAttack(int playerId, int targetId, int damage)
+        public IEnumerator PlayerAttack(PlayerAttackEvent evt)
         {
             attackAnimation = true;
-            yield return StartCoroutine(PlayerAttackAnimation(playerId));
-            // TODO Show damage
-            yield return StartCoroutine(EnemyHurtAnimation(playerId, targetId, damage.ToString()));
+            yield return StartCoroutine(PlayerAttackAnimation(evt.Player));
+            yield return StartCoroutine(EnemyHurtAnimation(evt.Player, evt.Target, evt.Damage.ToString()));
+            if (evt.Fainted)
+            {
+                // TODO Play death animation
+            }
             attackAnimation = false;
         }
         

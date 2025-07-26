@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Core.Combat.Actions;
+using Core.Combat.Events;
 using Scriptables;
 using UnityEngine;
 
@@ -171,35 +172,6 @@ namespace Core.Combat
             {
                   // Checks if the conditions to be spared are complete
                   return false;
-            }
-      
-            /// <summary>
-            /// Custom Behavior depending on the situation
-            /// </summary>
-            /// <returns></returns>
-            public virtual IEnumerator StartTurnBehaviour()
-            {
-                  // Custom Behavior depending on the situation
-                  yield return null;
-            }
-
-            /// <summary>
-            /// Additional behavior at the end of the turn
-            /// </summary>
-            /// <returns></returns>
-            public virtual IEnumerator EndTurnBehavior()
-            {
-                  // Additional effects for the Enemy at the end of the turn
-                  yield return null;
-            }
-
-            /// <summary>
-            /// Faint animation
-            /// </summary>
-            /// <returns></returns>
-            public virtual IEnumerator Faint()
-            {
-                  yield return null;
             }
 
             public virtual string GetStartText()

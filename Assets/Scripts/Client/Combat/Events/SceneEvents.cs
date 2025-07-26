@@ -35,4 +35,9 @@ namespace Client.Combat.Events
     {
         public int Player;
     }
+
+    public class EndBattleReadyEvent : IBattleSceneEvent
+    {
+        public int Player;
+    }
 }

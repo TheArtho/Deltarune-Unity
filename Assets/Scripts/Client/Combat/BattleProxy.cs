@@ -51,6 +51,8 @@ namespace Client.Combat
             subscriptions.AddFrom<IBattleEvent, GameOverEvent>(battle, OnGameOver);
             subscriptions.AddFrom<IBattleEvent, HealPlayerEvent>(battle, OnHealPlayer);
             subscriptions.AddFrom<IBattleEvent, UpdateInventoryEvent>(battle, OnUpdateInventory);
+            subscriptions.AddFrom<IBattleEvent, PlayEndBattleSequenceEvent>(battle, OnPlayEndBattleSequence);
+            subscriptions.AddFrom<IBattleEvent, EndBattleEvent>(battle, OnEndBattle);
 
             if (scene)
             {
@@ -60,6 +62,7 @@ namespace Client.Combat
                 subscriptions.AddFrom<IBattleSceneEvent, BulletHellReadyEvent>(scene, OnBulletHellReady);
                 subscriptions.AddFrom<IBattleSceneEvent, GrazeEvent>(scene, OnGraze);
                 subscriptions.AddFrom<IBattleSceneEvent, PlayerHurtEvent>(scene, OnPlayerHurt);
+                subscriptions.AddFrom<IBattleSceneEvent, EndBattleReadyEvent>(scene, OnEndBattleReady);
             }
 
             if (@interface)
@@ -139,7 +142,7 @@ namespace Client.Combat
 
         private void OnPlayerAttack(PlayerAttackEvent evt)
         {
-            scene.StartCoroutine(scene.PlayerAttack(evt.Player, evt.Target, evt.Damage));
+            scene.StartCoroutine(scene.PlayerAttack(evt));
         }
         
         private void OnPlayerMissed(PlayerMissedEvent evt)
@@ -186,6 +189,16 @@ namespace Client.Combat
         private void OnUpdateInventory(UpdateInventoryEvent evt)
         {
             @interface.UpdateInventory(evt);
+        }
+
+        private void OnPlayEndBattleSequence(PlayEndBattleSequenceEvent evt)
+        {
+            scene.EndBattleSequence(evt);
+        }
+        
+        private void OnEndBattle(EndBattleEvent evt)
+        {
+            scene.EndBattle();
         }
 
         #endregion
@@ -247,6 +260,11 @@ namespace Client.Combat
         private void OnGraze(GrazeEvent evt)
         {
             battle.Graze(evt);
+        }
+
+        private void OnEndBattleReady(EndBattleReadyEvent evt)
+        {
+            battle.ReceiveEndBattleReady(evt.Player);
         }
         
         #endregion

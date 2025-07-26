@@ -19,7 +19,7 @@ namespace Core.Combat.Actions
             battleSequence.Add(new PlayerAnimationSequence
             {
                 RunInParallel = true,
-                Character = user,
+                Player = user,
                 Animation = "Act"
             });
             battleSequence.Add(new TextSequence

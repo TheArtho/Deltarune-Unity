@@ -41,7 +41,7 @@ namespace Core.Combat
         public bool ClearText = true;
         public bool CanSkip = false;
         public float Delay = 1f;
-        public float timePerChar = 0.02f;
+        public float timePerChar = 0.04f;
     }
     
     public class ClearTextSequence : BattleSequence
@@ -49,7 +49,7 @@ namespace Core.Combat
 
     public class PlayerAnimationSequence : BattleSequence
     {
-        public int Character;
+        public int Player;
         public string Animation;
         public float Time;
     }
@@ -60,11 +60,31 @@ namespace Core.Combat
         public int CurrentHp;
         public int HealAmount;
     }
-    
+
     public class HealEnemySequence : BattleSequence
     {
         public int Enemy;
         public int CurrentHp;
         public int HealAmount;
+    }
+
+    public class SpareEnemySequence : BattleSequence
+    {
+        public int Enemy;
+    }
+    
+    public class PacifyEnemySequence : BattleSequence
+    {
+        public int Enemy;
+    }
+    
+    public class ScareEnemySequence : BattleSequence
+    {
+        public int Enemy;
+    }
+    
+    public class KillEnemySequence : BattleSequence
+    {
+        public int Enemy;
     }
 }

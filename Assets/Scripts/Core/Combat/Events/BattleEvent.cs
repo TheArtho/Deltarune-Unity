@@ -83,6 +83,7 @@ namespace Core.Combat.Events
         public int Player;
         public int Damage;
         public int Target;
+        public bool Fainted;
     }
     
     public class PlayerMissedEvent : IBattleEvent
@@ -92,6 +93,11 @@ namespace Core.Combat.Events
     }
 
     public class PlayBattleSequenceEvent : IBattleEvent
+    {
+        public List<BattleSequence> BattleSequence;
+    }
+    
+    public class PlayBattleSequenceOneShotEvent : IBattleEvent
     {
         public List<BattleSequence> BattleSequence;
     }
@@ -146,5 +152,15 @@ namespace Core.Combat.Events
         public string Message = "Stay determined.";
         public string SoundText = "text";
         public string Music;
+    }
+
+    public class PlayEndBattleSequenceEvent : IBattleEvent
+    {
+        public List<BattleSequence> sequence;
+    }
+    
+    public class EndBattleEvent : IBattleEvent
+    {
+        public List<BattleSequence> sequence;
     }
 }

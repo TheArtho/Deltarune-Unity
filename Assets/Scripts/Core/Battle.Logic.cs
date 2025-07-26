@@ -45,7 +45,7 @@ public partial class Battle
                 });
         }
         
-        // TODO Changed hard coded part to dynamic inventory and dialog line
+        // TODO Changed hard coded part to dynamic dialog line
         return new GlobalStateEvent
         {
             Ennemies = enemieStates.ToArray(),
@@ -173,7 +173,7 @@ public partial class Battle
                         battleSequence.Add(new PlayerAnimationSequence
                         {
                             RunInParallel = true,
-                            Character = i,
+                            Player = i,
                             Animation = "Act"
                         });
                         battleSequence.Add(new TextSequence
@@ -228,5 +228,31 @@ public partial class Battle
             Amount = amount,
             PreviousValue = previous
         });
+    }
+
+    private List<BattleSequence> CalculateEndBattleSequence()
+    {
+        List<BattleSequence> sequence = new List<BattleSequence>();
+        
+        for (var i = 0; i < players.Length; i++)
+        {
+            sequence.Add(new PlayerAnimationSequence()
+            {
+                RunInParallel = true,
+                Player = i,
+                Animation = "EndBattle"
+            });
+        }
+        sequence.Add(new TextSequence()
+        {
+            Text = "You won!"
+        });
+        sequence.Add(new TextSequence()
+        {
+            ClearText = false,
+            Text = "\nGot 0 EXP and 0 D$."
+        });
+
+        return sequence;
     }
 }
