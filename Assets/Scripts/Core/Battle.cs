@@ -182,7 +182,14 @@ public partial class Battle : IEventSource<IBattleEvent>
     {
         TurnCount++;
 
-        StartTurn();
+        if (CheckEndBattle())
+        {
+            WaitForEndBattleSequence();
+        }
+        else
+        {
+            StartTurn();
+        }
     }
 
     public void ReceivePlayerCommand(int playerId, PlayerCommandEvent command)
@@ -479,7 +486,8 @@ public partial class Battle : IEventSource<IBattleEvent>
     
     private bool CheckEndBattle()
     {
-        return true;
+        // TODO Check specific end conditions for each enemies or in a scripted battle
+        return enemies.All(x => x.IsFainted || x.IsSpared || x.IsPacified);
     }
 
     private void WaitForEndBattleSequence()

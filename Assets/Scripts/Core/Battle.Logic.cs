@@ -35,13 +35,16 @@ public partial class Battle
             enemieStates.Add(
                 new GlobalStateEvent.EnemyState
                 {
-                    id = i + 4,
+                    id = i,
                     Name = enemies[i].name,
                     Hp = enemies[i].Hp,
                     MaxHp = enemies[i].maxHP,
                     Mercy = enemies[i].mercy,
                     Attack = enemies[i].attack,
-                    Defense = enemies[i].defense
+                    Defense = enemies[i].defense,
+                    Fainted = enemies[i].IsFainted,
+                    Spared = enemies[i].IsSpared,
+                    Pacified = enemies[i].IsPacified
                 });
         }
         

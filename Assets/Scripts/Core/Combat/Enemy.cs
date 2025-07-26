@@ -56,6 +56,10 @@ namespace Core.Combat
             /// </summary>
             public bool IsSpared = false;
             /// <summary>
+            /// Determines if the enemy is already pacified
+            /// </summary>
+            public bool IsPacified = false;
+            /// <summary>
             /// Determines if you can have mercy for the enemy (example: asgore)
             /// </summary>
             private bool haveMercy = true;

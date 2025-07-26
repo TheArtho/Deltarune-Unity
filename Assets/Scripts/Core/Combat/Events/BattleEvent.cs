@@ -35,6 +35,9 @@ namespace Core.Combat.Events
             public int Mercy;
             public int Attack;
             public int Defense;
+            public bool Fainted;
+            public bool Spared;
+            public bool Pacified;
         }
 
         public EnemyState[] Ennemies;
