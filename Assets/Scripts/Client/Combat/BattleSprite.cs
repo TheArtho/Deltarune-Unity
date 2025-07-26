@@ -14,8 +14,8 @@ public class BattleSprite : MonoBehaviour
     [SerializeField] private Transform damageTextAnchor;
     [SerializeField] private ParticleSystem healParticles;
     [SerializeField] private Color additiveColor = new Color(1,1,1, 0);
-    private bool defending;
-    private bool down;
+    [SerializeField] private bool defending;
+    [SerializeField] private bool down;
     private int damageCounter = 0;
 
     private void Awake()

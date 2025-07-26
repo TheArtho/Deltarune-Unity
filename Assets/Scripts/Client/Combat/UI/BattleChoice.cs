@@ -175,7 +175,7 @@ namespace Client.Combat.UI
                 }
                 
                 yield return StartCoroutine(BattleInterface.Instance.SubMenuSelect(
-                    BattleInterface.Instance.PlayerStateEvents[playerId].State.Actions,
+                    BattleInterface.Instance.PlayerStateEvents[playerId].State.Actions[target],
                     value =>
                     {
                         index = value;

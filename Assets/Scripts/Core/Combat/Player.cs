@@ -2,6 +2,7 @@ using System;
 
 public class Player
 {
+    public string characterId { get; private set; }
     public string name { get; private set; }
     public int hp { get; private set; }
     public int maxHp { get; private set; }
@@ -11,15 +12,20 @@ public class Player
 
     public bool defending;
 
-    public Player(string name, int hp, int maxHP, int attack, int defense, int magic)
+    public Player(string characterId, string name, int hp, int maxHp, int attack, int defense, int magic)
     {
+        this.characterId = characterId;
         this.name = name;
-        this.maxHp = maxHP;     // hard coded value
-        this.hp = Math.Min(maxHP, hp);
+        this.maxHp = maxHp;
+        this.hp = Math.Min(maxHp, hp);
         this.attack = attack;
         this.defense = defense;
         this.magic = magic;
     }
+
+    public Player(CharacterDefinition def)
+    : this(def.characterId, def.name, def.hp, def.hp, def.attack, def.defense, def.magic)
+    { } 
 
     public void Down()
     {

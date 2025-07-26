@@ -50,9 +50,18 @@ public partial class Battle : IEventSource<IBattleEvent>
     
     private EventBus bulletHellEvents = new EventBus();
     private EventBus battleEvents = new EventBus();
+
+    private string introText = "...";
     
     // Public parameters
     public int TurnCount { get; protected set; }
+
+    public Player[] Players => players;
+
+    public Enemy[] Enemies => enemies;
+
+    public List<BattleSequence> BattleSequence => battleSequence;
+    public List<BattleSequence> EnemySequence => enemySequence;
 
     public Battle(Player[] players, Enemy[] enemies, bool canLoose = false, bool canSpare = true)
     {
@@ -60,8 +69,18 @@ public partial class Battle : IEventSource<IBattleEvent>
         this.enemies = enemies;
         this.canLoose = canLoose;
         this.canSpare = canSpare;
+        
+        foreach (var enemy in enemies)
+        {
+            enemy.Initialize(this);
+        }
 
         ResetBuffers();
+    }
+
+    public void SetIntroText(string text)
+    {
+        this.introText = text;
     }
 
     private void ResetBuffers()
@@ -103,14 +122,15 @@ public partial class Battle : IEventSource<IBattleEvent>
         
         for (var i = 0; i < players.Length; i++)
         {
-            if (players[i].hp < 0)
+            if (players[i].hp <= 0)
             {
-                int amount = players[i].maxHp / 8;
+                int amount = players[i].maxHp / 8 + 1;
                 players[i].Heal(amount);
                 EmitEvent(new HealPlayerEvent()
                 {
                     Player = i,
-                    HealAmount = amount
+                    HealAmount = amount,
+                    CurrentHp = players[i].hp
                 });
             }
         }
@@ -360,7 +380,9 @@ public partial class Battle : IEventSource<IBattleEvent>
 
     public void ReceiveBulletPhaseReady(int playerId)
     {
-        // if (state != BattleState.AwaitingForPlayersBulletPhaseReady) return;
+        if (state != BattleState.AwaitingForPlayersBulletPhaseReady) return;
+
+        if (playerId < 0 || playerId >= bulletHellReadyBuffer.Length) return;
         
         bulletHellReadyBuffer[playerId] = true;
         

@@ -10,16 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a730262ffcb7f543b25c56b6329da31, type: 3}
-  m_Name: Kris
+  m_Name: Kris Character
   m_EditorClassIdentifier: 
-  battlerPrefab: {fileID: 0}
-  battleLogo: {fileID: 1998610484, guid: 3c77bcd3301562f4f877c94030543b7a, type: 3}
-  battleName: Kris
-  hasMagic: 0
-  color1: {r: 0, g: 0.6039216, b: 0.7725491, a: 1}
-  color2: {r: 0, g: 0.81568635, b: 0.81568635, a: 1}
-  color3: {r: 0, g: 0, b: 1, a: 1}
+  characterId: kris
+  battlerPrefab: {fileID: 5087205925099376517, guid: 8f38ca20751daca45a99dd87428874ae, type: 3}
+  battleMenuPrefab: {fileID: 602483552919160516, guid: f7fe1f8e00f94bb45b8677a2df95514b, type: 3}
+  name: Kris
   hp: 160
-  attack: 0
-  defense: 0
+  attack: 15
+  defense: 2
   magic: 0

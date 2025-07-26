@@ -76,13 +76,13 @@ namespace Client.Combat
         
         private IEnumerator PlayTextSequence(TextSequence seq)
         {
-            Debug.Log($"[BattleScene] Text Sequence : {seq.text}");
-            if (seq.clearText)
+            Debug.Log($"[BattleScene] Text Sequence : {seq.Text}");
+            if (seq.ClearText)
             {
                 dialogBox.Clear();
             }
-            yield return StartCoroutine(dialogBox.DrawText(seq.text));
-            yield return new WaitForSeconds(seq.delay);
+            yield return StartCoroutine(dialogBox.DrawText(seq.Text));
+            yield return new WaitForSeconds(seq.Delay);
         }
 
         private IEnumerator PlayDialogSequence(DialogSequence seq)
@@ -93,9 +93,9 @@ namespace Client.Combat
         
         private IEnumerator PlayPlayerAnimSequence(PlayerAnimationSequence seq)
         {
-            Debug.Log($"[BattleScene] Player Animation for player {seq.character} : {seq.animation}");
-            playerBattleSprites[seq.character].Play(seq.animation);
-            yield return new WaitForSeconds(seq.time);
+            Debug.Log($"[BattleScene] Player Animation for player {seq.Character} : {seq.Animation}");
+            playerBattleSprites[seq.Character].Play(seq.Animation);
+            yield return new WaitForSeconds(seq.Time);
         }
 
         private IEnumerator PlayBattleSequence(BattleSequence seq)

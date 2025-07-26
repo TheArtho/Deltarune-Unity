@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Client.Combat.Events;
 using Core.Combat;
 using Core.Combat.Events;
 using UnityEngine;
@@ -9,49 +8,20 @@ using Random = UnityEngine.Random;
 
 public partial class Battle
 {
-    private PlayerStateEvent GetPlayerState(int player)
+    private PlayerStateEvent GetPlayerState(int playerId)
     {
-        string[] actions = new [] {""};
-        
-        // TODO Get player actions depending on the enemy
-
-        switch (player)
-        {
-            // Kris
-            case 0:
-                actions = new string[]
-                {
-                    "Check", "Talk"
-                };
-                break;
-            // Susie
-            case 1:
-                actions = new string[]
-                {
-                    "Rude Buster"
-                };
-                break;
-            // Ralsei
-            case 2:
-                actions = new string[]
-                {
-                    "Pacify", "Heal Prayer"
-                };
-                break;
-        }
-        
         return new PlayerStateEvent
         {
-            Player = player,
+            Player = playerId,
             State = new PlayerStateEvent.PlayerState
             {
-                Name = players[player].name,
-                Hp = players[player].hp,
-                MaxHp = players[player].maxHp,
-                Attack = players[player].attack,
-                Defense = players[player].defense,
-                Magic = players[player].magic,
-                Actions = actions
+                Name = players[playerId].name,
+                Hp = players[playerId].hp,
+                MaxHp = players[playerId].maxHp,
+                Attack = players[playerId].attack,
+                Defense = players[playerId].defense,
+                Magic = players[playerId].magic,
+                Actions = enemies.Select(enemy => enemy.GetActionChoice(playerId)).ToArray()
             }
         };
     }
@@ -83,7 +53,7 @@ public partial class Battle
             {
                 "Darkburger", "Light Candy", "Java Cookie"
             },
-            Text = "It's the freaking Roaring\nKnight!!!",
+            Text = this.introText,
             ActivePlayers = players
                 .Select((p, index) => new { p, index })   // Associate each player with their index
                 .Where(x => x.p.hp > 0)                 // Keep players with hp > 0
@@ -182,9 +152,6 @@ public partial class Battle
         // Step 3 : create a sequence in the sorted order
         foreach (int i in actionOrder)
         {
-            int target = 0;
-            int damage = -1;
-            int damagePercentage = 0;
             players[i].defending = false;
 
             var action = commands[i];
@@ -192,47 +159,10 @@ public partial class Battle
             switch (action.ActionType)
             {
                 case ActionType.ActMagic:
-                    // TODO make a more dynamic of implementing actions using custom classes
-                    if (i == 0) // Kris
-                    {
-                        if (action.Index == 0) // CHECK
-                        {
-                            battleSequence.Add(new PlayerAnimationSequence
-                            {
-                                RunInParallel = true,
-                                character = i,
-                                animation = "Act"
-                            });
-                            battleSequence.Add(new TextSequence
-                            {
-                                text = $"{enemies[action.TargetId].name.ToUpperInvariant()} - ATK {enemies[action.TargetId].attack} DF {enemies[action.TargetId].defense}",
-                                delay = 0
-                            });
-                            battleSequence.Add(new TextSequence
-                            {
-                                clearText = false,
-                                text = $"\n{enemies[action.TargetId].description}"
-                            });
-                            
-                        }
-                        else
-                        {
-                            battleSequence.Add(new PlayerAnimationSequence
-                            {
-                                RunInParallel = true,
-                                character = i,
-                                animation = "Act"
-                            });
-                            battleSequence.Add(new TextSequence
-                            {
-                                text = "Kris is acting."
-                            });
-                        }
-                    }
+                    enemies[action.TargetId].GetAction(action.Player, action.Index).Execute(action.Player, action.TargetId);
                     break;
                 
                 case ActionType.Item:
-                    target = action.TargetId;
                     // TODO: Add item animation or effect
                     break;
                 
@@ -246,18 +176,18 @@ public partial class Battle
                         battleSequence.Add(new PlayerAnimationSequence
                         {
                             RunInParallel = true,
-                            character = i,
-                            animation = "Act"
+                            Character = i,
+                            Animation = "Act"
                         });
                         battleSequence.Add(new TextSequence
                         {
-                            text = $"{players[action.Player].name} spared {enemies[action.TargetId].name}",
-                            delay = 0.5f
+                            Text = $"{players[action.Player].name} spared {enemies[action.TargetId].name}",
+                            Delay = 0.5f
                         });
                         battleSequence.Add(new TextSequence
                         {
-                            text = $"\nBut its name wasn't <gradient=spare>YELLOW</gradient>...",
-                            clearText = false
+                            Text = $"\nBut its name wasn't <gradient=spare>YELLOW</gradient>...",
+                            ClearText = false
                         });
                     }
                     break;

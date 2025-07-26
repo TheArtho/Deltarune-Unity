@@ -53,7 +53,7 @@ namespace Core.Combat.Events
             public int Attack;
             public int Defense;
             public int Magic;
-            public string[] Actions;
+            public string[][] Actions;
         }
         
         public int Player;

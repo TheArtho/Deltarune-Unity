@@ -1,6 +1,9 @@
+using System.Collections.Generic;
 using Client.Combat.Events;
 using Client.Combat.UI;
+using Core.Combat;
 using Core.Combat.Events;
+using Scriptables;
 using UnityEngine;
 
 namespace Client.Combat
@@ -9,6 +12,8 @@ namespace Client.Combat
     {
         [SerializeField] private BattleScene scene;
         [SerializeField] private BattleInterface @interface;
+
+        [Space] [Header("Temporary debug parameters")] [SerializeField] private List<EnemyDefinition> enemyDefinitions;
         
         private SubscriptionGroup subscriptions = new();
         
@@ -16,29 +21,6 @@ namespace Client.Combat
         /// Battle only exists for the hosting client / server
         /// </summary>
         private Battle battle;
-
-        private void Start()
-        {
-            Player Kris = new Player("Kris", 160, 160, 14, 2, 0);
-            Player Susie = new Player("Susie", 190, 190, 18, 2, 3);
-            Player Ralsei = new Player("Ralsei", 140, 140, 12, 2, 11);
-
-            Enemy RoaringKnight = new Enemy("Roaring Knight", 7300, 40, 0);
-
-            Battle battleInstance = new Battle(
-            new Player[]
-            {
-                Kris, Susie, Ralsei
-            },
-            new Enemy[]
-            {
-                RoaringKnight
-            });
-            
-            Init(battleInstance);
-            
-            BgmHandler.PlayMain("rude_buster");
-        }
 
         /// <summary>
         /// Subscribes events to the battle system
@@ -86,8 +68,6 @@ namespace Client.Combat
                 subscriptions.AddFrom<IBattleInterfaceEvent, PlayerCancelCommandEvent>(@interface, OnCancelPlayerAction);
                 subscriptions.AddFrom<IBattleInterfaceEvent, AnsFightQuickTimeEvent>(@interface, OnReceiveFightQuickTime);
             }
-
-            battle.Start();
         }
 
 

@@ -13,23 +13,23 @@ namespace Core.Combat
 
     public class DialogSequence : BattleSequence
     {
-        public int character;
-        public string text;
+        public int Character;
+        public string Text;
     }
 
     public class TextSequence : BattleSequence
     {
-        public string text;
-        public string sound = "text";
-        public bool clearText = true;
-        public bool canSkip = false;
-        public float delay = 1f;
+        public string Text;
+        public string Sound = "text";
+        public bool ClearText = true;
+        public bool CanSkip = false;
+        public float Delay = 1f;
     }
 
     public class PlayerAnimationSequence : BattleSequence
     {
-        public int character;
-        public string animation;
-        public float time;
+        public int Character;
+        public string Animation;
+        public float Time;
     }
 }

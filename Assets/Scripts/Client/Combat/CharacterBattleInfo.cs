@@ -88,6 +88,22 @@ public class CharacterBattleInfo : MonoBehaviour
 
     public void UpdateHp(int currentHp, int maxHp)
     {
+        if (currentHp <= 0)  // Red text for 0 or below hp
+        {
+            hpText.color = Color.red;
+            hpMaxText.color = Color.red;
+        }
+        else if ((float)currentHp / maxHp < 0.1f)   // Yellow text for low hp
+        {
+            hpText.color = Color.yellow;
+            hpMaxText.color = Color.yellow;
+        }
+        else // White text for standard hp
+        {
+            hpText.color = Color.white;
+            hpMaxText.color = Color.white;
+        }
+        
         hpText.text = currentHp.ToString();
         hpMaxText.text = maxHp.ToString();
         
