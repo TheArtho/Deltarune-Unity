@@ -35,7 +35,7 @@ public class GhostTrail : MonoBehaviour
             {
                 position = transform.position + velocity.normalized / 10,
                 rotation = -1 * transform.eulerAngles.z,
-                startColor = new Color(sourceSprite.color.r, sourceSprite.color.g, sourceSprite.color.b, ps.main.startColor.color.a),
+                startColor = new Color(sourceSprite.color.r, sourceSprite.color.g, sourceSprite.color.b, sourceSprite.color.a * ps.main.startColor.color.a),
                 startSize3D = new Vector3(sourceSprite.size.x * sourceSprite.transform.localScale.x, sourceSprite.size.y * sourceSprite.transform.localScale.y, 1 * sourceSprite.transform.localScale.z),
                 velocity = this.velocity
             };

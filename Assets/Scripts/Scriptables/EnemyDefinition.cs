@@ -31,6 +31,7 @@ namespace Scriptables
         [SerializeField] public bool haveMercy;
         
         [SerializeField] public List<ActionList> playerActions;
+        [SerializeField] public List<GameObject> bulletPatterns;
         
         static EnemyDefinition()
         {

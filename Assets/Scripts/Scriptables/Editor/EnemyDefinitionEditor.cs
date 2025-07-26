@@ -21,6 +21,7 @@ namespace Scriptables.Editor
         private SerializedProperty haveMercyProp;
         private SerializedProperty battleSpritePrefabProp;
         private SerializedProperty playerActionsProp;
+        private SerializedProperty bulletPatternsProp;
         private SerializedProperty enemyClassNameProp;
 
         private void OnEnable()
@@ -33,6 +34,7 @@ namespace Scriptables.Editor
             battleSpritePrefabProp = serializedObject.FindProperty("battleSpritePrefab");
             playerActionsProp = serializedObject.FindProperty("playerActions");
             enemyClassNameProp = serializedObject.FindProperty("enemyClassName");
+            bulletPatternsProp = serializedObject.FindProperty("bulletPatterns");
         }
 
         public override void OnInspectorGUI()
@@ -68,9 +70,12 @@ namespace Scriptables.Editor
             EditorGUILayout.PropertyField(battleSpritePrefabProp);
 
             EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Player Actions", EditorStyles.boldLabel);
             EditorGUILayout.HelpBox("Each list represents actions available to a player.", MessageType.Info);
             EditorGUILayout.PropertyField(playerActionsProp, true);
+            
+            EditorGUILayout.Space();
+            EditorGUILayout.HelpBox("The list of bullet patterns the enemy can play during the battle.", MessageType.Info);
+            EditorGUILayout.PropertyField(bulletPatternsProp, true);
 
             serializedObject.ApplyModifiedProperties();
         }

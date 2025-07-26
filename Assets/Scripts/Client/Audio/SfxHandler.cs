@@ -5,6 +5,8 @@ public class SfxHandler : MonoBehaviour
     public static SfxHandler instance;
     
     private AudioSource source;
+
+    public AudioSource AudioSource => source;
     
     private void Awake()
     {

@@ -25,7 +25,7 @@ namespace Core.Combat.Items
             battleSequence.Add(new TextSequence
             {
                 Text = $"{battle.Players[user].name} used {name}!",
-                Delay = -1
+                Delay = 0
             });
             battleSequence.Add(new PlayerAnimationSequence
             {

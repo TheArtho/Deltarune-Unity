@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,6 +6,7 @@ using Core.Combat.Actions;
 using Core.Combat.Events;
 using Scriptables;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Core.Combat
 {
@@ -24,6 +26,24 @@ namespace Core.Combat
             #region Parameters
       
             public string name { get; private set; }
+
+            public string NameColored()
+            {
+                  if (CanSpare() && status == Status.Tired)
+                  {
+                        return $"<gradient=Blue to Yellow - Horizontal>{name}</gradient>";
+                  }
+                  if (CanSpare())
+                  {
+                        return $"<color=#ffff00>{name}</color>";
+                  }
+                  if (status == Status.Tired)
+                  {
+                        return  $"<color=#0069ff>{name}</color>";
+                  }
+                  
+                  return name;
+            }
 
             public int maxHP { get; protected set; }
             public int attack { get; private set; }
@@ -50,28 +70,29 @@ namespace Core.Combat
                         }
                   }
             }
-      
+            
             /// <summary>
             /// Determines if the enemy is already spared
             /// </summary>
             public bool IsSpared = false;
+            
             /// <summary>
             /// Determines if the enemy is already pacified
             /// </summary>
             public bool IsPacified = false;
+            
             /// <summary>
             /// Determines if you can have mercy for the enemy (example: asgore)
             /// </summary>
             private bool haveMercy = true;
             public bool IsFainted => (Hp <= 0);
+            private bool canSpare;
             public Status status = Status.None;
 
             protected int[] attacks;
 
             public Battle battle { get; private set; }
-            public int battlerIndex { get; private set; }
-            public int turnCount { get; private set; }
-            public bool IsInBattle => !IsFainted && !IsSpared;
+            public bool IsActive => !IsFainted && !IsSpared && !IsPacified;
       
             #endregion
       
@@ -81,8 +102,11 @@ namespace Core.Combat
             public string[] battleText { get; protected set; }
 
             private List<ActionList> actionDefinitions = new List<ActionList>();
-            private List<List<BattleAction>> actions;
-      
+            protected List<List<BattleAction>> actions;
+            
+            protected string[] patterns;
+            protected int patternIndex = 0;
+
             #endregion
 
             private Enemy(string name, int hp, int attack, int defense, bool haveMercy = true)
@@ -114,6 +138,18 @@ namespace Core.Combat
                               actions = a.actions
                         });
                   }
+                  
+                  SetAttackPatterns(def.bulletPatterns);
+            }
+            
+            public void SetAttackPatterns(string[] patterns)
+            {
+                  this.patterns = patterns;
+            }
+
+            public void SetAttackPatterns(List<GameObject> patternPrefabs)
+            {
+                  patterns = patternPrefabs.Select(p => p.name).ToArray();
             }
 
             public void Initialize(Battle battle)
@@ -149,12 +185,40 @@ namespace Core.Combat
             /// <param name="playerId"></param>
             public string[] GetActionChoice(int playerId)
             {
+                  Debug.Log("GetActionChoice : " + playerId);
                   return actions[playerId].Select(a => a.GetName()).ToArray();
             }
 
             public BattleAction GetAction(int playerId, int index)
             {
                   return actions[playerId][index];
+            }
+
+            public string GetAttackPattern()
+            {
+                  if (patternIndex >= patterns.Length)
+                  {
+                        return "default_attack";
+                  }
+
+                  string pattern = patterns[patternIndex];
+                  
+                  CalculatePatternIndex();
+                  
+                  return pattern;
+            }
+
+            protected virtual void CalculatePatternIndex()
+            {
+                  // Simple random choice
+                  // patternIndex = Random.Range(0, patterns.Length);
+                  
+                  // Simple modulo increment choice
+                  patternIndex = patternIndex + 1;
+                  if (patternIndex >= patterns.Length)
+                  {
+                        patternIndex = 0;
+                  }
             }
 
             /// <summary>
@@ -175,18 +239,18 @@ namespace Core.Combat
             public virtual bool CanSpare()
             {
                   // Checks if the conditions to be spared are complete
-                  return false;
+                  return mercy >= 100 || canSpare;
+            }
+
+            protected void SetCanSpare(bool value)
+            {
+                  canSpare = value;
             }
 
             public virtual string GetStartText()
             {
                   // Custom text showing in the dialog box at the start of each turn
                   return battleText[0] ?? "Please insert text";
-            }
-
-            public void UpdateTurn()
-            {
-                  turnCount = battle.TurnCount;
             }
       }
 }

@@ -52,6 +52,7 @@ namespace Core.Combat
         public int Player;
         public string Animation;
         public float Time;
+        public bool LockAnimation;
     }
 
     public class HealPlayerSequence : BattleSequence

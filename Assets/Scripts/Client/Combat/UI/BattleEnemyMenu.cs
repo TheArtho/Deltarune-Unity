@@ -14,6 +14,8 @@ public class BattleEnemyMenu : MonoBehaviour
         public string name;
         public int hp;
         public int mercy;
+        public bool canSpare;
+        public bool tired;
     }
     
     [SerializeField] private Image soul;

@@ -20,3 +20,6 @@ MonoBehaviour:
   attack: 19
   defense: 2
   magic: 4
+  magicUser: 1
+  spells:
+  - {fileID: 11400000, guid: e41c3d357bdcf0644a682d24b4800608, type: 2}

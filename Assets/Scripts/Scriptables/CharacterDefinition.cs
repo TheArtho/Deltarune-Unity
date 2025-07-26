@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Scriptables;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PlayerCharacter", menuName = "Scriptable Objects/PlayerCharacter")]
@@ -25,4 +27,11 @@ public class CharacterDefinition : ScriptableObject
     public int defense;
     [SerializeField]
     public int magic;
+    [SerializeField] 
+    public bool magicUser;
+    
+    [Space]
+    
+    [SerializeField] 
+    public List<ActionDefinition> spells;
 }

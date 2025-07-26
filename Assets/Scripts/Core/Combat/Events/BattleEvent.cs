@@ -57,7 +57,10 @@ namespace Core.Combat.Events
             public int Attack;
             public int Defense;
             public int Magic;
+            public bool MagicUser;
             public string[][] Actions;
+            public string[] Spells;
+            public BattleAction.SpellTargetType[] ActionTargets;
         }
         
         public int Player;
@@ -87,6 +90,7 @@ namespace Core.Combat.Events
         public int Damage;
         public int Target;
         public bool Fainted;
+        public bool Scared;
     }
     
     public class PlayerMissedEvent : IBattleEvent
@@ -109,7 +113,8 @@ namespace Core.Combat.Events
     {
         public List<int> Targets;
         public List<BattleSequence> BattleSequence;
-        public string BattleMode;
+        public string SoulController = "red_soul";
+        public int[] Attackers;
         public string[] Attacks;
     }
     

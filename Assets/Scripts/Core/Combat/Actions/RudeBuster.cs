@@ -16,7 +16,11 @@ namespace Core.Combat.Actions
 
         public override void Execute(int user, int target)
         {
-            
+            battleSequence.Add(new TextSequence
+            {
+                Text = $"Bro thought I had time to code Rude Buster lol.",
+                Delay = 1
+            });
         }
     }
 }

@@ -1328,6 +1328,94 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: kris_dance_0
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 3240
+        width: 26
+        height: 31
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 80dfb207113a1974c9930deb17c894c2
+      internalID: 133694484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_dance_1
+      rect:
+        serializedVersion: 2
+        x: 301
+        y: 3240
+        width: 26
+        height: 31
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 348219b3c0e0b234ca6baabc6eb48a55
+      internalID: 1147017857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_dance_2
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 3240
+        width: 26
+        height: 31
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94a94510e2f18be469537bc9c4d8777d
+      internalID: -175481735
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kris_dance_3
+      rect:
+        serializedVersion: 2
+        x: 363
+        y: 3240
+        width: 26
+        height: 31
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b02f1d7c8a6f7a149ad7248b4f34e010
+      internalID: -1634959650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -1359,6 +1447,10 @@ TextureImporter:
       kris_battle_idle_3: -1333724330
       kris_battle_idle_4: 344899251
       kris_battle_idle_5: -1558101966
+      kris_dance_0: 133694484
+      kris_dance_1: 1147017857
+      kris_dance_2: -175481735
+      kris_dance_3: -1634959650
       kris_defend_0: -1770213662
       kris_defend_1: -1414813904
       kris_defend_2: 354957559

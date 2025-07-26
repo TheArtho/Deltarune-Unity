@@ -4,9 +4,16 @@ namespace Core.Combat.Actions
 {
     public abstract class BattleAction
     {
+        public enum SpellTargetType
+        {
+            Players,
+            Enemies
+        }
+        
         protected Battle battle;
         protected List<BattleSequence> battleSequence;
         protected List<BattleSequence> enemySequence;
+        public virtual SpellTargetType TargetTypeType => SpellTargetType.Enemies;
         
         public BattleAction(Battle battle)
         {

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Client.Combat.Events;
+using Core.Combat.Actions;
 using Core.Combat.Events;
 using Unity.Mathematics;
 using UnityEngine;
@@ -77,7 +78,15 @@ namespace Client.Combat.UI
                     case 1:  // Act / Magic
                         DisableInput();
                         SfxHandler.Play("menu_select");
-                        StartCoroutine(ActMagic());
+                        if (BattleInterface.Instance.PlayerStateEvents[playerId].State.MagicUser)
+                        {
+                            StartCoroutine(Magic());
+                        }
+                        else
+                        {
+                            StartCoroutine(Act());
+                        }
+                        
                         break;
                     case 2: // Item
                         if (BattleInterface.Instance.InventoryEvent.items.Length > 0)
@@ -138,7 +147,6 @@ namespace Client.Combat.UI
             if (target == -1)
             {
                 EnableInput();
-                BattleScene.Instance.PlayerBattleSprites[playerId].Play("Idle");
             }
             else // Index chosen
             {
@@ -152,7 +160,7 @@ namespace Client.Combat.UI
             }
         }
 
-        private IEnumerator ActMagic()
+        private IEnumerator Act()
         {
             int target = 0;
             int index = -1;
@@ -185,6 +193,8 @@ namespace Client.Combat.UI
                     break;
                 }
                 
+                Debug.Log("[BattleChoice] playerId is " + playerId);
+                
                 yield return StartCoroutine(BattleInterface.Instance.SubMenuSelect(
                     BattleInterface.Instance.PlayerStateEvents[playerId].State.Actions[target],
                     value =>
@@ -194,6 +204,90 @@ namespace Client.Combat.UI
 
                 // Cancel
                 if (index == -1)
+                {
+                    // Loop
+                }
+                else // Index chosen
+                {
+                    OnSelect?.Invoke(new  PlayerCommandEvent
+                    {
+                        Player = -1,
+                        ActionType = ActionType.ActMagic,
+                        TargetId = target,
+                        Index = index
+                    });
+                    break;
+                }
+            }
+        }
+        
+        private IEnumerator Magic()
+        {
+            int target = 0;
+            int index = -1;
+            
+            while (true)
+            {
+                yield return StartCoroutine(BattleInterface.Instance.SubMenuSelect(
+                    BattleInterface.Instance.PlayerStateEvents[playerId].State.Spells,
+                    value =>
+                    {
+                        index = value;
+                    }));
+                
+                // Cancel
+                if (index == -1)
+                {
+                    EnableInput();
+                    break;
+                }
+
+                if (BattleInterface.Instance.PlayerStateEvents[playerId].State.ActionTargets[index] ==
+                    BattleAction.SpellTargetType.Enemies)
+                {
+                    var enemies = new List<BattleEnemyMenu.EnemyData>();
+            
+                    foreach (var e in BattleInterface.Instance.GlobalStateEvent.Ennemies)
+                    {
+                        enemies.Add(new BattleEnemyMenu.EnemyData
+                        {
+                            name = e.Name,
+                            hp = Mathf.CeilToInt((float) e.Hp / e.MaxHp * 100),
+                            mercy = e.Mercy
+                        });
+                    }
+            
+                    yield return StartCoroutine(BattleInterface.Instance.EnemySelect(enemies.ToArray(),
+                        value =>
+                        {
+                            target = value;
+                        })
+                    );
+                }
+                else
+                {
+                    var players = new List<BattleEnemyMenu.EnemyData>();
+            
+                    foreach (var p in BattleInterface.Instance.PlayerStateEvents)
+                    {
+                        players.Add(new BattleEnemyMenu.EnemyData
+                        {
+                            name = p.State.Name,
+                            hp = Mathf.CeilToInt((float) p.State.Hp / p.State.MaxHp * 100),
+                            mercy = -1
+                        });
+                    }
+            
+                    yield return StartCoroutine(BattleInterface.Instance.PlayerSelect(players.ToArray(),
+                        value =>
+                        {
+                            target = value;
+                        })
+                    );
+                }
+
+                // Cancel
+                if (target == -1)
                 {
                     // Loop
                 }
@@ -243,19 +337,19 @@ namespace Client.Combat.UI
                 
                 BattleInterface.Instance.OnUpdateInventory -= onUpdateInventory;
                 
-                var enemies = new List<BattleEnemyMenu.EnemyData>();
+                var players = new List<BattleEnemyMenu.EnemyData>();
             
-                foreach (var e in BattleInterface.Instance.PlayerStateEvents)
+                foreach (var p in BattleInterface.Instance.PlayerStateEvents)
                 {
-                    enemies.Add(new BattleEnemyMenu.EnemyData
+                    players.Add(new BattleEnemyMenu.EnemyData
                     {
-                        name = e.State.Name,
-                        hp = Mathf.CeilToInt((float) e.State.Hp / e.State.MaxHp * 100),
+                        name = p.State.Name,
+                        hp = Mathf.CeilToInt((float) p.State.Hp / p.State.MaxHp * 100),
                         mercy = -1
                     });
                 }
                 
-                yield return StartCoroutine(BattleInterface.Instance.PlayerSelect(enemies.ToArray(),
+                yield return StartCoroutine(BattleInterface.Instance.PlayerSelect(players.ToArray(),
                     value =>
                     {
                         target = value;

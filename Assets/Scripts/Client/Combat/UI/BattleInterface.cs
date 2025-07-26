@@ -157,7 +157,7 @@ namespace Client.Combat.UI
                 // Activate menu GameObject
                 info.Select();
                 battleChoice.EnableInput();
-                battleChoice.playerId = index;
+                battleChoice.playerId = players[i];
                 // First player can't cancel
                 battleChoice.canCancel = index > 0;
                 // Subscribe events
@@ -188,6 +188,12 @@ namespace Client.Combat.UI
 
         public IEnumerator SubMenuSelect(string[] options, bool[] availableOptions, string[] descriptions, Action<int> result = null)
         {
+            if (options.Length == 0)
+            {
+                result?.Invoke(-1);
+                yield break;
+            }
+            
             subMenu.canCancel = true;
             subMenu.options = options.ToList();
             subMenu.availableOptions = availableOptions.ToList();

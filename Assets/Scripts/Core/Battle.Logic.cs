@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Core.Combat;
 using Core.Combat.Events;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -21,7 +22,10 @@ public partial class Battle
                 Attack = players[playerId].attack,
                 Defense = players[playerId].defense,
                 Magic = players[playerId].magic,
-                Actions = enemies.Select(enemy => enemy.GetActionChoice(playerId)).ToArray()
+                Actions = enemies.Select(enemy => enemy.GetActionChoice(playerId)).ToArray(),
+                Spells = players[playerId].GetSpells(),
+                ActionTargets = players[playerId].GetSpellTargets(),
+                MagicUser = players[playerId].magicUser
             }
         };
     }
@@ -36,7 +40,7 @@ public partial class Battle
                 new GlobalStateEvent.EnemyState
                 {
                     id = i,
-                    Name = enemies[i].name,
+                    Name = enemies[i].NameColored(),
                     Hp = enemies[i].Hp,
                     MaxHp = enemies[i].maxHP,
                     Mercy = enemies[i].mercy,
@@ -69,7 +73,7 @@ public partial class Battle
             .ToList();
 
         // Count how many enemies are still in battle
-        int enemyCount = enemies.Count(e => e.IsInBattle);
+        int enemyCount = enemies.Count(e => e.IsActive);
 
         // If no valid players or no enemies, return an empty target list
         if (validTargets.Count == 0 || enemyCount == 0)
@@ -159,17 +163,42 @@ public partial class Battle
             switch (action.ActionType)
             {
                 case ActionType.ActMagic:
-                    enemies[action.TargetId].GetAction(action.Player, action.Index).Execute(action.Player, action.TargetId);
+                    if (players[i].magicUser)
+                    {
+                        players[i].GetSpellAction(action.Index).Execute(action.Player, action.TargetId);
+                    }
+                    else
+                    {
+                        enemies[action.TargetId].GetAction(action.Player, action.Index).Execute(action.Player, action.TargetId);
+                    }
                     break;
                 
                 case ActionType.Item:
                     inventory[action.Index].Use(action.Player, action.TargetId);
+                    RemoveUsedItems();
                     break;
                 
                 case ActionType.Spare:
                     if (enemies[action.TargetId].CanSpare())
                     {
-                        // TODO Spare enemy
+                        enemies[action.TargetId].IsSpared = true;
+                        
+                        battleSequence.Add(new PlayerAnimationSequence
+                        {
+                            RunInParallel = true,
+                            Player = i,
+                            Animation = "Act"
+                        });
+                        battleSequence.Add(new TextSequence
+                        {
+                            Text = $"{players[action.Player].name} spared {enemies[action.TargetId].name}",
+                            Delay = 0.5f
+                        });
+                        battleSequence.Add(new SpareEnemySequence
+                        {
+                            RunInParallel = true,
+                            Enemy = action.TargetId,
+                        });
                     }
                     else
                     {
@@ -199,6 +228,11 @@ public partial class Battle
                 case ActionType.Fight:
                     // Will likely be handled elsewhere (e.g., QTE)
                     break;
+            }
+
+            if (CheckEndBattle())
+            {
+                break;
             }
         }
     }

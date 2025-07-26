@@ -55,6 +55,7 @@ public partial class Battle : IEventSource<IBattleEvent>
     private EventBus bulletHellEvents = new EventBus();
     private EventBus battleEvents = new EventBus();
 
+    private bool fatal = true;
     private string introText = "...";
     private List<BattleItem> inventory = new List<BattleItem>();
     
@@ -74,6 +75,11 @@ public partial class Battle : IEventSource<IBattleEvent>
         this.enemies = enemies;
         this.canLoose = canLoose;
         this.canSpare = canSpare;
+
+        foreach (var player in players)
+        {
+            player.Initialize(this);
+        }
         
         foreach (var enemy in enemies)
         {
@@ -346,7 +352,14 @@ public partial class Battle : IEventSource<IBattleEvent>
 
         if (battleSequenceReadyBuffer.All(x => x))
         {
-            ProcessFightQte();
+            if (CheckEndBattle())
+            {
+                WaitForEndBattleSequence();
+            }
+            else
+            {
+                ProcessFightQte();
+            }
         }
     }
     
@@ -385,7 +398,8 @@ public partial class Battle : IEventSource<IBattleEvent>
                 Player = playerId,
                 Target = target,
                 Damage =  damage,
-                Fainted = enemies[target].IsFainted
+                Fainted = enemies[target].IsFainted,
+                Scared = !fatal // Non-fatal attacks will make the enemy scared instead of fainted
             });
         }
         else
@@ -426,16 +440,31 @@ public partial class Battle : IEventSource<IBattleEvent>
     
     private void WaitForBulletPhaseReady()
     {
+        List<string> attacks = new List<string>();
+        List<int> attackers = new List<int>();
+        
         Debug.Log("Waiting for clients to be ready for bullet phase.");
         state = BattleState.AwaitingForPlayersBulletPhaseReady;
+        
         targetIndexes = CalculateTargets();
+        
         // Send a battle sequence before the bullet hell phase
-        enemySequence.Add(new EnemyDialogSequence());
-        // TODO change hard coded values
+        // TODO make the enemy sequence modular
+        // enemySequence.Add(new EnemyDialogSequence());
+        
+        for (var i = 0; i < enemies.Length; i++)
+        {
+            if (enemies[i].IsActive)
+            {
+                attacks.Add(enemies[i].GetAttackPattern());
+                attackers.Add(i);
+            }
+        }
+        
         EmitEvent(new BulletHellWaitReady()
         {
-            BattleMode = "base",
-            Attacks = new string[] {"Test Attack"},
+            Attacks = attacks.ToArray(),
+            Attackers = attackers.ToArray(),
             BattleSequence = enemySequence,
             Targets = targetIndexes
         });
@@ -520,6 +549,7 @@ public partial class Battle : IEventSource<IBattleEvent>
 
     private void EndBattle()
     {
+        Debug.Log("End of the battle.");
         state = BattleState.Ended;
         EmitEvent(new EndBattleEvent()
         {

@@ -16,7 +16,17 @@ namespace Core.Combat.Actions
 
         public override void Execute(int user, int target)
         {
-            
+            battleSequence.Add(new PlayerAnimationSequence
+            {
+                RunInParallel = true,
+                Player = user,
+                Animation = "Dance",
+                LockAnimation = true
+            });
+            battleSequence.Add(new TextSequence
+            {
+                Text = $"{battle.Players[user].name} started dancing\nfor no reason.",
+            });
         }
     }
 }

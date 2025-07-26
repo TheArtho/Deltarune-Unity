@@ -30,11 +30,6 @@ public class SoulController : MonoBehaviour
 
     private void Awake()
     {
-        if (!Player)
-        {
-            Player = this;
-        }
-        
         _rigidbody = GetComponent<Rigidbody2D>();
         _inputAction = new PlayerInputAction();
 
@@ -93,6 +88,11 @@ public class SoulController : MonoBehaviour
     {
         Vector2 nextPosition = (Vector2) soulSprite.transform.position + _move * (speed * Time.fixedDeltaTime);
         _rigidbody.position = nextPosition;
+    }
+    
+    public void SetPlayer()
+    {
+        Player = this;
     }
 
     public void Graze()

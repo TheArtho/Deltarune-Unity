@@ -89,6 +89,18 @@ namespace Client.Combat
                         }
                         
                         break;
+                    
+                    case SpareEnemySequence spare:
+                        if (spare.RunInParallel)
+                        {
+                            StartCoroutine(PlaySpareSequence(spare));
+                        }
+                        else
+                        {
+                            yield return StartCoroutine(PlaySpareSequence(spare));
+                        }
+                        
+                        break;
 
                     case { } battle:
                         if (battle.RunInParallel)
@@ -144,12 +156,13 @@ namespace Client.Combat
         private IEnumerator PlayPlayerAnimSequence(PlayerAnimationSequence seq)
         {
             Debug.Log($"[BattleScene] Played Animation for player {seq.Player} : {seq.Animation}");
-            playerBattleSprites[seq.Player].Play(seq.Animation);
+            playerBattleSprites[seq.Player].Play(seq.Animation, seq.LockAnimation);
             yield return new WaitForSeconds(seq.Time);
         }
         
         private IEnumerator PlayHealPlayerSequence(HealPlayerSequence seq)
         {
+            Debug.Log($"[BattleScene] Healed player {seq.Player} : +{seq.HealAmount}");
             BattleInterface.Instance.OnHealPlayerSequence(seq);
             SfxHandler.Play("heal");
             StartCoroutine(playerBattleSprites[seq.Player].ShowPlayerHealIE(seq.HealAmount.ToString()));
@@ -163,6 +176,12 @@ namespace Client.Combat
             StartCoroutine(playerBattleSprites[seq.Enemy].ShowPlayerHealIE(seq.HealAmount.ToString()));
             playerBattleSprites[seq.Enemy].SetDowned(seq.CurrentHp <= 0);
             yield return new WaitForSeconds(1f);
+        }
+
+        private IEnumerator PlaySpareSequence(SpareEnemySequence seq)
+        {
+            SfxHandler.Play("spare");
+            yield return StartCoroutine(enemyBattleSprites[seq.Enemy].SpareAnimation());
         }
 
         private IEnumerator PlayBattleSequence(BattleSequence seq)

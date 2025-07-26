@@ -13,10 +13,14 @@ public class BattleSprite : MonoBehaviour
     [FormerlySerializedAs("_spriteRenderer")] [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Transform damageTextAnchor;
     [SerializeField] private ParticleSystem healParticles;
+    [SerializeField] private ParticleSystem spareParticles;
     [SerializeField] private Color additiveColor = new Color(1,1,1, 0);
     [SerializeField] private bool defending;
+    [SerializeField] private bool lockAnimation;
     [SerializeField] private bool down;
     private int damageCounter = 0;
+
+    public Animator Animator => _animator;
 
     private void Awake()
     {
@@ -29,6 +33,7 @@ public class BattleSprite : MonoBehaviour
         {
             Play("Idle");
         }
+        lockAnimation = false;
         damageCounter = 0;
     }
 
@@ -106,7 +111,7 @@ public class BattleSprite : MonoBehaviour
 
     public void OnBulletHellPrepare()
     {
-        if (!defending)
+        if (!defending && !lockAnimation)
         {
             Play("Idle");
         }
@@ -128,9 +133,10 @@ public class BattleSprite : MonoBehaviour
         }).setEaseOutQuad();
     }
 
-    public void Play(string animation)
+    public void Play(string animation, bool lockAnimation = false)
     {
         _animator.Play(animation);
+        this.lockAnimation = lockAnimation;
     }
 
     public IEnumerator ShowPlayerDamageIE(string damage)
@@ -147,6 +153,29 @@ public class BattleSprite : MonoBehaviour
         }
         yield return null;
     }
+
+    public void ShowPlayerHealNoParticle(string amount)
+    {
+        BattleInterface.Instance.HealIndicators[playerId].gameObject.SetActive(false);
+        BattleInterface.Instance.HealIndicators[playerId].gameObject.SetActive(true);
+        BattleInterface.Instance.HealIndicators[playerId].transform.Find("Damage_Text").GetComponent<Text>().text = amount;
+        // Set position
+        if (Camera.main)
+        {
+            var canvas = BattleInterface.Instance.GetComponentInParent<Canvas>();
+            var canvasRect = canvas.GetComponent<RectTransform>();
+            var indicator = BattleInterface.Instance.HealIndicators[playerId].GetComponent<RectTransform>();
+
+            // Convert world to screen
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(damageTextAnchor.transform.position);
+
+            // Convert screen space to UI local position
+            Vector2 localPoint;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, screenPos, canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : Camera.main, out localPoint);
+            
+            indicator.anchoredPosition = localPoint;
+        }
+    }
     
     public IEnumerator ShowPlayerHealIE(string healAmount)
     {
@@ -154,17 +183,11 @@ public class BattleSprite : MonoBehaviour
         {
             additiveColor = color;
         }).setEaseOutQuad().setLoopPingPong(1);
-        healParticles?.Play();
-        BattleInterface.Instance.HealIndicators[playerId].gameObject.SetActive(false);
-        BattleInterface.Instance.HealIndicators[playerId].gameObject.SetActive(true);
-        BattleInterface.Instance.HealIndicators[playerId].transform.Find("Damage_Text").GetComponent<Text>().text =
-            healAmount;
-        // Set position
-        if (Camera.main)
+        if (healParticles)
         {
-            Vector3 screenPos = Camera.main.WorldToScreenPoint(damageTextAnchor.transform.position);
-            BattleInterface.Instance.HealIndicators[playerId].GetComponent<RectTransform>().position = new Vector3(screenPos.x, screenPos.y, screenPos.z);
+            healParticles.Play();
         }
+        ShowPlayerHealNoParticle(healAmount);
         yield return null;
     }
     
@@ -177,11 +200,64 @@ public class BattleSprite : MonoBehaviour
         // Set position
         if (Camera.main)
         {
+            var canvas = BattleInterface.Instance.GetComponentInParent<Canvas>();
+            var canvasRect = canvas.GetComponent<RectTransform>();
+            var indicator = BattleInterface.Instance.DamageIndicators[playerId].GetComponent<RectTransform>();
+
+            // Convert world to screen
             Vector3 screenPos = Camera.main.WorldToScreenPoint(damageTextAnchor.transform.position);
-            BattleInterface.Instance.DamageIndicators[playerId].GetComponent<RectTransform>().position = new Vector3(screenPos.x, screenPos.y + damageCounter * 45, screenPos.z);
+
+            // Convert screen space to UI local position
+            Vector2 localPoint;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, screenPos, canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : Camera.main, out localPoint);
+
+            // Apply UI offset (in UI units, not pixels)
+            float offsetPerHit = 20f; // Adjust to look good at reference resolution
+            localPoint.y += damageCounter * offsetPerHit;
+
+            indicator.anchoredPosition = localPoint;
+
             damageCounter++;
         }
         yield return null;
+    }
+    
+    public virtual IEnumerator DeathAnimation()
+    {
+        if (spareParticles)
+        {
+            spareParticles.Play();
+        }
+        _animator.Play("Spare", 0);
+        try
+        {
+            _animator.Play("Spare", 1);
+        }
+        catch (Exception e)
+        {
+            // ignored
+        }
+
+        yield return new WaitForSeconds(0.5f);
+    }
+
+    public virtual IEnumerator SpareAnimation()
+    {
+        if (spareParticles)
+        {
+            spareParticles.Play();
+        }
+        _animator.Play("Spare", 0);
+        try
+        {
+            _animator.Play("Spare", 1);
+        }
+        catch (Exception e)
+        {
+            // ignored
+        }
+        
+        yield return new WaitForSeconds(0.5f);
     }
 
     private void Update()

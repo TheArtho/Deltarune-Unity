@@ -3,32 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using Client.Combat;
 using Client.Combat.Events;
+using Core.Combat;
+using Scriptables;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.Serialization;
 
 public class BulletHellScene : MonoBehaviour
 {
-    [SerializeField] SoulController soulController;
+    [SerializeField] private PrefabList soulControllerList;
+    [SerializeField] private PrefabList patternList;
+    
+    [Space]
+    
     [SerializeField] SpriteRenderer battleArea;
     [SerializeField] Animator battleAreaAnimator;
     [SerializeField] private float margin = 0.1f; // delta/marge
-    [SerializeField] private List<PlayableDirector> _directors;
-
-    public void AddDirector(PlayableDirector director)
-    {
-        _directors.Add(director);
-        director.transform.parent = transform;
-    }
-
-    public void ClearDirectors()
-    {
-        foreach (var d in _directors)
-        {
-            Destroy(d.gameObject);
-        }
-
-        _directors.Clear();
-    }
+    [SerializeField] private List<PlayableDirector> directors;
+    
+    [SerializeField] private GameObject soulController;
+    [SerializeField] private List<GameObject> patterns = new List<GameObject>();
 
     public void StartPhase()
     {
@@ -43,9 +37,48 @@ public class BulletHellScene : MonoBehaviour
     public void Stop()
     {
         StopCoroutine(nameof(BulletPhase));
-        foreach (var d in _directors)
+        foreach (var d in directors)
         {
             d.Stop();
+        }
+    }
+
+    public void Prepare(int[] attackers, string playerSoulController, string[] attackPatterns)
+    {
+        try
+        {
+            soulController = Instantiate(soulControllerList.GetPrefab(playerSoulController), transform);
+            if (soulController.TryGetComponent(out SoulController sc))
+            {
+                sc.SetPlayer();
+            }
+            soulController.SetActive(false);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogException(ex);
+        }
+        
+        for (var i = 0; i < attackPatterns.Length; i++)
+        {
+            try
+            {
+                GameObject p = Instantiate(patternList.GetPrefab(attackPatterns[i]), transform);
+                patterns.Add(p);
+                if (p.TryGetComponent(out BulletPattern bp))
+                {
+                    bp.Initialize(SfxHandler.instance.AudioSource, BattleScene.Instance.EnemyBattleSprites[attackers[i]].Animator, battleAreaAnimator);
+                }
+                if (p.TryGetComponent(out PlayableDirector director))
+                {
+                    directors.Add(director);
+                }
+                p.gameObject.SetActive(false);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogException(ex);
+            }
         }
     }
 
@@ -53,12 +86,13 @@ public class BulletHellScene : MonoBehaviour
     {
         battleArea.gameObject.SetActive(true);
         yield return new WaitForSeconds(battleAreaAnimator.GetCurrentAnimatorStateInfo(0).length);
-        soulController.gameObject.SetActive(true);
-        soulController.EnableInput();
+        SoulController.Player.gameObject.SetActive(true);
+        SoulController.Player.EnableInput();
         yield return StartCoroutine(PlayTimeline());
         battleAreaAnimator.Play("Arena_Disappear");
-        soulController.DisableInput();
-        soulController.gameObject.SetActive(false);
+        SoulController.Player.DisableInput();
+        SoulController.Player.gameObject.SetActive(false);
+        DestroyPrefabs();
         LeanTween.value(gameObject, Color.gray, Color.white, 0.8f).setOnUpdate(color =>
         {
             if (BattleScene.Instance.Background)
@@ -74,7 +108,6 @@ public class BulletHellScene : MonoBehaviour
         yield return new WaitForSeconds(battleAreaAnimator.GetCurrentAnimatorStateInfo(0).length);
         battleArea.gameObject.SetActive(false);
         yield return new WaitForSeconds(0.3f);
-        gameObject.SetActive(false);
         // Emit event
         BattleScene.Instance.EmitEvent(new BulletHellEndedEvent()
         {
@@ -93,13 +126,33 @@ public class BulletHellScene : MonoBehaviour
     private IEnumerator PlayTimeline()
     {
         double maxDuration = 0;
-        if (_directors.Count == 0) yield break;
-        foreach (var d in _directors)
+        if (directors.Count == 0)
         {
+            Debug.Log("[BulletHellScene] No directors to play. Skipping.");
+            yield break;
+        }
+        foreach (var d in directors)
+        {
+            d.gameObject.SetActive(true);
             d.Play();
             maxDuration = Math.Max(maxDuration, d.duration);
         }
         yield return new WaitForSeconds((float) maxDuration + 0.2f);
+        foreach (var d in directors)
+        {
+            d.gameObject.SetActive(false);
+        }
+    }
+    
+    private void DestroyPrefabs()
+    {
+        Destroy(soulController);
+        foreach (var pattern in patterns)
+        {
+            Destroy(pattern);
+        }
+        patterns.Clear();
+        directors.Clear();
     }
 
     private void Update()
@@ -109,8 +162,10 @@ public class BulletHellScene : MonoBehaviour
 
     private void ApplyBoundaries()
     {
-        Vector2 soulSize = soulController.soulSprite.bounds.extents;
-        Vector3 pos = soulController.transform.position;
+        if (!SoulController.Player) return;
+        
+        Vector2 soulSize = SoulController.Player.soulSprite.bounds.extents;
+        Vector3 pos = SoulController.Player.transform.position;
 
         Bounds bounds = battleArea.bounds;
 
@@ -122,6 +177,6 @@ public class BulletHellScene : MonoBehaviour
         pos.x = Mathf.Clamp(pos.x, minX, maxX);
         pos.y = Mathf.Clamp(pos.y, minY, maxY);
 
-        soulController.transform.position = pos;
+        SoulController.Player.transform.position = pos;
     }
 }

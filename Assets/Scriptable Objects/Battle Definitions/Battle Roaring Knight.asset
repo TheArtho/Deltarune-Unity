@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Battle Roaring Knight
   m_EditorClassIdentifier: 
   introText: It's the freaking Roaring\nKnight!!!
-  music: rude_buster
+  music: black_knife
   players:
   - {fileID: 11400000, guid: d368594772b27354b923e4e57ca47112, type: 2}
   - {fileID: 11400000, guid: 59ae09333c0bc4241bf1c5f102f0dbbb, type: 2}

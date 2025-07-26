@@ -147,12 +147,8 @@ namespace Client.Combat
 
         public void PrepareBulletPhase(BulletHellWaitReady evt)
         {
-            Debug.Log("PrepareBulletPhase");
-            foreach (var p in playerBattleSprites)
-            {
-                p.OnBulletHellPrepare();
-            }
-            // TODO Prepare the bullet hell prefab
+            Debug.Log("[BattleScene] Prepare Bullet Phase");
+            bulletHell.Prepare(evt.Attackers, evt.SoulController, evt.Attacks);
             StartCoroutine(PreBulletSequence(evt.Targets, evt.BattleSequence));
         }
 
@@ -161,6 +157,11 @@ namespace Client.Combat
             Targets = targets;
             // Wait for animation routine to end
             yield return new WaitUntil(() => !attackAnimation);
+            Debug.Log("[BattleScene] Pre-Bullet Sequence");
+            foreach (var p in playerBattleSprites)
+            {
+                p.OnBulletHellPrepare();
+            }
             // Darken the background
             LeanTween.value(gameObject, Color.white, Color.gray, 0.8f).setOnUpdate(color =>
             {
@@ -177,10 +178,16 @@ namespace Client.Combat
                 }
             }
             BattleInterface.Instance.ShowTargets(targets);
-            yield return StartCoroutine(PlaySequenceIE(sequence));
-            yield return new WaitForSeconds(0.5f);
+            if (sequence.Count > 0)
+            {
+                yield return StartCoroutine(PlaySequenceIE(sequence));
+                yield return new WaitForSeconds(0.5f);
+            }
+            else
+            {
+                yield return new WaitForSeconds(1.5f);
+            }
             BattleInterface.Instance.HideTargets();
-            yield return new WaitForSeconds(0.5f);
             EmitEvent(new BulletHellReadyEvent()
             {
                 Player = 0
@@ -209,7 +216,7 @@ namespace Client.Combat
             yield return StartCoroutine(EnemyHurtAnimation(evt.Player, evt.Target, evt.Damage.ToString()));
             if (evt.Fainted)
             {
-                // TODO Play death animation
+                yield return StartCoroutine(enemyBattleSprites[evt.Target].DeathAnimation());
             }
             attackAnimation = false;
         }
@@ -218,13 +225,14 @@ namespace Client.Combat
         {
             attackAnimation = true;
             yield return StartCoroutine(PlayerAttackAnimation(playerId));
-            // TODO Show miss
-            yield return new WaitForSeconds(1f);
+            yield return StartCoroutine(enemyBattleSprites[targetId].ShowEnemyDamageIE(playerId, "MISS"));
+            yield return new WaitForSeconds(1.5f);
             attackAnimation = false;
         }
 
         private IEnumerator PlayerAttackAnimation(int playerId)
         {
+            Debug.Log($"PlayerAttackAnimation playerId {playerId}");
             playerBattleSprites[playerId].Play("Fight");
             // Play Attack SFX
             SfxHandler.Play("cut");
@@ -258,7 +266,7 @@ namespace Client.Combat
         public void OnHealPlayerEvent(HealPlayerEvent evt)
         {
             SfxHandler.Play("heal");
-            StartCoroutine(playerBattleSprites[evt.Player].ShowPlayerHealIE(evt.HealAmount.ToString()));
+            playerBattleSprites[evt.Player].ShowPlayerHealNoParticle(evt.HealAmount.ToString());
             playerBattleSprites[evt.Player].SetDowned(evt.CurrentHp <= 0);
         }
 

@@ -33,3 +33,6 @@ MonoBehaviour:
     actions:
     - {fileID: 11400000, guid: f78a4676132d5534eb6eaa00998c6870, type: 2}
     - {fileID: 11400000, guid: 76fc4dd596c1a1040b821378a70ecc04, type: 2}
+  bulletPatterns:
+  - {fileID: 4128995162830623760, guid: bc10e1ae09c8b284da6ba36c58d954e0, type: 3}
+  - {fileID: 420417344016789122, guid: 6b8191e581a8d7649931063ef17a80f3, type: 3}
